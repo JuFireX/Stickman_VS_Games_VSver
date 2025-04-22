@@ -14,20 +14,6 @@
 
 using namespace std;
 
-enum class Direction
-{
-	LEFT,
-	RIGHT,
-	UP,
-	DOWN
-};
-
-enum class GameState
-{
-	Running,
-	GameOver
-};
-
 class Game2048 : public Game
 {
 private:
@@ -49,14 +35,16 @@ private:
 	void moveAndMerge(Direction dir);
 	void generateNewTile();
 	bool isGameOver() const;
+	bool processInput(char key);
 
 public:
-	Game2048();							// 构造函数
-	void init();						// 初始化游戏矩阵
-	void update(char key);				// 根据输入更新游戏矩阵
-	GameState state() const;			// 获取游戏状态
-	vector<vector<int>> matrix() const; // 获取游戏矩阵
-	int getScore() const;				// 获取游戏得分
+	Game2048();							 // 构造函数
+	void initGame();					 // 初始化游戏矩阵
+	void startGame();					 // 开始游戏
+	void update(char key);				 // 根据输入更新游戏矩阵
+	GameState state() const;			 // 获取游戏状态
+	vector<vector<int>> getGrid() const; // 获取游戏矩阵
+	int getScore() const;				 // 获取游戏得分
 };
 
 #endif // LEVEL_2048_H

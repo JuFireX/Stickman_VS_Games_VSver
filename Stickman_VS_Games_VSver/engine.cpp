@@ -26,27 +26,27 @@ extern "C" __declspec(dllexport) void startGame(Level level)
     {
     case LEVEL_2048:
         game = std::make_unique<Game2048>();
-        game->init();
+        game->initGame();
         break;
     case LEVEL_MARIO:
         game = std::make_unique<GameMario>();
-        game->init();
+        game->initGame();
         break;
     case LEVEL_PACMAN:
         game = std::make_unique<GamePacman>();
-        game->init();
+        game->initGame();
         break;
     case LEVEL_SNAKE:
         game = std::make_unique<GameSnake>();
-        game->init();
+        game->initGame();
         break;
     case LEVEL_SOKOBAN:
         game = std::make_unique<GameSokoban>();
-        game->init();
+        game->initGame();
         break;
     case LEVEL_TETRIS:
         game = std::make_unique<GameTetris>();
-        game->init();
+        game->initGame();
         break;
     }
 }
@@ -108,10 +108,20 @@ void shutdownWindow()
 char getKeyPress()
 {
     // 获取按键输入的代码
-    return 'a'; // 示例返回值
+    char key = _getch();
+    return key;
 }
 
 void renderGame()
 {
     // 渲染游戏画面代码
+    vector<vector<int>> grid = game->getGrid();
+    for (int i = 0; i < grid.size(); i++)
+    {
+        for (int j = 0; j < grid[i].size(); j++)
+        {
+            printf("%d ", grid[i][j]);
+        }
+        printf("\n");
+    }
 }

@@ -1,4 +1,7 @@
 #include "level_2048.h"
+#include <windows.h>
+
+Game2048::Game2048() : rng(time(nullptr)) {}
 
 bool Game2048::canMoveHorizontal(bool left) const
 {
@@ -141,21 +144,10 @@ bool Game2048::isGameOver() const
 		   !canMove(Direction::DOWN);
 }
 
-Game2048::Game2048() : rng(time(nullptr)) {}
-
-void Game2048::init()
-{
-	score = 0;
-	gameOver = false;
-	memset(grid, 0, sizeof(grid));
-	generateNewTile();
-	generateNewTile();
-}
-
-void Game2048::update(char key)
+bool Game2048::processInput(char key)
 {
 	if (gameOver)
-		return;
+		return false;
 
 	Direction dir;
 	switch (key)
@@ -173,13 +165,31 @@ void Game2048::update(char key)
 		dir = Direction::DOWN;
 		break;
 	default:
-		return;
+		return false;
 	}
 
-	if (canMove(dir))
+	if (!canMove(dir))
 	{
 		moveAndMerge(dir);
 		generateNewTile();
+		return false;
+	}
+
+	return true;
+}
+void Game2048::initGame()
+{
+	gameOver = false;
+	score = 0;
+	memset(grid, 0, sizeof(grid));
+	generateNewTile();
+	generateNewTile();
+}
+
+void Game2048::update(char key)
+{
+	if (processInput(key))
+	{
 		gameOver = isGameOver();
 	}
 }
@@ -189,7 +199,7 @@ GameState Game2048::state() const
 	return gameOver ? GameState::GameOver : GameState::Running;
 }
 
-vector<vector<int>> Game2048::matrix() const
+vector<vector<int>> Game2048::getGrid() const
 {
 	vector<vector<int>> state(GRID_SIZE, vector<int>(GRID_SIZE));
 	for (int i = 0; i < GRID_SIZE; ++i)

@@ -3,6 +3,16 @@
 #define ENGINE_H
 #include <vector>
 
+using namespace std;
+
+enum class Direction
+{
+    LEFT,
+    RIGHT,
+    UP,
+    DOWN
+};
+
 enum class GameState
 {
     Running,
@@ -12,10 +22,10 @@ enum class GameState
 class Game
 {
 public:
-    virtual void init() = 0;
+    virtual void initGame() = 0;
     virtual void update(char key) = 0;
     virtual GameState state() const = 0;
-    virtual std::vector<std::vector<int>> matrix() const = 0;
+    virtual vector<vector<int>> getGrid() const = 0;
     virtual int getScore() const = 0;
     virtual ~Game() {}
 };
