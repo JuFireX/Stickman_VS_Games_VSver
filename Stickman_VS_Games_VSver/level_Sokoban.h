@@ -14,20 +14,6 @@
 
 using namespace std;
 
-enum class Direction
-{
-    LEFT,
-    RIGHT,
-    UP,
-    DOWN
-};
-
-enum class GameState
-{
-    Running,
-    GameOver
-};
-
 class GameSokoban : public Game
 {
 };

@@ -1,5 +1,4 @@
-// engine.cpp 定义游戏的输入输出系统
-// 包括游戏主循环和渲染系统
+// engine.cpp
 
 #include <memory>
 #include "engine.h"
@@ -9,6 +8,8 @@
 #include "level_Snake.h"
 #include "level_Sokoban.h"
 #include "level_Tetris.h"
+
+using namespace std;
 
 enum Level
 {
@@ -20,38 +21,71 @@ enum Level
     LEVEL_TETRIS,
 };
 
+unique_ptr<Game> game;
+
 extern "C" __declspec(dllexport) void startGame(Level level)
 {
     switch (level)
     {
     case LEVEL_2048:
-        game = std::make_unique<Game2048>();
+        game = make_unique<Game2048>();
         game->initGame();
         break;
     case LEVEL_MARIO:
-        game = std::make_unique<GameMario>();
+        game = make_unique<GameMario>();
         game->initGame();
         break;
     case LEVEL_PACMAN:
-        game = std::make_unique<GamePacman>();
+        game = make_unique<GamePacman>();
         game->initGame();
         break;
     case LEVEL_SNAKE:
-        game = std::make_unique<GameSnake>();
+        game = make_unique<GameSnake>();
         game->initGame();
         break;
     case LEVEL_SOKOBAN:
-        game = std::make_unique<GameSokoban>();
+        game = make_unique<GameSokoban>();
         game->initGame();
         break;
     case LEVEL_TETRIS:
-        game = std::make_unique<GameTetris>();
+        game = make_unique<GameTetris>();
         game->initGame();
         break;
     }
 }
 
-std::unique_ptr<Game> game;
+static void initWindow()
+{
+    // 初始化窗口代码
+    printf("%d", 0);
+}
+
+static void shutdownWindow()
+{
+    // 关闭窗口代码
+    printf("%d", 0);
+}
+
+static char getKeyPress()
+{
+    // 获取按键输入的代码
+    char key = _getch();
+    return key;
+}
+
+static void renderGame()
+{
+    // 渲染游戏画面代码
+    vector<vector<int>> grid = game->getGrid();
+    for (int i = 0; i < grid.size(); i++)
+    {
+        for (int j = 0; j < grid[i].size(); j++)
+        {
+            printf("%d ", grid[i][j]);
+        }
+        printf("\n");
+    }
+}
 
 void Engine::init()
 {
@@ -95,33 +129,3 @@ void Engine::shutdown()
     shutdownWindow(); // 假设我们有一个关闭窗口的函数 shutdownWindow()
 }
 
-void initWindow()
-{
-    // 初始化窗口代码
-}
-
-void shutdownWindow()
-{
-    // 关闭窗口代码
-}
-
-char getKeyPress()
-{
-    // 获取按键输入的代码
-    char key = _getch();
-    return key;
-}
-
-void renderGame()
-{
-    // 渲染游戏画面代码
-    vector<vector<int>> grid = game->getGrid();
-    for (int i = 0; i < grid.size(); i++)
-    {
-        for (int j = 0; j < grid[i].size(); j++)
-        {
-            printf("%d ", grid[i][j]);
-        }
-        printf("\n");
-    }
-}

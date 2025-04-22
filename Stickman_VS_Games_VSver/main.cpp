@@ -5,8 +5,8 @@
 int main()
 {
     Engine gameEngine;
-    gameEngine.init();
+    //gameEngine.init();
     gameEngine.run();
-    gameEngine.shutdown();
+    //gameEngine.shutdown();
     return 0;
 }
