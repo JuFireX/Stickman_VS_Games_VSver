@@ -5,8 +5,8 @@ bool Game2048::canMoveHorizontal(bool left) const
 	for (int i = 0; i < GRID_SIZE; ++i)
 	{
 		for (int j = left ? 0 : GRID_SIZE - 1;
-			left ? (j < GRID_SIZE - 1) : (j > 0);
-			j += left ? 1 : -1)
+			 left ? (j < GRID_SIZE - 1) : (j > 0);
+			 j += left ? 1 : -1)
 		{
 			if ((grid[i][j] == grid[i][j + (left ? 1 : -1)] && grid[i][j] != 0) ||
 				(grid[i][j] == 0 && grid[i][j + (left ? 1 : -1)] != 0))
@@ -23,8 +23,8 @@ bool Game2048::canMoveVertical(bool up) const
 	for (int j = 0; j < GRID_SIZE; ++j)
 	{
 		for (int i = up ? 0 : GRID_SIZE - 1;
-			up ? (i < GRID_SIZE - 1) : (i > 0);
-			i += up ? 1 : -1)
+			 up ? (i < GRID_SIZE - 1) : (i > 0);
+			 i += up ? 1 : -1)
 		{
 			if ((grid[i][j] == grid[i + (up ? 1 : -1)][j] && grid[i][j] != 0) ||
 				(grid[i][j] == 0 && grid[i + (up ? 1 : -1)][j] != 0))
@@ -118,7 +118,7 @@ void Game2048::generateNewTile()
 		{
 			if (grid[i][j] == 0)
 			{
-				emptyPositions.push_back({ i, j });
+				emptyPositions.push_back({i, j});
 			}
 		}
 	}
@@ -136,14 +136,14 @@ void Game2048::generateNewTile()
 bool Game2048::isGameOver() const
 {
 	return !canMove(Direction::LEFT) &&
-		!canMove(Direction::RIGHT) &&
-		!canMove(Direction::UP) &&
-		!canMove(Direction::DOWN);
+		   !canMove(Direction::RIGHT) &&
+		   !canMove(Direction::UP) &&
+		   !canMove(Direction::DOWN);
 }
 
 Game2048::Game2048() : rng(time(nullptr)) {}
 
-void Game2048::initGame()
+void Game2048::init()
 {
 	score = 0;
 	gameOver = false;
@@ -152,33 +152,10 @@ void Game2048::initGame()
 	generateNewTile();
 }
 
-void Game2048::display() const
-{
-	system("cls");
-	cout << "Score: " << score << "\n\n";
-
-	for (int i = 0; i < GRID_SIZE; ++i)
-	{
-		for (int j = 0; j < GRID_SIZE; ++j)
-		{
-			if (grid[i][j] != 0)
-				cout << setw(6) << grid[i][j];
-			else
-				cout << setw(6) << ".";
-		}
-		cout << "\n\n";
-	}
-
-	if (gameOver)
-	{
-		cout << "\nGame Over!\n";
-	}
-}
-
-bool Game2048::processInput(char key)
+void Game2048::update(char key)
 {
 	if (gameOver)
-		return false;
+		return;
 
 	Direction dir;
 	switch (key)
@@ -196,7 +173,7 @@ bool Game2048::processInput(char key)
 		dir = Direction::DOWN;
 		break;
 	default:
-		return false;
+		return;
 	}
 
 	if (canMove(dir))
@@ -204,30 +181,15 @@ bool Game2048::processInput(char key)
 		moveAndMerge(dir);
 		generateNewTile();
 		gameOver = isGameOver();
-		return true;
 	}
-	return false;
 }
 
-void Game2048::startGame()
+GameState Game2048::state() const
 {
-	initGame();
-	display();
-
-	while (true)
-	{
-		char input = _getch();
-		if (input == 27)
-			break; // ESC¼üÍË³ö
-
-		if (processInput(input))
-		{
-			display();
-		}
-	}
+	return gameOver ? GameState::GameOver : GameState::Running;
 }
 
-vector<vector<int>> Game2048::getGameState() const
+vector<vector<int>> Game2048::matrix() const
 {
 	vector<vector<int>> state(GRID_SIZE, vector<int>(GRID_SIZE));
 	for (int i = 0; i < GRID_SIZE; ++i)
@@ -244,9 +206,3 @@ int Game2048::getScore() const
 {
 	return score;
 }
-
-bool Game2048::isGameFinished() const
-{
-	return gameOver;
-}
-

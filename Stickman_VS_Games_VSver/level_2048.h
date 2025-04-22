@@ -10,6 +10,7 @@
 #include <iomanip>
 #include <string>
 #include <cstring>
+#include "engine.h"
 
 using namespace std;
 
@@ -21,18 +22,17 @@ enum class Direction
 	DOWN
 };
 
-// 定义游戏状态枚举，以便在其他游戏中使用
 enum class GameState
 {
 	Running,
 	GameOver
 };
 
-class Game2048
+class Game2048 : public Game
 {
 private:
 	static const int GRID_SIZE = 4;
-	int grid[GRID_SIZE][GRID_SIZE] = { 0 };
+	int grid[GRID_SIZE][GRID_SIZE] = {0};
 	mt19937_64 rng;
 	int score = 0;
 	bool gameOver = false;
@@ -51,21 +51,12 @@ private:
 	bool isGameOver() const;
 
 public:
-	Game2048();
-	void initGame();
-	void display() const;
-	bool processInput(char key);
-	void startGame();
-	vector<vector<int>> getGameState() const;
-	int getScore() const;
-	bool isGameFinished() const;
-
-	//Game2048();
-	//void init(); // 初始化游戏矩阵
-	//void update(char key); // 根据输入更新游戏矩阵
-	//GameState state() const; // 获取游戏状态
-	//vector<vector<int>> matrix() const; // 获取游戏矩阵
-	//int getScore() const;
+	Game2048();							// 构造函数
+	void init();						// 初始化游戏矩阵
+	void update(char key);				// 根据输入更新游戏矩阵
+	GameState state() const;			// 获取游戏状态
+	vector<vector<int>> matrix() const; // 获取游戏矩阵
+	int getScore() const;				// 获取游戏得分
 };
 
 #endif // LEVEL_2048_H

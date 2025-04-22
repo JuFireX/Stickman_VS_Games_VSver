@@ -1,19 +1,12 @@
-// main.cpp is the entry point of the game. 
+// main.cpp is the entry point of the game.
 
 #include "engine.h"
-#include "level_2048.h"
 
-extern "C" __declspec(dllexport) void startGame2048()
+int main()
 {
-    Game2048 game;
-    game.startGame();
-}
-
-int main() {
-    //Engine gameEngine;
-    //gameEngine.init();
-    //gameEngine.run();
-    //gameEngine.shutdown();
-    startGame2048();
+    Engine gameEngine;
+    gameEngine.init();
+    gameEngine.run();
+    gameEngine.shutdown();
     return 0;
 }
