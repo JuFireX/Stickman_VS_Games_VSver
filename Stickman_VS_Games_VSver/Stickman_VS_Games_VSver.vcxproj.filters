@@ -25,11 +25,8 @@
     <Filter Include="源文件\Levels">
       <UniqueIdentifier>{1dfe7683-e2c0-4d5c-8217-72742d0de94b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="源文件\Levels\src">
-      <UniqueIdentifier>{775c60c9-724a-4ab0-b086-0a72f0bae5dd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="源文件\Levels\include">
-      <UniqueIdentifier>{5105d4f2-df58-4363-aed8-89c780a23253}</UniqueIdentifier>
+    <Filter Include="头文件\Levels">
+      <UniqueIdentifier>{9c796e31-d742-4ddc-9393-05ad2556ebdb}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -40,45 +37,45 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="level_2048.cpp">
-      <Filter>源文件\Levels\src</Filter>
+      <Filter>源文件\Levels</Filter>
     </ClCompile>
     <ClCompile Include="level_Mario.cpp">
-      <Filter>源文件\Levels\src</Filter>
+      <Filter>源文件\Levels</Filter>
     </ClCompile>
     <ClCompile Include="level_Pacman.cpp">
-      <Filter>源文件\Levels\src</Filter>
+      <Filter>源文件\Levels</Filter>
     </ClCompile>
     <ClCompile Include="level_Snake.cpp">
-      <Filter>源文件\Levels\src</Filter>
+      <Filter>源文件\Levels</Filter>
     </ClCompile>
     <ClCompile Include="level_Sokoban.cpp">
-      <Filter>源文件\Levels\src</Filter>
+      <Filter>源文件\Levels</Filter>
     </ClCompile>
     <ClCompile Include="level_Tetris.cpp">
-      <Filter>源文件\Levels\src</Filter>
+      <Filter>源文件\Levels</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="engine.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="level_Pacman.h">
-      <Filter>源文件\Levels\include</Filter>
-    </ClInclude>
-    <ClInclude Include="level_Sokoban.h">
-      <Filter>源文件\Levels\include</Filter>
-    </ClInclude>
-    <ClInclude Include="level_Snake.h">
-      <Filter>源文件\Levels\include</Filter>
+    <ClInclude Include="level_2048.h">
+      <Filter>头文件\Levels</Filter>
     </ClInclude>
     <ClInclude Include="level_Mario.h">
-      <Filter>源文件\Levels\include</Filter>
+      <Filter>头文件\Levels</Filter>
+    </ClInclude>
+    <ClInclude Include="level_Pacman.h">
+      <Filter>头文件\Levels</Filter>
+    </ClInclude>
+    <ClInclude Include="level_Snake.h">
+      <Filter>头文件\Levels</Filter>
+    </ClInclude>
+    <ClInclude Include="level_Sokoban.h">
+      <Filter>头文件\Levels</Filter>
     </ClInclude>
     <ClInclude Include="level_Tetris.h">
-      <Filter>源文件\Levels\include</Filter>
-    </ClInclude>
-    <ClInclude Include="level_2048.h">
-      <Filter>源文件\Levels\include</Filter>
+      <Filter>头文件\Levels</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
