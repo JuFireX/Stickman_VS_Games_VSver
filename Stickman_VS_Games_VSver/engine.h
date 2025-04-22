@@ -4,6 +4,19 @@
 #include <vector>
 
 using namespace std;
+enum Level
+{
+    LEVEL_2048,
+    LEVEL_MARIO,
+    LEVEL_PACMAN,
+    LEVEL_SNAKE,
+    LEVEL_SOKOBAN,
+    LEVEL_TETRIS,
+};
+
+
+extern "C" { __declspec(dllexport) void startGame(Level level);}
+
 
 enum class Direction
 {

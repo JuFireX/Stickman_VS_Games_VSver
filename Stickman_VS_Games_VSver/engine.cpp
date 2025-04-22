@@ -11,16 +11,6 @@
 
 using namespace std;
 
-enum Level
-{
-    LEVEL_2048,
-    LEVEL_MARIO,
-    LEVEL_PACMAN,
-    LEVEL_SNAKE,
-    LEVEL_SOKOBAN,
-    LEVEL_TETRIS,
-};
-
 unique_ptr<Game> game;
 
 extern "C" __declspec(dllexport) void startGame(Level level)
@@ -128,4 +118,3 @@ void Engine::shutdown()
     game.reset();
     shutdownWindow(); // 假设我们有一个关闭窗口的函数 shutdownWindow()
 }
-

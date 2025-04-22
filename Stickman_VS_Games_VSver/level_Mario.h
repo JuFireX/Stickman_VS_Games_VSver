@@ -16,6 +16,12 @@ using namespace std;
 
 class GameMario : public Game
 {
+public:
+    void initGame() override {}
+    void update(char key) override {}
+    GameState state() const override { return GameState::GameOver; }
+    vector<vector<int>> getGrid() const override { return {}; }
+    int getScore() const override { return 0; }
 };
 
 #endif
