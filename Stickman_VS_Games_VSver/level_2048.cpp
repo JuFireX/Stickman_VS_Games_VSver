@@ -216,3 +216,8 @@ int Game2048::getScore() const
 {
 	return score;
 }
+
+void Game2048::startGame()
+{
+	//2048Ö÷Âß¼­
+}

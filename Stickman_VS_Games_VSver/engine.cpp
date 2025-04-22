@@ -1,6 +1,7 @@
 // engine.cpp
 
 #include <memory>
+#include<iostream>
 #include "engine.h"
 #include "level_2048.h"
 #include "level_Mario.h"
@@ -47,7 +48,7 @@ extern "C" __declspec(dllexport) void startGame(Level level)
 static void initWindow()
 {
     // 初始化窗口代码
-    printf("%d", 0);
+    cout << 0 << endl;
 }
 
 static void shutdownWindow()
@@ -67,6 +68,7 @@ static void renderGame()
 {
     // 渲染游戏画面代码
     vector<vector<int>> grid = game->getGrid();
+    system("cls");
     for (int i = 0; i < grid.size(); i++)
     {
         for (int j = 0; j < grid[i].size(); j++)
