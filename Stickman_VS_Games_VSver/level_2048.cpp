@@ -235,7 +235,33 @@ void Game2048::startGame()
 			update(input);
 	}
 }
-
+void Game2048::load()
+{
+	loadimage(&img_2048[0], _T("../PictureResource/0.png"), img_size, img_size, true);
+	loadimage(&img_2048[1], _T("../PictureResource/2.png"), img_size, img_size, true);
+	loadimage(&img_2048[2], _T("../PictureResource/4.png"), img_size, img_size, true);
+	loadimage(&img_2048[3], _T("../PictureResource/8.png"), img_size, img_size, true);
+	loadimage(&img_2048[4], _T("../PictureResource/16.png"), img_size, img_size, true);
+	loadimage(&img_2048[5], _T("../PictureResource/32.png"), img_size, img_size, true);
+	loadimage(&img_2048[6], _T("../PictureResource/64.png"), img_size, img_size, true);
+	loadimage(&img_2048[7], _T("../PictureResource/128.png"), img_size, img_size, true);
+	loadimage(&img_2048[8], _T("../PictureResource/256.png"), img_size, img_size, true);
+	loadimage(&img_2048[9], _T("../PictureResource/512.png"), img_size, img_size, true);
+	loadimage(&img_2048[10], _T("../PictureResource/1024.png"), img_size, img_size, true);
+	loadimage(&img_2048[11], _T("../PictureResource/2048.png"), img_size, img_size, true);
+	MapImg[0] = img_2048[0];
+	MapImg[2] = img_2048[1];
+	MapImg[4] = img_2048[2];
+	MapImg[8] = img_2048[3];
+	MapImg[16] = img_2048[4];
+	MapImg[32] = img_2048[5];
+	MapImg[64] = img_2048[6];
+	MapImg[128] = img_2048[7];
+	MapImg[256] = img_2048[8];
+	MapImg[512] = img_2048[9];
+	MapImg[1024] = img_2048[10];
+	MapImg[2048] = img_2048[11];
+}
 /*
 // Engine.cpp
 void Engine::run()

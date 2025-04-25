@@ -57,7 +57,7 @@ private:
     void display(const vector<vector<int>>& grid,int size);
     void draw();
 	void drawGameMap();
-    void load(int n);
+    void load();
     bool running = true;
     ExMessage msg;
 public:
