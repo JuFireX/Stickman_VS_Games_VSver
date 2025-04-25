@@ -19,9 +19,9 @@ class Game2048 : public Game
 private:
 	static const int GRID_SIZE = 4;
 	int grid[GRID_SIZE][GRID_SIZE] = {0};
-	mt19937_64 rng;
-	int score = 0;
 	bool gameOver = false;
+	int score = 0;
+	mt19937 rng;
 
 	struct Position
 	{

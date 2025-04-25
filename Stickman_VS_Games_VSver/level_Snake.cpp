@@ -1,7 +1,9 @@
-#include "level_snake.h"
+#include "level_Snake.h"
 #include <windows.h>
 
-GameSnake::GameSnake() : rng(time(nullptr)), gameOver(false), score(0), direction(Direction::RIGHT) {}
+GameSnake::GameSnake() : rng(time(nullptr)) {}
+
+// Private methods
 
 void GameSnake::initGrid()
 {
@@ -184,6 +186,8 @@ bool GameSnake::processInput(char key)
     return true;
 }
 
+// Public methods
+
 void GameSnake::initGame()
 {
     gameOver = false;
@@ -225,10 +229,11 @@ int GameSnake::getScore() const
     return score;
 }
 
+// Test methods
+
 void GameSnake::startGame()
 {
     initGame();
-    // display();
 
     while (!gameOver)
     {
@@ -236,17 +241,13 @@ void GameSnake::startGame()
         if (_kbhit())
         {
             char input = _getch();
-            if (input == 27) // ESC键
+            if (input == 'q')
                 break;
 
             processInput(input);
         }
 
-        // 移动蛇
         moveSnake();
-        // display();
-
-        // 控制游戏速度
-        Sleep(200 - min(150, score / 2)); // 随着分数增加，速度加快
+        Sleep(50);
     }
 }

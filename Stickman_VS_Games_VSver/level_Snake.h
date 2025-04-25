@@ -19,20 +19,22 @@ class GameSnake : public Game
 
 private:
     static const int GRID_SIZE = 20;
-    char grid[GRID_SIZE][GRID_SIZE];
-    vector<pair<int, int>> snake; // 蛇身体的坐标
-    pair<int, int> food;
-    Direction direction;
-    bool gameOver;
-    int score;
+    int grid[GRID_SIZE][GRID_SIZE] = { 0 };
+    vector<pair<int, int>> snake;           // 蛇身体的坐标
+    pair<int, int> food;                    // 食物的坐标
+    Direction direction = Direction::RIGHT;
+    bool gameOver = false;
+    int score = 0;
     mt19937 rng;
 
     // 定义地图元素
-    static const char EMPTY = 0;
-    static const char SNAKE_HEAD = 8;
-    static const char SNAKE_BODY = 6;
-    static const char FOOD = 2;
-    static const char WALL = 4;
+    static const enum {
+        EMPTY,
+        SNAKE_HEAD,
+        SNAKE_BODY,
+        FOOD,
+        WALL
+    } MAP;
 
     void initGrid();
     void initSnake();

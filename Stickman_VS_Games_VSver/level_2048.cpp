@@ -193,7 +193,7 @@ void Game2048::initGame()
 
 void Game2048::update(char key)
 {
-	bool moved = processInput(key);
+	processInput(key);
 }
 
 GameState Game2048::state() const
@@ -203,15 +203,15 @@ GameState Game2048::state() const
 
 vector<vector<int>> Game2048::getGrid() const
 {
-	vector<vector<int>> state(GRID_SIZE, vector<int>(GRID_SIZE));
+	vector<vector<int>> gridCopy(GRID_SIZE, vector<int>(GRID_SIZE));
 	for (int i = 0; i < GRID_SIZE; ++i)
 	{
 		for (int j = 0; j < GRID_SIZE; ++j)
 		{
-			state[i][j] = grid[i][j];
+			gridCopy[i][j] = grid[i][j];
 		}
 	}
-	return state;
+	return gridCopy;
 }
 
 int Game2048::getScore() const
@@ -225,6 +225,7 @@ void Game2048::startGame()
 {
 	initGame();
 	update('0');
+
 	while (true)
 	{
 		char input = _getch();
@@ -236,6 +237,7 @@ void Game2048::startGame()
 }
 
 /*
+// Engine.cpp
 void Engine::run()
 {
 	Game2048 *game = new Game2048();
