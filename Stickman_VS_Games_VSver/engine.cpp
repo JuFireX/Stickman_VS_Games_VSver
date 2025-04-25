@@ -13,7 +13,6 @@ Engine::Engine() {}
 
 void Engine::init()
 {
-    static Engine engine = Engine();
     bool fk = true;
 }
 
@@ -39,7 +38,6 @@ void Engine::run()
     Game2048 *game = new Game2048();
 
     game->initGame();
-    game->update('w');
     display(game->getGrid(), 4);
     while (true)
     {
