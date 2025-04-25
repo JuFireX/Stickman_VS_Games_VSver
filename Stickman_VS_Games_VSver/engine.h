@@ -4,6 +4,7 @@
 #include <vector>
 
 using namespace std;
+
 enum Level
 {
     LEVEL_2048,
@@ -13,10 +14,6 @@ enum Level
     LEVEL_SOKOBAN,
     LEVEL_TETRIS,
 };
-
-
-extern "C" { __declspec(dllexport) void startGame(Level level);}
-
 
 enum class Direction
 {
@@ -36,6 +33,7 @@ class Game
 {
 public:
     virtual void initGame() = 0;
+    virtual void startGame() = 0;
     virtual void update(char key) = 0;
     virtual GameState state() const = 0;
     virtual vector<vector<int>> getGrid() const = 0;
@@ -45,10 +43,12 @@ public:
 
 class Engine
 {
+private:
+    void display(const vector<vector<int>>& grid,int size);
 public:
+    Engine();
     void init();
     void run();
-    void shutdown();
 
     // 游戏引擎核心功能接口
 };

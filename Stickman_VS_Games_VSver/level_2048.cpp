@@ -3,6 +3,8 @@
 
 Game2048::Game2048() : rng(time(nullptr)) {}
 
+// private methods
+
 bool Game2048::canMoveHorizontal(bool left) const
 {
 	for (int i = 0; i < GRID_SIZE; ++i)
@@ -168,19 +170,22 @@ bool Game2048::processInput(char key)
 		return false;
 	}
 
-	if (!canMove(dir))
+	if (canMove(dir))
 	{
 		moveAndMerge(dir);
 		generateNewTile();
-		return false;
+		gameOver = isGameOver();
+		return true;
 	}
-
-	return true;
+	return false;
 }
+
+// public methods
+
 void Game2048::initGame()
 {
-	gameOver = false;
 	score = 0;
+	gameOver = false;
 	memset(grid, 0, sizeof(grid));
 	generateNewTile();
 	generateNewTile();
@@ -188,10 +193,7 @@ void Game2048::initGame()
 
 void Game2048::update(char key)
 {
-	if (processInput(key))
-	{
-		gameOver = isGameOver();
-	}
+	bool moved = processInput(key);
 }
 
 GameState Game2048::state() const
@@ -215,4 +217,20 @@ vector<vector<int>> Game2048::getGrid() const
 int Game2048::getScore() const
 {
 	return score;
+}
+
+// test methods
+
+void Game2048::startGame()
+{
+	initGame();
+	update('0');
+	while (true)
+	{
+		char input=_getch();
+		if (input == 'q')
+			break;
+		if (processInput(input))
+			update(input);
+	}
 }
