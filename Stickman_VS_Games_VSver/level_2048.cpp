@@ -234,3 +234,21 @@ void Game2048::startGame()
 			update(input);
 	}
 }
+
+/*
+void Engine::run()
+{
+	Game2048 *game = new Game2048();
+
+	game->initGame();
+	display(game->getGrid(), 4);
+	while (true)
+	{
+		char input = _getch();
+		if (input == 'q')
+			break;
+		game->update(input);
+		display(game->getGrid(), 4);
+	}
+}
+*/

@@ -17,11 +17,13 @@ using namespace std;
 class GameTetris : public Game
 {
 public:
-    void initGame() override {}
-    void update(char key) override {}
-    GameState state() const override { return GameState::GameOver; }
-    vector<vector<int>> getGrid() const override { return {}; }
-    int getScore() const override { return 0; }
+	GameTetris();							 // 构造函数
+	void initGame();					 // 初始化游戏矩阵
+	void startGame();					 // 开始游戏
+	void update(char key);				 // 根据输入更新游戏矩阵
+	GameState state() const;			 // 获取游戏状态
+	vector<vector<int>> getGrid() const; // 获取游戏矩阵
+	int getScore() const;				 // 获取游戏得分
 };
 
 #endif
