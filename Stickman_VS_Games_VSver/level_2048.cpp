@@ -227,7 +227,7 @@ void Game2048::startGame()
 	update('0');
 	while (true)
 	{
-		char input=_getch();
+		char input = _getch();
 		if (input == 'q')
 			break;
 		if (processInput(input))

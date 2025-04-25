@@ -9,46 +9,44 @@
 
 using namespace std;
 
-Engine::Engine(){}
+Engine::Engine() {}
 
 void Engine::init()
 {
-	static Engine engine =	Engine();
-	bool fk = true;
+    static Engine engine = Engine();
+    bool fk = true;
 }
 
-
-void Engine::display(const vector<vector<int>>& grid, int size)
+void Engine::display(const vector<vector<int>> &grid, int size)
 {
-	system("cls");
+    system("cls");
 
-	for (int i = 0; i < size; ++i)
-	{
-		for (int j = 0; j < size; ++j)
-		{
-			if (grid[i][j] != 0)
-				cout << setw(6) << grid[i][j];
-			else
-				cout << setw(6) << ".";
-		}
-		cout << "\n\n";
-	}
-
+    for (int i = 0; i < size; ++i)
+    {
+        for (int j = 0; j < size; ++j)
+        {
+            if (grid[i][j] != 0)
+                cout << setw(6) << grid[i][j];
+            else
+                cout << setw(6) << ".";
+        }
+        cout << "\n\n";
+    }
 }
 
 void Engine::run()
 {
-	Game2048* game = new Game2048();
+    Game2048 *game = new Game2048();
 
-	game->initGame();
-	game->update('w');
-	display(game->getGrid(), 4);
-	while (true)
-	{
-		char input = _getch();
-		if (input == 'q')
-			break;
-		game->update(input);
-		display(game->getGrid(), 4);
-	}
+    game->initGame();
+    game->update('w');
+    display(game->getGrid(), 4);
+    while (true)
+    {
+        char input = _getch();
+        if (input == 'q')
+            break;
+        game->update(input);
+        display(game->getGrid(), 4);
+    }
 }
