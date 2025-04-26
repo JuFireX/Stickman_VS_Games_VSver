@@ -35,17 +35,18 @@ private:
         SNAKE_BODY,
         FOOD,
         WALL
-    } MAP;
+    }MAP;
 
     void initGrid();
     void initSnake();
     void generateFood();
-    void updateGrid();
+    
     bool moveSnake();
     bool processInput(char key);
+    void updateGrid();                   // 更新游戏网格
+    IMAGE img_snake[4];
+    int img_size = 20;
 
-    IMAGE img_2048[4];
-    int img_size = 10;
 public:
     GameSnake();                         // 构造函数
     void initGame();                     // 初始化游戏
@@ -54,11 +55,13 @@ public:
     GameState state() const;             // 获取游戏状态
     vector<vector<int>> getGrid() const; // 获取游戏网格
     int getScore() const;                // 获取游戏得分
-
+    
+	
     void load();						 // 加载游戏素材
     map<int, IMAGE> MapImg;
     vector<vector<Engine::position>> getMap();
-    int GameHigh = 48;
+    int GameHigh = 24;
+    int GridSize = 20;
 };
 
 #endif // LEVEL_SNAKE_H

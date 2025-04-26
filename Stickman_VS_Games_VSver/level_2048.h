@@ -57,6 +57,7 @@ public:
 	map<int, IMAGE> MapImg; 
 	vector<vector<Engine::position>> getMap();
 	int GameHigh = 24;
+	int GridSize = 4;
 };
 
 #endif // LEVEL_2048_H
