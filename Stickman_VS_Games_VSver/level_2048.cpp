@@ -237,18 +237,18 @@ void Game2048::startGame()
 }
 void Game2048::load()
 {
-	loadimage(&img_2048[0], _T("../PictureResource/0.png"), img_size, img_size, true);
-	loadimage(&img_2048[1], _T("../PictureResource/2.png"), img_size, img_size, true);
-	loadimage(&img_2048[2], _T("../PictureResource/4.png"), img_size, img_size, true);
-	loadimage(&img_2048[3], _T("../PictureResource/8.png"), img_size, img_size, true);
-	loadimage(&img_2048[4], _T("../PictureResource/16.png"), img_size, img_size, true);
-	loadimage(&img_2048[5], _T("../PictureResource/32.png"), img_size, img_size, true);
-	loadimage(&img_2048[6], _T("../PictureResource/64.png"), img_size, img_size, true);
-	loadimage(&img_2048[7], _T("../PictureResource/128.png"), img_size, img_size, true);
-	loadimage(&img_2048[8], _T("../PictureResource/256.png"), img_size, img_size, true);
-	loadimage(&img_2048[9], _T("../PictureResource/512.png"), img_size, img_size, true);
-	loadimage(&img_2048[10], _T("../PictureResource/1024.png"), img_size, img_size, true);
-	loadimage(&img_2048[11], _T("../PictureResource/2048.png"), img_size, img_size, true);
+	loadimage(&img_2048[0], _T("../PictureResource/Game2048/0.png"), img_size, img_size, true);
+	loadimage(&img_2048[1], _T("../PictureResource/Game2048/2.png"), img_size, img_size, true);
+	loadimage(&img_2048[2], _T("../PictureResource/Game2048/4.png"), img_size, img_size, true);
+	loadimage(&img_2048[3], _T("../PictureResource/Game2048/8.png"), img_size, img_size, true);
+	loadimage(&img_2048[4], _T("../PictureResource/Game2048/16.png"), img_size, img_size, true);
+	loadimage(&img_2048[5], _T("../PictureResource/Game2048/32.png"), img_size, img_size, true);
+	loadimage(&img_2048[6], _T("../PictureResource/Game2048/64.png"), img_size, img_size, true);
+	loadimage(&img_2048[7], _T("../PictureResource/Game2048/128.png"), img_size, img_size, true);
+	loadimage(&img_2048[8], _T("../PictureResource/Game2048/256.png"), img_size, img_size, true);
+	loadimage(&img_2048[9], _T("../PictureResource/Game2048/512.png"), img_size, img_size, true);
+	loadimage(&img_2048[10], _T("../PictureResource/Game2048/1024.png"), img_size, img_size, true);
+	loadimage(&img_2048[11], _T("../PictureResource/Game2048/2048.png"), img_size, img_size, true);
 	MapImg[0] = img_2048[0];
 	MapImg[2] = img_2048[1];
 	MapImg[4] = img_2048[2];
@@ -261,6 +261,37 @@ void Game2048::load()
 	MapImg[512] = img_2048[9];
 	MapImg[1024] = img_2048[10];
 	MapImg[2048] = img_2048[11];
+}
+vector<vector<Engine::position>> Game2048::getMap()
+{
+	vector<vector<int>>state = getGrid();
+	vector<vector<Engine::position>> GameMap;
+	int sizeY = 480 / 24;
+	int sizeX = 720 / 36;
+	for (int i = 0; i < 24; i++) {
+		vector<Engine::position> row;
+		for (int j = 0; j < 36; j++) {
+			row.push_back({ -1, j * sizeX, i * sizeY });
+		}
+		GameMap.push_back(row);
+	}
+	GameMap[4][8].val = state[0][0];
+	GameMap[4][12].val = state[0][1];
+	GameMap[4][16].val = state[0][2];
+	GameMap[4][20].val = state[0][3];
+	GameMap[8][8].val = state[1][0];
+	GameMap[8][12].val = state[1][1];
+	GameMap[8][16].val = state[1][2];
+	GameMap[8][20].val = state[1][3];
+	GameMap[12][8].val = state[2][0];
+	GameMap[12][12].val = state[2][1];
+	GameMap[12][16].val = state[2][2];
+	GameMap[12][20].val = state[2][3];
+	GameMap[16][8].val = state[3][0];
+	GameMap[16][12].val = state[3][1];
+	GameMap[16][16].val = state[3][2];
+	GameMap[16][20].val = state[3][3];
+	return GameMap;
 }
 /*
 // Engine.cpp

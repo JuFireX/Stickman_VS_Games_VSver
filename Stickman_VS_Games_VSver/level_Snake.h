@@ -11,6 +11,7 @@
 #include <string>
 #include <cstring>
 #include "engine.h"
+#include <map>
 
 using namespace std;
 
@@ -43,6 +44,8 @@ private:
     bool moveSnake();
     bool processInput(char key);
 
+    IMAGE img_2048[4];
+    int img_size = 10;
 public:
     GameSnake();                         // 构造函数
     void initGame();                     // 初始化游戏
@@ -51,6 +54,11 @@ public:
     GameState state() const;             // 获取游戏状态
     vector<vector<int>> getGrid() const; // 获取游戏网格
     int getScore() const;                // 获取游戏得分
+
+    void load();						 // 加载游戏素材
+    map<int, IMAGE> MapImg;
+    vector<vector<Engine::position>> getMap();
+    int GameHigh = 48;
 };
 
 #endif // LEVEL_SNAKE_H

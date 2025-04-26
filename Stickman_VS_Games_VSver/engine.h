@@ -45,12 +45,8 @@ class Engine
 {
 private:
     IMAGE MapImg[200];
-    typedef struct position {
-        int val;
-        int x;
-        int y;
-    }position;
-    std::vector<vector<position>>Map_2048,Map_Mario,Map_pacman,Map_snake,Map_sokoban,Map_Teris,GameMap;
+    
+   
     int wide = 720, high = 480;
     int sizeX, sizeY;
     int MapSizeX = 20, MapSizeY = 12;
@@ -65,5 +61,11 @@ public:
     void init();
     void run();
     // 游戏引擎核心功能接口
+    typedef struct position {
+        int val;
+        int x;
+        int y;
+    }position;
+    std::vector<vector<position>>GameMap;
 };
 #endif // ENGINE_H

@@ -27,56 +27,24 @@ void Engine::init()
 void Engine::draw()
 {
     //减少运行资源
-    
     //绘制地图
-    for (int i = 0; i < 24; i++)
+    for (int i = 0; i < game->GameHigh; i++)
     {
         for (position u : GameMap[i])
         {
             putimage(u.x, u.y, &game->MapImg[u.val]);
         }
     }
-
     FlushBatchDraw();
-
-   
 }
 
 void Engine::load()//n为素材数量
 {
     game->load();
 }
-
 void Engine::drawGameMap()
 {
-    sizeY = high / 24;
-    sizeX = wide / 36;
-    for (int i = 0; i < 24; i++) {
-        vector<position> row;
-        for (int j = 0; j < 36; j++) {
-            row.push_back({ -1, j * sizeX, i * sizeY });
-        }
-        GameMap.push_back(row);
-    }
-    
-    //图像位置代码
-    vector<vector<int>>state = game->getGrid();
-    GameMap[4][8].val = state[0][0];
-    GameMap[4][12].val = state[0][1];
-    GameMap[4][16].val = state[0][2];
-    GameMap[4][20].val = state[0][3];
-    GameMap[8][8].val = state[1][0];
-	GameMap[8][12].val = state[1][1];
-    GameMap[8][16].val = state[1][2];
-	GameMap[8][20].val = state[1][3];
-    GameMap[12][8].val = state[2][0];
-	GameMap[12][12].val = state[2][1];
-	GameMap[12][16].val = state[2][2];
-	GameMap[12][20].val = state[2][3];
-	GameMap[16][8].val = state[3][0];
-	GameMap[16][12].val = state[3][1];
-	GameMap[16][16].val = state[3][2];
-	GameMap[16][20].val = state[3][3];
+   GameMap = game->getMap();
 }
 
 
