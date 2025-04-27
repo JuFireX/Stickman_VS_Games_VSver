@@ -26,4 +26,4 @@ public:
 	int getScore() const;				 // 获取游戏得分
 };
 
-#endif
+#endif // LEVEL_SOKOBAN_H

@@ -55,7 +55,7 @@ public:
 
 	void load();						 // ╪стьсно╥кь╡д
 	map<int, IMAGE> MapImg; 
-	vector<vector<Engine::position>> getMap();
+	vector<vector<Engine::position>> getMap() const;
 	int GameHigh = 24;
 	int GridSize = 4;
 };

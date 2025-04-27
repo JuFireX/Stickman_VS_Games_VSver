@@ -44,7 +44,7 @@ public:
 class Engine
 {
 private:
-    IMAGE MapImg[200];
+    static IMAGE MapImg[200];
     
    
     int wide = 720, high = 480;

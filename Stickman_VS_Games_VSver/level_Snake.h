@@ -59,7 +59,7 @@ public:
 	
     void load();						 // 加载游戏素材
     map<int, IMAGE> MapImg;
-    vector<vector<Engine::position>> getMap();
+    vector<vector<Engine::position>> getMap() const;
     int GameHigh = 24;
     int GridSize = 20;
 };

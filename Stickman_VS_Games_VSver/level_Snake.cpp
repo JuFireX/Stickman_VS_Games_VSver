@@ -270,7 +270,7 @@ void GameSnake::load()
     MapImg[WALL] = img_snake[3];
 }
 
-vector<vector<Engine::position>> GameSnake::getMap()
+vector<vector<Engine::position>> GameSnake::getMap() const
 {
 	vector<vector<int>> state = getGrid();
 	vector<vector<Engine::position>> GameMap;

@@ -262,7 +262,7 @@ void Game2048::load()
 	MapImg[1024] = img_2048[10];
 	MapImg[2048] = img_2048[11];
 }
-vector<vector<Engine::position>> Game2048::getMap()
+vector<vector<Engine::position>> Game2048::getMap() const
 {
 	vector<vector<int>>state = getGrid();
 	vector<vector<Engine::position>> GameMap;

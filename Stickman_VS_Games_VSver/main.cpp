@@ -2,8 +2,9 @@
 
 int main()
 {
-    Engine engine;
-    engine.init();
-    engine.run();
+    Engine* engine = new Engine();
+    engine->init();
+    engine->run();
+    delete engine;
     return 0;
 }
