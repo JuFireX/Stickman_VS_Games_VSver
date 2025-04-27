@@ -2,7 +2,6 @@
 #ifndef ENGINE_H
 #define ENGINE_H
 #include <vector>
-#include <graphics.h>
 using namespace std;
 
 enum Level
@@ -44,27 +43,10 @@ public:
 class Engine
 {
 private:
-    IMAGE MapImg[200];
-
-    int width = 720, height = 480;
-    int MapSizeX = 20, MapSizeY = 12;
-    void draw();
-    void drawGameMap();
-    void load();
     bool running = true;
-    ExMessage msg = ExMessage();
 
 public:
     Engine();
-    void init();
     void run();
-    // 游戏引擎核心功能接口
-    typedef struct position
-    {
-        int val;
-        int x;
-        int y;
-    } position;
-    std::vector<vector<position>> GameMap;
 };
 #endif // ENGINE_H
