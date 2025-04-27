@@ -53,6 +53,7 @@
         "xlocmes": "cpp",
         "xlocnum": "cpp",
         "xloctime": "cpp",
-        "xmemory": "cpp"
+        "xmemory": "cpp",
+        "xtree": "cpp"
     }
 }
