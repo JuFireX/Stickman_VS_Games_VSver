@@ -211,8 +211,12 @@ void GameSokoban::initGame()
     initLevel();
 }
 
-void GameSokoban::update(char key){
-    processInput(input)} GameState GameSokoban::state() const
+void GameSokoban::update(char key)
+{
+    processInput(key);
+}
+
+GameState GameSokoban::state() const
 {
     return gameOver ? GameState::GameOver : GameState::Running;
 }

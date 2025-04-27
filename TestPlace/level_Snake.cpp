@@ -244,10 +244,12 @@ void GameSnake::display(const vector<vector<int>> &grid, int size) const
         }
         cout << "\n";
     }
-
-    cout << "\n使用WASD键移动, ESC退出\n";
+    cout << "WASD to move, Q to quit." << endl;
     if (gameOver)
-        cout << "\n游戏结束!" << "\n ";
+    {
+        cout << "\nGame Over!\n"
+             << endl;
+    }
 }
 
 void GameSnake::startGame()
@@ -271,48 +273,6 @@ void GameSnake::startGame()
             update(' ');
             display(getGrid(), 20);
         }
-        Sleep(50);
+        Sleep(100);
     }
-}
-
-// @hh 乱七八糟不按分类乱放的函数在下面
-
-void GameSnake::load()
-{
-    loadimage(&img_snake[0], _T("../PictureResource/GameSnake/head.png"), img_size, img_size, true);
-    loadimage(&img_snake[1], _T("../PictureResource/GameSnake/body.png"), img_size, img_size, true);
-    loadimage(&img_snake[2], _T("../PictureResource/GameSnake/food.png"), img_size, img_size, true);
-    loadimage(&img_snake[3], _T("../PictureResource/GameSnake/wall.png"), img_size, img_size, true);
-    MapImg[SNAKE_HEAD] = img_snake[0];
-    MapImg[SNAKE_BODY] = img_snake[1];
-    MapImg[FOOD] = img_snake[2];
-    MapImg[WALL] = img_snake[3];
-}
-
-vector<vector<Engine::position>> GameSnake::getMap() const
-{
-    vector<vector<int>> state = getGrid();
-    vector<vector<Engine::position>> GameMap;
-    int sizeY = 480 / 24;
-    int sizeX = 720 / 36;
-    for (int i = 0; i < 24; i++)
-    {
-        vector<Engine::position> row;
-        for (int j = 0; j < 36; j++)
-        {
-            row.push_back({0, j * sizeX, i * sizeY});
-        }
-        GameMap.push_back(row);
-    }
-    for (int i = 0; i < GRID_SIZE; i++)
-    {
-        for (int j = 0; j < GRID_SIZE; j++)
-        {
-            if (state[i][j] != EMPTY)
-            {
-                GameMap[2 + i][8 + j].val = state[i][j];
-            }
-        }
-    }
-    return GameMap;
 }

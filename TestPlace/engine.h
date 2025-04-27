@@ -47,6 +47,8 @@ private:
 
 public:
     Engine();
-    void run();
+    void run2048();
+    void runSokoban();
+    void runSnake();
 };
 #endif // ENGINE_H

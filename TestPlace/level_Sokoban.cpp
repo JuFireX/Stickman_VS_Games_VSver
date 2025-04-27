@@ -211,8 +211,11 @@ void GameSokoban::initGame()
     initLevel();
 }
 
-void GameSokoban::update(char key){
-    processInput(input)} GameState GameSokoban::state() const
+void GameSokoban::update(char key)
+{
+    processInput(key);
+}
+GameState GameSokoban::state() const
 {
     return gameOver ? GameState::GameOver : GameState::Running;
 }
@@ -248,10 +251,12 @@ void GameSokoban::display(const vector<vector<int>> &grid, int size) const
         }
         cout << "\n";
     }
+    cout << "WASD to move, Q to quit, R to restart." << endl;
 
-    cout << "\n使用WASD键移动, ESC退出\n";
     if (gameWon)
-        cout << "\n恭喜! 你完成了关卡!\n";
+    {
+        cout << "\nYou Won!\n";
+    }
 }
 
 void GameSokoban::startGame()
