@@ -10,8 +10,8 @@
 #include <iomanip>
 #include <string>
 #include <cstring>
-#include "engine.h"
 #include <map>
+#include "engine.h"
 
 using namespace std;
 
@@ -20,9 +20,9 @@ class GameSnake : public Game
 
 private:
     static const int GRID_SIZE = 20;
-    int grid[GRID_SIZE][GRID_SIZE] = { 0 };
-    vector<pair<int, int>> snake;           // 蛇身体的坐标
-    pair<int, int> food;                    // 食物的坐标
+    int grid[GRID_SIZE][GRID_SIZE] = {0};
+    vector<pair<int, int>> snake; // 蛇身体的坐标
+    pair<int, int> food;          // 食物的坐标
     Direction direction = Direction::RIGHT;
     bool gameOver = false;
     int score = 0;
@@ -35,15 +35,15 @@ private:
         SNAKE_HEAD,
         SNAKE_BODY,
         FOOD
-    }MAP;
+    } MAP;
 
     void initGrid();
     void initSnake();
     void generateFood();
-    
+
     bool moveSnake();
     bool processInput(char key);
-    void updateGrid();                   // 更新游戏网格
+    void updateGrid(); // 更新游戏网格
     IMAGE img_snake[4];
     int img_size = 20;
 
@@ -55,9 +55,8 @@ public:
     GameState state() const;             // 获取游戏状态
     vector<vector<int>> getGrid() const; // 获取游戏网格
     int getScore() const;                // 获取游戏得分
-    
-	
-    void load();						 // 加载游戏素材
+
+    void load(); // 加载游戏素材
     map<int, IMAGE> MapImg;
     vector<vector<Engine::position>> getMap() const;
     int GameHigh = 24;

@@ -1,5 +1,5 @@
-#include "level_2048.h"
 #include <windows.h>
+#include "level_2048.h"
 
 Game2048::Game2048() : rng(time(nullptr)) {}
 
@@ -264,14 +264,16 @@ void Game2048::load()
 }
 vector<vector<Engine::position>> Game2048::getMap() const
 {
-	vector<vector<int>>state = getGrid();
+	vector<vector<int>> state = getGrid();
 	vector<vector<Engine::position>> GameMap;
 	int sizeY = 480 / 24;
 	int sizeX = 720 / 36;
-	for (int i = 0; i < 24; i++) {
+	for (int i = 0; i < 24; i++)
+	{
 		vector<Engine::position> row;
-		for (int j = 0; j < 36; j++) {
-			row.push_back({ -1, j * sizeX, i * sizeY });
+		for (int j = 0; j < 36; j++)
+		{
+			row.push_back({-1, j * sizeX, i * sizeY});
 		}
 		GameMap.push_back(row);
 	}

@@ -17,7 +17,7 @@ using namespace std;
 class GameTetris : public Game
 {
 public:
-	GameTetris();							 // 构造函数
+	GameTetris();						 // 构造函数
 	void initGame();					 // 初始化游戏矩阵
 	void startGame();					 // 开始游戏
 	void update(char key);				 // 根据输入更新游戏矩阵

@@ -10,9 +10,9 @@
 #include <iomanip>
 #include <string>
 #include <cstring>
-#include "engine.h"
 #include <graphics.h>
 #include <map>
+#include "engine.h"
 
 using namespace std;
 
@@ -39,22 +39,21 @@ private:
 	bool isGameOver() const;
 	bool processInput(char key);
 
-
 	IMAGE img_2048[12];
 	int img_size = 60;
+
 public:
-	Game2048();							 // 构造函数
-	void initGame();					 // 初始化游戏矩阵
-	void startGame();                    // 开始游戏
-	
+	Game2048();		  // 构造函数
+	void initGame();  // 初始化游戏矩阵
+	void startGame(); // 开始游戏
+
 	void update(char key);				 // 根据输入更新游戏矩阵
 	GameState state() const;			 // 获取游戏状态
 	vector<vector<int>> getGrid() const; // 获取游戏矩阵
 	int getScore() const;				 // 获取游戏得分
 
-
-	void load();						 // 加载游戏素材
-	map<int, IMAGE> MapImg; 
+	void load(); // 加载游戏素材
+	map<int, IMAGE> MapImg;
 	vector<vector<Engine::position>> getMap() const;
 	int GameHigh = 24;
 	int GridSize = 4;

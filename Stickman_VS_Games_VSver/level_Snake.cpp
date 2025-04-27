@@ -1,5 +1,5 @@
-#include "level_Snake.h"
 #include <windows.h>
+#include "level_Snake.h"
 
 GameSnake::GameSnake() : rng(time(nullptr)) {}
 
@@ -200,12 +200,12 @@ void GameSnake::initGame()
 
 void GameSnake::update(char key)
 {
-    if(key==' ')
-    { 
+    if (key == ' ')
+    {
         Sleep(90);
         moveSnake();
     }
-    
+
     if (processInput(key))
     {
         moveSnake();
@@ -272,28 +272,28 @@ void GameSnake::load()
 
 vector<vector<Engine::position>> GameSnake::getMap() const
 {
-	vector<vector<int>> state = getGrid();
-	vector<vector<Engine::position>> GameMap;
-	int sizeY = 480 / 24;
-	int sizeX = 720 / 36;
+    vector<vector<int>> state = getGrid();
+    vector<vector<Engine::position>> GameMap;
+    int sizeY = 480 / 24;
+    int sizeX = 720 / 36;
     for (int i = 0; i < 24; i++)
     {
         vector<Engine::position> row;
         for (int j = 0; j < 36; j++)
         {
-            row.push_back({ 0, j * sizeX, i * sizeY });
+            row.push_back({0, j * sizeX, i * sizeY});
         }
         GameMap.push_back(row);
     }
-	for (int i = 0; i < GRID_SIZE; i++)
+    for (int i = 0; i < GRID_SIZE; i++)
     {
-		for (int j = 0; j < GRID_SIZE; j++)
+        for (int j = 0; j < GRID_SIZE; j++)
         {
-			if (state[i][j] != EMPTY)
+            if (state[i][j] != EMPTY)
             {
-				GameMap[2+i][8+j].val = state[i][j];
-			}
-		}
-	}
-	return GameMap;
+                GameMap[2 + i][8 + j].val = state[i][j];
+            }
+        }
+    }
+    return GameMap;
 }

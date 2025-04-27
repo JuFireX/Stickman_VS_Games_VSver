@@ -2,7 +2,7 @@
 
 int main()
 {
-    Engine* engine = new Engine();
+    Engine *engine = new Engine();
     engine->init();
     engine->run();
     delete engine;

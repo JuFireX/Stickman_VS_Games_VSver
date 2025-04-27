@@ -5,7 +5,7 @@
 #include <cstring>
 #include <string>
 #include <graphics.h>
-//#include "level_2048.h"
+// #include "level_2048.h"
 #include "level_Snake.h"
 #include "engine.h"
 
@@ -13,24 +13,24 @@
 
 using namespace std;
 
-//Game2048* game = new Game2048();
-GameSnake* game = new GameSnake();
+// Game2048* game = new Game2048();
+GameSnake *game = new GameSnake();
 
 Engine::Engine() {}
 
 void Engine::init()
 {
     bool fuck = true;
-    initgraph(width, height);//创建画布
-    setbkcolor(WHITE);// 设置背景色为白色
+    initgraph(width, height); // 创建画布
+    setbkcolor(WHITE);        // 设置背景色为白色
     cleardevice();
     load();
 }
 
 void Engine::draw()
 {
-    //减少运行资源
-    //绘制地图
+    // 减少运行资源
+    // 绘制地图
     for (int i = 0; i < game->GameHigh; i++)
     {
         for (position u : GameMap[i])
@@ -41,19 +41,14 @@ void Engine::draw()
     FlushBatchDraw();
 }
 
-void Engine::load()//n为素材数量
+void Engine::load() // n为素材数量
 {
     game->load();
 }
 void Engine::drawGameMap()
 {
-   GameMap = game->getMap();
+    GameMap = game->getMap();
 }
-
-
-
-
-
 
 void Engine::display(const vector<vector<int>> &grid, int size)
 {
@@ -75,7 +70,7 @@ void Engine::display(const vector<vector<int>> &grid, int size)
 void Engine::run()
 {
     game->initGame();
-    display(game->getGrid(),game->GridSize);
+    display(game->getGrid(), game->GridSize);
     BeginBatchDraw();
     while (true)
     {
@@ -85,12 +80,12 @@ void Engine::run()
         cleardevice();
         draw();
 
-		bool moveRight = false;
-		bool moveLeft = false;
-		bool moveUp = false;
-		bool moveDown = false;
-		while (peekmessage(&msg))//用于画布显示
-		{
+        bool moveRight = false;
+        bool moveLeft = false;
+        bool moveUp = false;
+        bool moveDown = false;
+        while (peekmessage(&msg)) // 用于画布显示
+        {
             if (msg.message == WM_KEYDOWN)
             {
                 if (msg.vkcode == VK_ESCAPE)
@@ -98,55 +93,54 @@ void Engine::run()
                     running = false;
                     break;
                 }
-                else if (msg.vkcode == VK_UP||msg.vkcode== 'W')
+                else if (msg.vkcode == VK_UP || msg.vkcode == 'W')
                 {
                     moveUp = true;
                 }
-                else if (msg.vkcode == VK_DOWN||msg.vkcode=='S')
+                else if (msg.vkcode == VK_DOWN || msg.vkcode == 'S')
                 {
-					moveDown = true;
-				
+                    moveDown = true;
                 }
                 else if (msg.vkcode == VK_LEFT || msg.vkcode == 'A')
                 {
-					moveLeft = true;
+                    moveLeft = true;
                 }
                 else if (msg.vkcode == VK_RIGHT || msg.vkcode == 'D')
                 {
-					moveRight = true;
+                    moveRight = true;
                 }
             }
-		}
+        }
 
-		if (moveUp)
-		{
-			game->update('w');
-		}
-		else if (moveDown)
-		{
-			game->update('s');
-		}
-		else if (moveLeft)
-		{
-			game->update('a');
-		}
-		else if (moveRight)
-		{
-			game->update('d');
-		}
+        if (moveUp)
+        {
+            game->update('w');
+        }
+        else if (moveDown)
+        {
+            game->update('s');
+        }
+        else if (moveLeft)
+        {
+            game->update('a');
+        }
+        else if (moveRight)
+        {
+            game->update('d');
+        }
         /*char input = _getch();//用于命令行显示
         if (input == 'q')
             break;
         game->update(input);
         display(game->getGrid(), 4);*/
-        //减少游戏运行资源
+        // 减少游戏运行资源
         DWORD end_time = GetTickCount();
         DWORD delta_time = start_time - end_time;
         Sleep(200);
-        //if (delta_time <= 1000 / 120)
+        // if (delta_time <= 1000 / 120)
         //{
-        //    Sleep(delta_time);
-        //}
+        //     Sleep(delta_time);
+        // }
     }
 
     EndBatchDraw();

@@ -1,9 +1,9 @@
-#include "level_Sokoban.h"
 #include <windows.h>
+#include "level_Sokoban.h"
 
 GameSokoban::GameSokoban() {}
 
-// private methods
+// Private methods
 
 void GameSokoban::initLevel()
 {
@@ -67,26 +67,6 @@ void GameSokoban::initLevel()
                 targetCount++;
         }
     }
-}
-
-void GameSokoban::display() const
-{
-    system("cls");
-    cout << "Sokoban推箱子 - 关卡 " << level << "\n";
-    cout << "箱子数量: " << boxCount << ", 目标数量: " << targetCount << "\n\n";
-
-    for (int i = 0; i < GRID_SIZE; ++i)
-    {
-        for (int j = 0; j < GRID_SIZE; ++j)
-        {
-            cout << grid[i][j] << ' ';
-        }
-        cout << "\n";
-    }
-
-    cout << "\n使用WASD键移动, ESC退出\n";
-    if (gameWon)
-        cout << "\n恭喜! 你完成了关卡!\n";
 }
 
 bool GameSokoban::movePlayer(Direction dir)
@@ -174,6 +154,27 @@ void GameSokoban::checkWinCondition()
     }
 }
 
+void GameSokoban::display() const
+{
+    system("cls");
+    cout << "Sokoban推箱子 - 关卡 " << level << "\n";
+    cout << "箱子数量: " << boxCount << ", 目标数量: " << targetCount << "\n\n";
+
+    for (int i = 0; i < GRID_SIZE; ++i)
+    {
+        for (int j = 0; j < GRID_SIZE; ++j)
+        {
+            cout << grid[i][j] << ' ';
+        }
+        cout << "\n";
+    }
+
+    cout << "\n使用WASD键移动, ESC退出\n";
+    if (gameWon)
+        cout << "\n恭喜! 你完成了关卡!\n";
+}
+
+// Public methods
 
 void GameSokoban::initGame()
 {
@@ -182,6 +183,8 @@ void GameSokoban::initGame()
     gameWon = false;
     initLevel();
 }
+
+// Test methods
 
 void GameSokoban::startGame()
 {
