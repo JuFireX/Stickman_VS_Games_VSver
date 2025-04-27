@@ -36,10 +36,11 @@ private:
         BOX_ON_TARGET
     } MAP;
 
-    void initLevel();               // 初始化游戏矩阵
-    void checkWinCondition();       // 检查游戏是否结束
-    bool movePlayer(Direction dir); // 移动玩家
-    void display() const;           // 显示游戏矩阵
+    void initLevel();                                              // 初始化游戏矩阵
+    void checkWinCondition();                                      // 检查游戏是否结束
+    bool movePlayer(Direction dir);                                // 移动玩家
+    void display(const vector<vector<int>> &grid, int size) const; // 显示游戏矩阵
+    bool processInput(char key);                                   // 处理用户输入
 
 public:
     GameSokoban();                       // 构造函数

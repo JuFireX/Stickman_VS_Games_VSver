@@ -50,27 +50,9 @@ void Engine::drawGameMap()
     GameMap = game->getMap();
 }
 
-void Engine::display(const vector<vector<int>> &grid, int size)
-{
-    system("cls");
-
-    for (int i = 0; i < size; ++i)
-    {
-        for (int j = 0; j < size; ++j)
-        {
-            if (grid[i][j] != 0)
-                cout << setw(6) << grid[i][j];
-            else
-                cout << setw(6) << ".";
-        }
-        cout << "\n\n";
-    }
-}
-
 void Engine::run()
 {
     game->initGame();
-    display(game->getGrid(), game->GridSize);
     BeginBatchDraw();
     while (true)
     {

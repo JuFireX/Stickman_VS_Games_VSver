@@ -1,4 +1,5 @@
 #include <windows.h>
+#include <iostream>
 #include "level_Snake.h"
 
 GameSnake::GameSnake() : rng(time(nullptr)) {}
@@ -169,6 +170,8 @@ bool GameSnake::processInput(char key)
     case 's':
         newDir = Direction::DOWN;
         break;
+    case ' ':
+        break;
     default:
         return false;
     }
@@ -200,16 +203,8 @@ void GameSnake::initGame()
 
 void GameSnake::update(char key)
 {
-    if (key == ' ')
-    {
-        Sleep(90);
-        moveSnake();
-    }
-
     if (processInput(key))
-    {
         moveSnake();
-    }
 }
 
 GameState GameSnake::state() const
@@ -236,27 +231,36 @@ int GameSnake::getScore() const
 }
 
 // Test methods
+void GameSnake::display(const vector<vector<int>> &grid, int size) const
+{
+}
 
 void GameSnake::startGame()
 {
     initGame();
+    display(getGrid(), 20);
 
     while (!gameOver)
     {
-        // 检查是否有按键输入
         if (_kbhit())
         {
             char input = _getch();
             if (input == 'q')
                 break;
-
-            processInput(input);
+            update(input);
+            display(getGrid(), 20);
         }
-
-        moveSnake();
+        // 自更新
+        else
+        {
+            update(' ');
+            display(getGrid(), 20);
+        }
         Sleep(50);
     }
 }
+
+// @hh 乱七八糟不按分类乱放的函数在下面
 
 void GameSnake::load()
 {

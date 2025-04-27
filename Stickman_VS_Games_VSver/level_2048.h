@@ -10,7 +10,6 @@
 #include <iomanip>
 #include <string>
 #include <cstring>
-#include <graphics.h>
 #include <map>
 #include "engine.h"
 
@@ -37,6 +36,7 @@ private:
 	void moveAndMerge(Direction dir);
 	void generateNewTile();
 	bool isGameOver() const;
+	void display(const vector<vector<int>> &grid, int size) const; // œ‘ æ”Œœ∑æÿ’Û
 	bool processInput(char key);
 
 	IMAGE img_2048[12];

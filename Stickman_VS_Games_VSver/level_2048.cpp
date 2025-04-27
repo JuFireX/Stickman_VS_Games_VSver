@@ -1,9 +1,10 @@
 #include <windows.h>
+#include <iostream>
 #include "level_2048.h"
 
 Game2048::Game2048() : rng(time(nullptr)) {}
 
-// private methods
+// Private methods
 
 bool Game2048::canMoveHorizontal(bool left) const
 {
@@ -180,7 +181,7 @@ bool Game2048::processInput(char key)
 	return false;
 }
 
-// public methods
+// Public methods
 
 void Game2048::initGame()
 {
@@ -219,22 +220,64 @@ int Game2048::getScore() const
 	return score;
 }
 
-// test methods
+// Test methods
+
+void Game2048::display(const vector<vector<int>> &grid, int size) const
+{
+	system("cls");
+
+	for (int i = 0; i < size; ++i)
+	{
+		for (int j = 0; j < size; ++j)
+		{
+			if (grid[i][j] != 0)
+				cout << setw(6) << grid[i][j];
+			else
+				cout << setw(6) << ".";
+		}
+		cout << "\n\n";
+	}
+}
 
 void Game2048::startGame()
 {
 	initGame();
-	update('0');
+	display(getGrid(), 4);
 
+	while (!gameOver)
+	{
+		if (_kbhit())
+		{
+			char input = _getch();
+			if (input == 'q')
+				break;
+			update(input);
+			display(getGrid(), 4);
+		}
+		// 非自更新
+	}
+}
+
+/* Engine.cpp
+void Engine::run()
+{
+	Game2048 *game = new Game2048();
+
+	game->initGame();
+	display(game->getGrid(), 4);
 	while (true)
 	{
 		char input = _getch();
 		if (input == 'q')
 			break;
-		if (processInput(input))
-			update(input);
+		game->update(input);
+		display(game->getGrid(), 4);
 	}
 }
+*/
+
+// @hh 乱七八糟不按分类乱放的函数在下面
+
 void Game2048::load()
 {
 	loadimage(&img_2048[0], _T("../PictureResource/Game2048/0.png"), img_size, img_size, true);
@@ -262,6 +305,7 @@ void Game2048::load()
 	MapImg[1024] = img_2048[10];
 	MapImg[2048] = img_2048[11];
 }
+
 vector<vector<Engine::position>> Game2048::getMap() const
 {
 	vector<vector<int>> state = getGrid();
@@ -295,21 +339,3 @@ vector<vector<Engine::position>> Game2048::getMap() const
 	GameMap[16][20].val = state[3][3];
 	return GameMap;
 }
-/*
-// Engine.cpp
-void Engine::run()
-{
-	Game2048 *game = new Game2048();
-
-	game->initGame();
-	display(game->getGrid(), 4);
-	while (true)
-	{
-		char input = _getch();
-		if (input == 'q')
-			break;
-		game->update(input);
-		display(game->getGrid(), 4);
-	}
-}
-*/

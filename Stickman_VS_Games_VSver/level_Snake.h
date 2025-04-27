@@ -40,8 +40,8 @@ private:
     void initGrid();
     void initSnake();
     void generateFood();
-
     bool moveSnake();
+    void display(const vector<vector<int>> &grid, int size) const; // 显示游戏矩阵
     bool processInput(char key);
     void updateGrid(); // 更新游戏网格
     IMAGE img_snake[4];
