@@ -2,12 +2,13 @@
 #include <memory>
 #include <vector>
 #include <iostream>
-#include "engine.h"
-//#include "level_2048.h"
 #include <cstring>
 #include <string>
 #include <graphics.h>
+//#include "level_2048.h"
 #include "level_Snake.h"
+#include "engine.h"
+
 // ...
 
 using namespace std;
@@ -20,7 +21,7 @@ Engine::Engine() {}
 void Engine::init()
 {
     bool fuck = true;
-    initgraph(wide, high);//创建画布
+    initgraph(width, height);//创建画布
     setbkcolor(WHITE);// 设置背景色为白色
     cleardevice();
     load();
@@ -73,8 +74,6 @@ void Engine::display(const vector<vector<int>> &grid, int size)
 
 void Engine::run()
 {
-    
-
     game->initGame();
     display(game->getGrid(),game->GridSize);
     BeginBatchDraw();
@@ -86,10 +85,10 @@ void Engine::run()
         cleardevice();
         draw();
 
-		bool moveright = false;
-		bool moveleft = false;
-		bool moveup = false;
-		bool movedown = false;
+		bool moveRight = false;
+		bool moveLeft = false;
+		bool moveUp = false;
+		bool moveDown = false;
 		while (peekmessage(&msg))//用于画布显示
 		{
             if (msg.message == WM_KEYDOWN)
@@ -101,37 +100,37 @@ void Engine::run()
                 }
                 else if (msg.vkcode == VK_UP||msg.vkcode== 'W')
                 {
-                    moveup = true;
+                    moveUp = true;
                 }
                 else if (msg.vkcode == VK_DOWN||msg.vkcode=='S')
                 {
-					movedown = true;
+					moveDown = true;
 				
                 }
                 else if (msg.vkcode == VK_LEFT || msg.vkcode == 'A')
                 {
-					moveleft = true;
+					moveLeft = true;
                 }
                 else if (msg.vkcode == VK_RIGHT || msg.vkcode == 'D')
                 {
-					moveright = true;
+					moveRight = true;
                 }
             }
 		}
 
-		if (moveup)
+		if (moveUp)
 		{
 			game->update('w');
 		}
-		else if (movedown)
+		else if (moveDown)
 		{
 			game->update('s');
 		}
-		else if (moveleft)
+		else if (moveLeft)
 		{
 			game->update('a');
 		}
-		else if (moveright)
+		else if (moveRight)
 		{
 			game->update('d');
 		}
@@ -142,11 +141,12 @@ void Engine::run()
         display(game->getGrid(), 4);*/
         //减少游戏运行资源
         DWORD end_time = GetTickCount();
-        DWORD dalta_time = start_time - end_time;
-        if (dalta_time <= 1000 / 120)
-        {
-            Sleep(dalta_time);
-        }
+        DWORD delta_time = start_time - end_time;
+        Sleep(200);
+        //if (delta_time <= 1000 / 120)
+        //{
+        //    Sleep(delta_time);
+        //}
     }
 
     EndBatchDraw();

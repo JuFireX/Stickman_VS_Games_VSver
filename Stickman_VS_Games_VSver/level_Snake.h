@@ -31,10 +31,10 @@ private:
     // 定义地图元素
     static const enum {
         EMPTY,
+        WALL,
         SNAKE_HEAD,
         SNAKE_BODY,
-        FOOD,
-        WALL
+        FOOD
     }MAP;
 
     void initGrid();

@@ -44,18 +44,17 @@ public:
 class Engine
 {
 private:
-    static IMAGE MapImg[200];
+    IMAGE MapImg[200];
     
    
-    int wide = 720, high = 480;
-    int sizeX, sizeY;
+    int width = 720, height = 480;
     int MapSizeX = 20, MapSizeY = 12;
     void display(const vector<vector<int>>& grid,int size);
     void draw();
 	void drawGameMap();
     void load();
     bool running = true;
-    ExMessage msg;
+    ExMessage msg = ExMessage();
 public:
     Engine();
     void init();

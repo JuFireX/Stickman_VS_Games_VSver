@@ -24,4 +24,4 @@ public:
     int getScore() const override { return 0; }
 };
 
-#endif
+#endif // LEVEL_MARIO_H
