@@ -233,6 +233,21 @@ int GameSnake::getScore() const
 // Test methods
 void GameSnake::display(const vector<vector<int>> &grid, int size) const
 {
+
+    system("cls");
+
+    for (int i = 0; i < size; ++i)
+    {
+        for (int j = 0; j < size; ++j)
+        {
+            cout << grid[i][j] << ' ';
+        }
+        cout << "\n";
+    }
+
+    cout << "\n使用WASD键移动, ESC退出\n";
+    if (gameOver)
+        cout << "\n游戏结束!" << "\n ";
 }
 
 void GameSnake::startGame()

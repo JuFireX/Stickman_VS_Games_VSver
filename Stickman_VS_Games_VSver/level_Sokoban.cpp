@@ -257,7 +257,7 @@ void GameSokoban::display(const vector<vector<int>> &grid, int size) const
 void GameSokoban::startGame()
 {
     initGame();
-    display();
+    display(getGrid(), 10);
 
     while (!gameOver)
     {
@@ -267,7 +267,7 @@ void GameSokoban::startGame()
             if (input == 'q')
                 break;
             update(input);
-            display();
+            display(getGrid(), 10);
         }
         // 非自更新
     }
