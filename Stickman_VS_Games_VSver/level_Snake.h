@@ -44,9 +44,9 @@ private:
     void display(const vector<vector<int>> &grid, int size) const; // 显示游戏矩阵
     bool processInput(char key);
     void updateGrid(); // 更新游戏网格
+
     IMAGE img_snake[4];
     int img_size = 20;
-
 public:
     GameSnake();                         // 构造函数
     void initGame();                     // 初始化游戏
@@ -61,6 +61,7 @@ public:
     vector<vector<Engine::position>> getMap() const;
     int GameHigh = 24;
     int GridSize = 20;
+    int GameFrame = 6;
 };
 
 #endif // LEVEL_SNAKE_H

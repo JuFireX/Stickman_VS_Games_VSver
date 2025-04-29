@@ -203,6 +203,11 @@ void GameSnake::initGame()
 
 void GameSnake::update(char key)
 {
+    if (key == ' ')
+    {
+        Sleep(1000 / GameFrame);
+        moveSnake();
+    }
     if (processInput(key))
         moveSnake();
 }
@@ -275,9 +280,17 @@ void GameSnake::startGame()
     }
 }
 
-// @hh 乱七八糟不按分类乱放的函数在下面
 
-void GameSnake::load()
+
+
+
+
+
+
+
+// 不准乱动的函数
+
+void GameSnake::load()//下载图片
 {
     loadimage(&img_snake[0], _T("../PictureResource/GameSnake/head.png"), img_size, img_size, true);
     loadimage(&img_snake[1], _T("../PictureResource/GameSnake/body.png"), img_size, img_size, true);
@@ -289,7 +302,8 @@ void GameSnake::load()
     MapImg[WALL] = img_snake[3];
 }
 
-vector<vector<Engine::position>> GameSnake::getMap() const
+
+vector<vector<Engine::position>> GameSnake::getMap() const//重绘地图
 {
     vector<vector<int>> state = getGrid();
     vector<vector<Engine::position>> GameMap;

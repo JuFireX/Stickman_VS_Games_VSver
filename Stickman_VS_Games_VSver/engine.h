@@ -59,6 +59,8 @@ public:
     void init();
     void run();
     // 游戏引擎核心功能接口
+
+
     typedef struct position
     {
         int val;
@@ -66,5 +68,7 @@ public:
         int y;
     } position;
     std::vector<vector<position>> GameMap;
+
+    void MessageHandle();
 };
 #endif // ENGINE_H
