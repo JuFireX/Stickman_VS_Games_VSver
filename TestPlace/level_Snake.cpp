@@ -240,7 +240,16 @@ void GameSnake::display(const vector<vector<int>> &grid, int size) const
     {
         for (int j = 0; j < size; ++j)
         {
-            cout << grid[i][j] << ' ';
+            if (grid[i][j] == WALL)
+                cout << "# ";
+            else if (grid[i][j] == FOOD)
+                cout << ". ";
+            else if (grid[i][j] == SNAKE_HEAD)
+                cout << "@ ";
+            else if (grid[i][j] == SNAKE_BODY)
+                cout << "* ";
+            else
+                cout << "  ";
         }
         cout << "\n";
     }

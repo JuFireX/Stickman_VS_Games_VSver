@@ -247,7 +247,20 @@ void GameSokoban::display(const vector<vector<int>> &grid, int size) const
     {
         for (int j = 0; j < size; ++j)
         {
-            cout << grid[i][j] << ' ';
+            if (grid[i][j] == EMPTY)
+                cout << "  ";
+            else if (grid[i][j] == WALL)
+                cout << "# ";
+            else if (grid[i][j] == PLAYER)
+                cout << "@ ";
+            else if (grid[i][j] == BOX)
+                cout << "B ";
+            else if (grid[i][j] == BOX_ON_TARGET)
+                cout << "X ";
+            else if (grid[i][j] == TARGET)
+                cout << "T ";
+            else
+                cout << "  ";
         }
         cout << "\n";
     }
