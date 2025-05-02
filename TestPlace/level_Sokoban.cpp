@@ -45,7 +45,7 @@ void GameSokoban::initLevel()
         grid[5][6] = BOX;
 
         // …Ë÷√ƒø±Í
-        grid[8][2] = TARGET;
+        grid[8][1] = TARGET;
         grid[8][4] = TARGET;
         grid[8][7] = TARGET;
 
