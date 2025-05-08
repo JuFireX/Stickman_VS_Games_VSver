@@ -230,7 +230,10 @@ void Game2048::display(const vector<vector<int>> &grid, int size) const
 	{
 		for (int j = 0; j < size; ++j)
 		{
-			cout << setw(6) << grid[i][j];
+			if (grid[i][j] == 0)
+				cout << setw(6) << ".";
+			else
+				cout << setw(6) << grid[i][j];
 		}
 		cout << "\n\n";
 	}
