@@ -3,9 +3,10 @@
 int main()
 {
     Engine* engine = new Engine();
-    
-    engine->runGame();
 
+    engine->runGameSnake();
+    engine->runGame2048();
+	
     delete engine;
     std::cout << LEVEL_2048 ;
     return 0;

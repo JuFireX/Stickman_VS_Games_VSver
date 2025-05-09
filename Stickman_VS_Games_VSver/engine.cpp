@@ -11,28 +11,14 @@
 #include "engine.h"
 
 // ...
-
 using namespace std;
-
-
 Engine::Engine() {}
 
-Game2048* game=new Game2048();
+/*Game2048* game = new Game2048();
 
-
-void Engine::init()
+void Engine::render()
 {
-    bool fuck = true;
-    initgraph(width, height); // 创建画布
-    setbkcolor(WHITE);        // 设置背景色为白色
-    cleardevice();
-    loadpicture();
-}
-
-void Engine::draw()
-{
-    // 减少运行资源
-    // 绘制地图
+    GameMap = game->getMap();
     for (int i = 0; i < game->GameHigh; i++)
     {
         for (position u : GameMap[i])
@@ -43,15 +29,6 @@ void Engine::draw()
     FlushBatchDraw();
 }
 
-void Engine::loadpicture() // n为素材数量
-{
-    game->load();
-}
-void Engine::drawGameMap()
-{
-    GameMap = game->getMap();
-}
-
 void Engine::MessageHandle()
 {
     bool moveRight = false;
@@ -60,7 +37,7 @@ void Engine::MessageHandle()
     bool moveDown = false;
 
 
-    while (peekmessage(&msg)) // 用于画布显示
+    while (peekmessage(&msg))
     {
         if (msg.message == WM_KEYDOWN)
         {
@@ -87,8 +64,6 @@ void Engine::MessageHandle()
             }
         }
     }
-
-
     if (moveUp)
     {
         game->update('w');
@@ -109,7 +84,15 @@ void Engine::MessageHandle()
     {
         game->update(' ');
     }
+}
 
+void Engine::init()
+{
+    bool fuck = true;
+    initgraph(width, height); // 创建画布
+    setbkcolor(WHITE);        // 设置背景色为白色
+    cleardevice();
+    game->load();
 }
 
 void Engine::run()
@@ -120,28 +103,202 @@ void Engine::run()
     while (!game->gameOver)
     {
         
-        drawGameMap();
         cleardevice();
-        draw();
+        render();
 
 		MessageHandle();
 
-        Sleep(1000/game->GameFrame);
+        Sleep(1000/6);
 
     }
-
     EndBatchDraw();
 }
+
+
 void Engine::close()
 {
 	closegraph();
 	delete game;
-}
+}*/
 
 void Engine::runGame2048()
 {
 
-    init();
-    run();
-    close();
+    bool fuck = true;
+
+    Game2048* game = new Game2048();
+
+    //initgraph(width, height); // 创建画布
+    //setbkcolor(WHITE);        // 设置背景色为白色
+    cleardevice();
+    game->load();
+
+    game->initGame();
+    BeginBatchDraw();
+    while (!game->gameOver)
+    {
+
+        cleardevice();
+
+        GameMap = game->getMap();
+        for (int i = 0; i < game->GameHigh; i++)
+        {
+            for (position u : GameMap[i])
+            {
+                putimage(u.x, u.y, &game->MapImg[u.val]);
+            }
+        }
+        FlushBatchDraw();
+
+        bool moveRight = false;
+        bool moveLeft = false;
+        bool moveUp = false;
+        bool moveDown = false;
+
+
+        while (peekmessage(&msg))
+        {
+            if (msg.message == WM_KEYDOWN)
+            {
+                if (msg.vkcode == VK_ESCAPE)
+                {
+                    running = false;
+                    break;
+                }
+                else if (msg.vkcode == VK_UP || msg.vkcode == 'W')
+                {
+                    moveUp = true;
+                }
+                else if (msg.vkcode == VK_DOWN || msg.vkcode == 'S')
+                {
+                    moveDown = true;
+                }
+                else if (msg.vkcode == VK_LEFT || msg.vkcode == 'A')
+                {
+                    moveLeft = true;
+                }
+                else if (msg.vkcode == VK_RIGHT || msg.vkcode == 'D')
+                {
+                    moveRight = true;
+                }
+            }
+        }
+        if (moveUp)
+        {
+            game->update('w');
+        }
+        else if (moveDown)
+        {
+            game->update('s');
+        }
+        else if (moveLeft)
+        {
+            game->update('a');
+        }
+        else if (moveRight)
+        {
+            game->update('d');
+        }
+        else
+        {
+            game->update(' ');
+        }
+
+        Sleep(1000 / game->GameFrame);
+
+    }
+    EndBatchDraw();
+    closegraph();
+    delete game;
+}
+
+void Engine::runGameSnake()
+{
+    bool fuck = true;
+
+    GameSnake* game = new GameSnake();
+
+    initgraph(width, height); // 创建画布
+    setbkcolor(WHITE);        // 设置背景色为白色
+    cleardevice();
+    game->load();
+
+    game->initGame();
+    BeginBatchDraw();
+    while (!game->gameOver)
+    {
+        bool moveRight = false;
+        bool moveLeft = false;
+        bool moveUp = false;
+        bool moveDown = false;
+
+
+        while (peekmessage(&msg))
+        {
+            if (msg.message == WM_KEYDOWN)
+            {
+                if (msg.vkcode == VK_ESCAPE)
+                {
+                    running = false;
+                    break;
+                }
+                else if (msg.vkcode == VK_UP || msg.vkcode == 'W')
+                {
+                    moveUp = true;
+                }
+                else if (msg.vkcode == VK_DOWN || msg.vkcode == 'S')
+                {
+                    moveDown = true;
+                }
+                else if (msg.vkcode == VK_LEFT || msg.vkcode == 'A')
+                {
+                    moveLeft = true;
+                }
+                else if (msg.vkcode == VK_RIGHT || msg.vkcode == 'D')
+                {
+                    moveRight = true;
+                }
+            }
+        }
+        if (moveUp)
+        {
+            game->update('w');
+        }
+        if (moveDown)
+        {
+            game->update('s');
+        }
+        if (moveLeft)
+        {
+            game->update('a');
+        }
+        if (moveRight)
+        {
+            game->update('d');
+        }
+		if (!moveUp && !moveDown && !moveLeft && !moveRight)
+        {
+            game->update(' ');
+        }
+        cleardevice();
+
+        GameMap = game->getMap();
+        for (int i = 0; i < game->GameHigh; i++)
+        {
+            for (position u : GameMap[i])
+            {
+                putimage(u.x, u.y, &game->MapImg[u.val]);
+            }
+        }
+        FlushBatchDraw();
+
+        
+
+
+        Sleep(1000 / game->GameFrame);
+
+    }
+    EndBatchDraw();
+    //closegraph();
+    delete game;
 }
