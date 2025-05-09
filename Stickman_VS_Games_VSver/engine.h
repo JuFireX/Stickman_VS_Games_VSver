@@ -3,6 +3,7 @@
 #define ENGINE_H
 #include <vector>
 #include <graphics.h>
+#include<map>
 using namespace std;
 
 enum Level
@@ -29,6 +30,14 @@ enum class GameState
     GameOver
 };
 
+typedef struct position
+{
+    int val;
+    int x;
+    int y;
+} position;
+
+
 class Game
 {
 public:
@@ -38,6 +47,14 @@ public:
     virtual GameState state() const = 0;
     virtual vector<vector<int>> getGrid() const = 0;
     virtual int getScore() const = 0;
+
+    bool gameOver = false;
+    virtual void load() = 0; // 加载游戏素材
+    map<int, IMAGE> MapImg;
+    virtual vector<vector<position>> getMap() const=0;
+    int GameHigh = 0;
+    int GridSize = 0;
+    int GameFrame = 0; // 游戏刷新率
     virtual ~Game() {}
 };
 
@@ -50,7 +67,7 @@ private:
     int MapSizeX = 20, MapSizeY = 12;
     void draw();
     void drawGameMap();
-    void load();
+    void loadpicture();
     bool running = true;
     ExMessage msg = ExMessage();
 
@@ -60,15 +77,15 @@ public:
     void run();
     // 游戏引擎核心功能接口
 
-
-    typedef struct position
-    {
-        int val;
-        int x;
-        int y;
-    } position;
+    
     std::vector<vector<position>> GameMap;
 
     void MessageHandle();
+
+    void close();
+
+    void runGame2048();
+    Level level = LEVEL_2048; // 默认游戏等级 
+    // 根据需要选择不同的游戏类
 };
 #endif // ENGINE_H

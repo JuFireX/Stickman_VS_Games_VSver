@@ -24,7 +24,6 @@ private:
     vector<pair<int, int>> snake; // 蛇身体的坐标
     pair<int, int> food;          // 食物的坐标
     Direction direction = Direction::RIGHT;
-    bool gameOver = false;
     int score = 0;
     mt19937 rng;
 
@@ -55,10 +54,11 @@ public:
     GameState state() const;             // 获取游戏状态
     vector<vector<int>> getGrid() const; // 获取游戏网格
     int getScore() const;                // 获取游戏得分
+	bool gameOver = false;
 
     void load(); // 加载游戏素材
     map<int, IMAGE> MapImg;
-    vector<vector<Engine::position>> getMap() const;
+    vector<vector<position>> getMap() const;
     int GameHigh = 24;
     int GridSize = 20;
     int GameFrame = 6;

@@ -20,7 +20,7 @@ class Game2048 : public Game
 private:
 	static const int GRID_SIZE = 4;
 	int grid[GRID_SIZE][GRID_SIZE] = {0};
-	bool gameOver = false;
+
 	int score = 0;
 	mt19937 rng;
 
@@ -36,24 +36,25 @@ private:
 	void moveAndMerge(Direction dir);
 	void generateNewTile();
 	bool isGameOver() const;
-	void display(const vector<vector<int>>& grid, int size) const; // 显示游戏矩阵
+	void display(const vector<vector<int>> &grid, int size) const; // 显示游戏矩阵
 	bool processInput(char key);
 
 	IMAGE img_2048[12];
 	int img_size = 60;
 
 public:
-	Game2048(); // 构造函数
-	void initGame() override; // 初始化游戏矩阵
-	void startGame() override; // 开始游戏
-	void update(char key) override; // 根据输入更新游戏矩阵
-	GameState state() const override; // 获取游戏状态
+	Game2048();									  // 构造函数
+	void initGame() override;					  // 初始化游戏矩阵
+	void startGame() override;					  // 开始游戏
+	void update(char key) override;				  // 根据输入更新游戏矩阵
+	GameState state() const override;			  // 获取游戏状态
 	vector<vector<int>> getGrid() const override; // 获取游戏矩阵
-	int getScore() const override; // 获取游戏得分
+	int getScore() const override;				  // 获取游戏得分
 
-	void load(); // 加载游戏素材
+	bool gameOver = false;
+	void load() override; // 加载游戏素材
 	map<int, IMAGE> MapImg;
-	vector<vector<Engine::position>> getMap() const;
+	vector<vector<position>> getMap() const override;
 	int GameHigh = 24;
 	int GridSize = 4;
 	int GameFrame = 10; // 游戏刷新率

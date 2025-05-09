@@ -49,7 +49,7 @@ void GameSnake::generateFood()
 
 		// 确保食物不会生成在蛇身上
 		bool onSnake = false;
-		for (const auto& segment : snake)
+		for (const auto &segment : snake)
 		{
 			if (segment.first == y && segment.second == x)
 			{
@@ -237,7 +237,7 @@ int GameSnake::getScore() const
 }
 
 // Test methods
-void GameSnake::display(const vector<vector<int>>& grid, int size) const
+void GameSnake::display(const vector<vector<int>> &grid, int size) const
 {
 	system("cls");
 
@@ -280,10 +280,9 @@ void GameSnake::startGame()
 	}
 }
 
-
 // 不准乱动的函数
 
-void GameSnake::load() //下载图片
+void GameSnake::load() // 下载图片
 {
 	loadimage(&img_snake[0], _T("../PictureResource/GameSnake/head.png"), img_size, img_size, true);
 	loadimage(&img_snake[1], _T("../PictureResource/GameSnake/body.png"), img_size, img_size, true);
@@ -295,16 +294,15 @@ void GameSnake::load() //下载图片
 	MapImg[WALL] = img_snake[3];
 }
 
-
-vector<vector<Engine::position>> GameSnake::getMap() const //重绘地图
+vector<vector<position>> GameSnake::getMap() const // 重绘地图
 {
 	vector<vector<int>> state = getGrid();
-	vector<vector<Engine::position>> GameMap;
+	vector<vector<position>> GameMap;
 	int sizeY = 480 / 24;
 	int sizeX = 720 / 36;
 	for (int i = 0; i < 24; i++)
 	{
-		vector<Engine::position> row;
+		vector<position> row;
 		for (int j = 0; j < 36; j++)
 		{
 			row.push_back({0, j * sizeX, i * sizeY});
