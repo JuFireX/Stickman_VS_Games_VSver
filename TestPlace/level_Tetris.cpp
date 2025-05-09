@@ -10,7 +10,7 @@ void GameTetris::initGrid()
     {
         for (int j = 0; j < GRID_WIDTH; ++j)
         {
-            grid[i][j] = ' ';
+            grid[i][j] = EMPTY;
         }
     }
 }
@@ -47,7 +47,7 @@ bool GameTetris::canMoveTo(int newX, int newY)
     {
         for (int j = 0; j < TETROMINO_SIZE; ++j)
         {
-            if (currentShape[i][j] != ' ')
+            if (currentShape[i][j] != EMPTY)
             {
                 int x = newX + j;
                 int y = newY + i;
@@ -57,7 +57,7 @@ bool GameTetris::canMoveTo(int newX, int newY)
                     return false;
 
                 // 检查碰撞
-                if (y >= 0 && grid[y][x] != ' ')
+                if (y >= 0 && grid[y][x] != EMPTY)
                     return false;
             }
         }
@@ -117,7 +117,7 @@ void GameTetris::mergeTetromino()
     {
         for (int j = 0; j < TETROMINO_SIZE; ++j)
         {
-            if (currentShape[i][j] != ' ')
+            if (currentShape[i][j] != EMPTY)
             {
                 int y = tetrominoY + i;
                 int x = tetrominoX + j;
@@ -139,7 +139,7 @@ void GameTetris::clearLines()
         // 检查当前行是否已满
         for (int j = 0; j < GRID_WIDTH; ++j)
         {
-            if (grid[i][j] == ' ')
+            if (grid[i][j] == EMPTY)
             {
                 lineFull = false;
                 break;
@@ -162,7 +162,7 @@ void GameTetris::clearLines()
             // 清空顶部行
             for (int j = 0; j < GRID_WIDTH; ++j)
             {
-                grid[0][j] = ' ';
+                grid[0][j] = EMPTY;
             }
 
             // 由于行已下移，需要重新检查当前行
@@ -194,7 +194,7 @@ void GameTetris::display() const
     cout << "俄罗斯方块 - 分数: " << score << "\n\n";
 
     // 创建临时网格用于显示
-    char displayGrid[GRID_HEIGHT][GRID_WIDTH];
+    int displayGrid[GRID_HEIGHT][GRID_WIDTH];
     memcpy(displayGrid, grid, sizeof(grid));
 
     // 将当前方块添加到显示网格
@@ -202,7 +202,7 @@ void GameTetris::display() const
     {
         for (int j = 0; j < TETROMINO_SIZE; ++j)
         {
-            if (currentShape[i][j] != ' ')
+            if (currentShape[i][j] != EMPTY)
             {
                 int y = tetrominoY + i;
                 int x = tetrominoX + j;
@@ -341,9 +341,9 @@ GameState GameTetris::state() const
     return gameOver ? GameState::GameOver : GameState::Running;
 }
 
-vector<vector<char>> GameTetris::getGrid() const
+vector<vector<int>> GameTetris::getGrid() const
 {
-    vector<vector<char>> gridCopy(GRID_HEIGHT, vector<char>(GRID_WIDTH));
+    vector<vector<int>> gridCopy(GRID_HEIGHT, vector<int>(GRID_WIDTH));
     for (int i = 0; i < GRID_HEIGHT; ++i)
     {
         for (int j = 0; j < GRID_WIDTH; ++j)

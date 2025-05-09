@@ -50,5 +50,6 @@ public:
     void run2048();
     void runSokoban();
     void runSnake();
+    void runTetris();
 };
 #endif // ENGINE_H

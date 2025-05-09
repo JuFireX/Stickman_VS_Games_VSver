@@ -1,4 +1,4 @@
-// level2.h
+// level_Tetris.h
 #ifndef LEVEL_TETRIS_H
 #define LEVEL_TETRIS_H
 
@@ -11,6 +11,8 @@
 #include <iomanip>
 #include <string>
 #include <cstring>
+#define WIN32_LEAN_AND_MEAN
+#define NOMINMAX
 #include <windows.h>
 #include "engine.h"
 
@@ -21,63 +23,70 @@ class GameTetris : public Game
 private:
 	static const int GRID_WIDTH = 10;
 	static const int GRID_HEIGHT = 20;
-	char grid[GRID_HEIGHT][GRID_WIDTH];
+	int grid[GRID_HEIGHT][GRID_WIDTH];
 	int score;
 	bool gameOver;
 	mt19937 rng;
 
-	// 方块形状定义
+	// ?????????
+	static const enum {
+		EMPTY,
+		WALL,
+		BRICK
+	} MAP;
+
+	// ???????????
 	static const int TETROMINO_COUNT = 7;
 	static const int TETROMINO_SIZE = 4;
-	char tetrominos[TETROMINO_COUNT][TETROMINO_SIZE][TETROMINO_SIZE] = {
-		// I形方块
+	int tetrominos[TETROMINO_COUNT][TETROMINO_SIZE][TETROMINO_SIZE] = {
+		// I?η???
 		{
-			{' ', ' ', ' ', ' '},
-			{'I', 'I', 'I', 'I'},
-			{' ', ' ', ' ', ' '},
-			{' ', ' ', ' ', ' '}},
-		// J形方块
+			{EMPTY, EMPTY, EMPTY, EMPTY},
+			{BRICK, BRICK, BRICK, BRICK},
+			{EMPTY, EMPTY, EMPTY, EMPTY},
+			{EMPTY, EMPTY, EMPTY, EMPTY}},
+		// J?η???
 		{
-			{'J', ' ', ' ', ' '},
-			{'J', 'J', 'J', ' '},
-			{' ', ' ', ' ', ' '},
-			{' ', ' ', ' ', ' '}},
-		// L形方块
+			{BRICK, EMPTY, EMPTY, EMPTY},
+			{BRICK, BRICK, BRICK, EMPTY},
+			{EMPTY, EMPTY, EMPTY, EMPTY},
+			{EMPTY, EMPTY, EMPTY, EMPTY}},
+		// L?η???
 		{
-			{' ', ' ', 'L', ' '},
-			{'L', 'L', 'L', ' '},
-			{' ', ' ', ' ', ' '},
-			{' ', ' ', ' ', ' '}},
-		// O形方块
+			{EMPTY, EMPTY, BRICK, EMPTY},
+			{BRICK, BRICK, BRICK, EMPTY},
+			{EMPTY, EMPTY, EMPTY, EMPTY},
+			{EMPTY, EMPTY, EMPTY, EMPTY}},
+		// O?η???
 		{
-			{' ', 'O', 'O', ' '},
-			{' ', 'O', 'O', ' '},
-			{' ', ' ', ' ', ' '},
-			{' ', ' ', ' ', ' '}},
-		// S形方块
+			{EMPTY, BRICK, BRICK, EMPTY},
+			{EMPTY, BRICK, BRICK, EMPTY},
+			{EMPTY, EMPTY, EMPTY, EMPTY},
+			{EMPTY, EMPTY, EMPTY, EMPTY}},
+		// S?η???
 		{
-			{' ', 'S', 'S', ' '},
-			{'S', 'S', ' ', ' '},
-			{' ', ' ', ' ', ' '},
-			{' ', ' ', ' ', ' '}},
-		// T形方块
+			{EMPTY, BRICK, BRICK, EMPTY},
+			{BRICK, BRICK, EMPTY, EMPTY},
+			{EMPTY, EMPTY, EMPTY, EMPTY},
+			{EMPTY, EMPTY, EMPTY, EMPTY}},
+		// T?η???
 		{
-			{' ', 'T', ' ', ' '},
-			{'T', 'T', 'T', ' '},
-			{' ', ' ', ' ', ' '},
-			{' ', ' ', ' ', ' '}},
-		// Z形方块
+			{EMPTY, BRICK, EMPTY, EMPTY},
+			{BRICK, BRICK, BRICK, EMPTY},
+			{EMPTY, EMPTY, EMPTY, EMPTY},
+			{EMPTY, EMPTY, EMPTY, EMPTY}},
+		// Z?η???
 		{
-			{'Z', 'Z', ' ', ' '},
-			{' ', 'Z', 'Z', ' '},
-			{' ', ' ', ' ', ' '},
-			{' ', ' ', ' ', ' '}}};
+			{BRICK, BRICK, EMPTY, EMPTY},
+			{EMPTY, BRICK, BRICK, EMPTY},
+			{EMPTY, EMPTY, EMPTY, EMPTY},
+			{EMPTY, EMPTY, EMPTY, EMPTY}}};
 
-	// 当前方块
+	// ???????
 	int currentTetromino;
 	int tetrominoX;
 	int tetrominoY;
-	char currentShape[TETROMINO_SIZE][TETROMINO_SIZE];
+	int currentShape[TETROMINO_SIZE][TETROMINO_SIZE];
 
 	void initGrid();
 	void generateNewTetromino();
@@ -93,7 +102,7 @@ public:
 	void startGame();
 	void update(char key);
 	GameState state() const;
-	vector<vector<char>> getGrid() const;
+	vector<vector<int>> getGrid() const;
 	int getScore() const;
 };
 

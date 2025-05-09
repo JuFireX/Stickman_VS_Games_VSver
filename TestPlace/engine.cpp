@@ -7,6 +7,7 @@
 #include "level_2048.h"
 #include "level_Sokoban.h"
 #include "level_Snake.h"
+#include "level_Tetris.h"
 
 using namespace std;
 
@@ -33,6 +34,13 @@ void Engine::runSnake()
     delete game;
 }
 
+void Engine::runTetris()
+{
+    GameTetris *game = new GameTetris();
+    game->startGame();
+    delete game;
+}
+
 int main()
 {
     Engine *engine = new Engine();
@@ -43,6 +51,7 @@ int main()
         cout << "1. 2048" << endl;
         cout << "2. Sokoban" << endl;
         cout << "3. Snake" << endl;
+        cout << "4. Tetris" << endl;
         cout << "0. Exit" << endl;
         cin >> n;
         if (n == 0)
@@ -60,6 +69,9 @@ int main()
             break;
         case 3:
             engine->runSnake();
+            break;
+        case 4:
+            engine->runTetris();
             break;
         default:
             break;
