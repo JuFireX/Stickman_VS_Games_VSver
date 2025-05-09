@@ -205,7 +205,6 @@ void GameSnake::update(char key)
 {
     if (key == ' ')
     {
-        Sleep(1000 / GameFrame);
         moveSnake();
     }
     if (processInput(key))

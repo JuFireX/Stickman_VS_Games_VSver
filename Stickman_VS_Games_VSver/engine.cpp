@@ -118,27 +118,21 @@ void Engine::run()
     BeginBatchDraw();
     while (true)
     {
-        DWORD start_time = GetTickCount();
         
         drawGameMap();
         cleardevice();
         draw();
 
 		MessageHandle();
+
         /*char input = _getch();//用于命令行显示
         if (input == 'q')
             break;
         game->update(input);
         display(game->getGrid(), 4);*/
 
-        // 游戏刷新
-        DWORD end_time = GetTickCount();
-        DWORD delta_time = start_time - end_time;
-        
-        if (delta_time <= 1000 / game->GameFrame)
-        {
-            Sleep(delta_time);
-         }
+        Sleep(1000/6);
+
     }
 
     EndBatchDraw();
