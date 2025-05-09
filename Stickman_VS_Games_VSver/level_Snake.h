@@ -61,7 +61,7 @@ public:
     vector<vector<position>> getMap() const;
     int GameHigh = 24;
     int GridSize = 20;
-    int GameFrame = 6;
+    int GameFrame = 3;
 };
 
 #endif // LEVEL_SNAKE_H
