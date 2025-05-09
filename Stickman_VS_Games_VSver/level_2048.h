@@ -20,7 +20,7 @@ class Game2048 : public Game
 private:
 	static const int GRID_SIZE = 4;
 	int grid[GRID_SIZE][GRID_SIZE] = {0};
-	
+
 	int score = 0;
 	mt19937 rng;
 
@@ -43,13 +43,13 @@ private:
 	int img_size = 60;
 
 public:
-	Game2048();		  // 构造函数
-	void initGame()override;  // 初始化游戏矩阵
-	void startGame()override; // 开始游戏
-	void update(char key)override;				 // 根据输入更新游戏矩阵
-	GameState state() const override;			 // 获取游戏状态
+	Game2048();									  // 构造函数
+	void initGame() override;					  // 初始化游戏矩阵
+	void startGame() override;					  // 开始游戏
+	void update(char key) override;				  // 根据输入更新游戏矩阵
+	GameState state() const override;			  // 获取游戏状态
 	vector<vector<int>> getGrid() const override; // 获取游戏矩阵
-	int getScore() const;// 获取游戏得分
+	int getScore() const override;				  // 获取游戏得分
 
 	bool gameOver = false;
 	void load() override; // 加载游戏素材
@@ -57,7 +57,7 @@ public:
 	vector<vector<position>> getMap() const override;
 	int GameHigh = 24;
 	int GridSize = 4;
-	int GameFrame= 10; // 游戏刷新率
+	int GameFrame = 10; // 游戏刷新率
 };
 
 #endif // LEVEL_2048_H

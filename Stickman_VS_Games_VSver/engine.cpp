@@ -31,11 +31,10 @@ void Engine::render()
 
 void Engine::MessageHandle()
 {
-    bool moveRight = false;
-    bool moveLeft = false;
-    bool moveUp = false;
-    bool moveDown = false;
-
+	bool moveRight = false;
+	bool moveLeft = false;
+	bool moveUp = false;
+	bool moveDown = false;
 
     while (peekmessage(&msg))
     {
@@ -89,8 +88,8 @@ void Engine::MessageHandle()
 void Engine::init()
 {
     bool fuck = true;
-    initgraph(width, height); // ´´½¨»­²¼
-    setbkcolor(WHITE);        // ÉèÖÃ±³¾°É«Îª°×É«
+    initgraph(width, height); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    setbkcolor(WHITE);        // ï¿½ï¿½ï¿½Ã±ï¿½ï¿½ï¿½É«Îªï¿½ï¿½É«
     cleardevice();
     game->load();
 }
@@ -128,8 +127,8 @@ void Engine::runGame2048()
 
     Game2048* game = new Game2048();
 
-    //initgraph(width, height); // ´´½¨»­²¼
-    //setbkcolor(WHITE);        // ÉèÖÃ±³¾°É«Îª°×É«
+    //initgraph(width, height); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    //setbkcolor(WHITE);        // ï¿½ï¿½ï¿½Ã±ï¿½ï¿½ï¿½É«Îªï¿½ï¿½É«
     cleardevice();
     game->load();
 
@@ -218,8 +217,8 @@ void Engine::runGameSnake()
 
     GameSnake* game = new GameSnake();
 
-    initgraph(width, height); // ´´½¨»­²¼
-    setbkcolor(WHITE);        // ÉèÖÃ±³¾°É«Îª°×É«
+    initgraph(width, height); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    setbkcolor(WHITE);        // ï¿½ï¿½ï¿½Ã±ï¿½ï¿½ï¿½É«Îªï¿½ï¿½É«
     cleardevice();
     game->load();
 
