@@ -302,15 +302,15 @@ void GameSnake::load()//下载图片
 }
 
 
-vector<vector<Engine::position>> GameSnake::getMap() const//重绘地图
+vector<vector<position>> GameSnake::getMap() const//重绘地图
 {
     vector<vector<int>> state = getGrid();
-    vector<vector<Engine::position>> GameMap;
+    vector<vector<position>> GameMap;
     int sizeY = 480 / 24;
     int sizeX = 720 / 36;
     for (int i = 0; i < 24; i++)
     {
-        vector<Engine::position> row;
+        vector<position> row;
         for (int j = 0; j < 36; j++)
         {
             row.push_back({0, j * sizeX, i * sizeY});

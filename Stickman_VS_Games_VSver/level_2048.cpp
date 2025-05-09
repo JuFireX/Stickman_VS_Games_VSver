@@ -277,15 +277,6 @@ void Engine::run()
 */
 
 
-
-
-
-
-
-
-
-
-
 void Game2048::load()
 {
 	loadimage(&img_2048[0], _T("../PictureResource/Game2048/0.png"), img_size, img_size, true);
@@ -314,15 +305,15 @@ void Game2048::load()
 	MapImg[2048] = img_2048[11];
 }
 
-vector<vector<Engine::position>> Game2048::getMap() const
+vector<vector<position>> Game2048::getMap() const
 {
 	vector<vector<int>> state = getGrid();
-	vector<vector<Engine::position>> GameMap;
+	vector<vector<position>> GameMap;
 	int sizeY = 480 / 24;
 	int sizeX = 720 / 36;
 	for (int i = 0; i < 24; i++)
 	{
-		vector<Engine::position> row;
+		vector<position> row;
 		for (int j = 0; j < 36; j++)
 		{
 			row.push_back({-1, j * sizeX, i * sizeY});

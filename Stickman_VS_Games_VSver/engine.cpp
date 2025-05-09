@@ -1,5 +1,4 @@
 // engine.cpp
-//WARNING:私人代码勿碰
 
 #include <memory>
 #include <vector>
@@ -15,10 +14,11 @@
 
 using namespace std;
 
-//Game2048* game = new Game2048();
-GameSnake *game = new GameSnake();
 
 Engine::Engine() {}
+
+Game2048* game=new Game2048();
+
 
 void Engine::init()
 {
@@ -26,7 +26,7 @@ void Engine::init()
     initgraph(width, height); // 创建画布
     setbkcolor(WHITE);        // 设置背景色为白色
     cleardevice();
-    load();
+    loadpicture();
 }
 
 void Engine::draw()
@@ -43,7 +43,7 @@ void Engine::draw()
     FlushBatchDraw();
 }
 
-void Engine::load() // n为素材数量
+void Engine::loadpicture() // n为素材数量
 {
     game->load();
 }
@@ -114,9 +114,10 @@ void Engine::MessageHandle()
 
 void Engine::run()
 {
+    
     game->initGame();
     BeginBatchDraw();
-    while (true)
+    while (!game->gameOver)
     {
         
         drawGameMap();
@@ -125,15 +126,22 @@ void Engine::run()
 
 		MessageHandle();
 
-        /*char input = _getch();//用于命令行显示
-        if (input == 'q')
-            break;
-        game->update(input);
-        display(game->getGrid(), 4);*/
-
-        Sleep(1000/6);
+        Sleep(1000/game->GameFrame);
 
     }
 
     EndBatchDraw();
+}
+void Engine::close()
+{
+	closegraph();
+	delete game;
+}
+
+void Engine::runGame2048()
+{
+
+    init();
+    run();
+    close();
 }
