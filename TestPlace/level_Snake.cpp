@@ -119,8 +119,8 @@ bool GameSnake::moveSnake()
         return false;
     }
 
-    // 检查是否撞到自己
-    for (size_t i = 0; i < snake.size(); ++i)
+    // 检查是否撞到自己（从第1个身体部分开始检查，跳过蛇头）
+    for (size_t i = 1; i < snake.size(); ++i)
     {
         if (snake[i].first == headY && snake[i].second == headX)
         {
