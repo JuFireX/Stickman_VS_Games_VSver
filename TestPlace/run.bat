@@ -1,1 +1,9 @@
-g++ -Wall -Wextra -g3 engine.cpp level_2048.cpp level_Snake.cpp level_Sokoban.cpp level_Tetris.cpp -o output/engine.exe
+g++ -Wall -Wextra -g3 *.cpp -o output/engine.exe
+if %errorlevel% neq 0 goto end
+@echo off
+cd output
+cls
+@echo on
+engine.exe
+:end
+pause
