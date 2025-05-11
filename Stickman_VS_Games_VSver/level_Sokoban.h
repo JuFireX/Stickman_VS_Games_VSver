@@ -23,7 +23,6 @@ private:
     int boxCount = 0;
     int targetCount = 0;
     int level = 1;
-    bool gameOver = false;
     bool gameWon = false;
 
     // 定义地图元素
@@ -42,6 +41,8 @@ private:
     void display(const vector<vector<int>> &grid, int size) const; // 显示游戏矩阵
     bool processInput(char key);                                   // 处理用户输入
 
+    IMAGE img_Sokoban[12];
+    int img_size = 40;                                             // 加载关卡
 public:
     GameSokoban();                       // 构造函数
     void initGame();                     // 初始化游戏矩阵
@@ -49,7 +50,16 @@ public:
     void update(char key);               // 根据输入更新游戏矩阵
     GameState state() const;             // 获取游戏状态
     vector<vector<int>> getGrid() const; // 获取游戏矩阵
-    int getScore() const;                // 获取游戏得分
+    int getScore() const;
+    // 获取游戏得分
+
+    bool gameOver = false;
+    map<int, IMAGE> MapImg;
+	void load(); // 加载游戏素材
+    vector<vector<position>> getMap() const;
+    int GameHigh = 12;
+    int GridSize = 40;
+    int GameFrame = 10; // 游戏刷新率
 };
 
 #endif // LEVEL_SOKOBAN_H

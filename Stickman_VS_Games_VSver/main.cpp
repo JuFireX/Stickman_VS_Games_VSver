@@ -6,8 +6,9 @@ int main()
 
     engine->runGameSnake();
     engine->runGame2048();
-	
+    engine->runGameSokoban();
     delete engine;
+
     std::cout << LEVEL_2048 ;
     return 0;
 }

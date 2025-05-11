@@ -64,21 +64,15 @@ private:
     IMAGE MapImg[200];
     int width = 720, height = 480;
     int MapSizeX = 20, MapSizeY = 12;
-    void render();
     bool running = true;
     ExMessage msg = ExMessage();
+	inline void putimage_alpha(int x,int y,IMAGE* img);
 public:
     Engine();
-	void init();
-    void initGame(Level level);
-    void run();
-
     // 游戏引擎核心功能接口
     vector<vector<position>> GameMap;
-    void MessageHandle();
-    void close();
-
     void runGame2048();
 	void runGameSnake();
+	void runGameSokoban();
 };
 #endif // ENGINE_H
