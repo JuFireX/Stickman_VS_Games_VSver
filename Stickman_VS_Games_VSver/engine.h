@@ -74,5 +74,6 @@ public:
     void runGame2048();
 	void runGameSnake();
 	void runGameSokoban();
+	void runGameTetris();
 };
 #endif // ENGINE_H

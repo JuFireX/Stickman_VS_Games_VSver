@@ -336,6 +336,7 @@ void GameTetris::update(char key)
     }
 }
 
+
 GameState GameTetris::state() const
 {
     return gameOver ? GameState::GameOver : GameState::Running;
@@ -357,4 +358,40 @@ vector<vector<int>> GameTetris::getGrid() const
 int GameTetris::getScore() const
 {
     return score;
+}
+
+//以下为渲染部分
+void GameTetris::load()
+{
+	loadimage(&img_Tetris[0], _T("../PictureResource/GameTetris/wall.png"), img_size, img_size, true);
+	loadimage(&img_Tetris[1], _T("../PictureResource/GameTetris/brick.png"), img_size, img_size, true);
+	MapImg[WALL] = img_Tetris[0];
+	MapImg[BRICK] = img_Tetris[1];
+}
+vector<vector<position>> GameTetris::getMap() const // 重绘地图
+{
+    vector<vector<int>> state = getGrid();
+    vector<vector<position>> GameMap;
+    int sizeY = 480 / 24;
+    int sizeX = 720 / 36;
+    for (int i = 0; i < 24; i++)
+    {
+        vector<position> row;
+        for (int j = 0; j < 36; j++)
+        {
+            row.push_back({ 0, j * sizeX, i * sizeY });
+        }
+        GameMap.push_back(row);
+    }
+    for (int i = 0; i < GRID_HEIGHT; i++)
+    {
+        for (int j = 0; j < GRID_WIDTH; j++)
+        {
+            if (state[i][j] != EMPTY)
+            {
+                GameMap[i][j].val = state[i][j];
+            }
+        }
+    }
+    return GameMap;
 }

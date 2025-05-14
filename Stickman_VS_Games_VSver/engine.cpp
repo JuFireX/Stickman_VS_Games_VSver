@@ -12,6 +12,7 @@
 #include "engine.h"
 #include <windows.h>
 #include <wingdi.h>
+#include "level_Tetris.h"
 
 // ...
 using namespace std;
@@ -389,6 +390,124 @@ void Engine::runGameSokoban()
         cleardevice();
 
         GameMap = game->getMap();
+        for (int i = 0; i < game->GameHigh; i++)
+        {
+            for (position u : GameMap[i])
+            {
+                putimage_alpha(u.x, u.y, &game->MapImg[u.val]);
+            }
+        }
+        FlushBatchDraw();
+
+        Sleep(1000 / game->GameFrame);
+
+    }
+    EndBatchDraw();
+    closegraph();
+    delete game;
+}
+
+void Engine::runGameTetris()
+{
+    bool fuck = true;
+
+    GameTetris* game = new GameTetris();
+
+    initgraph(width, height); // ��������
+    setbkcolor(WHITE);        // ���ñ���ɫΪ��ɫ
+    cleardevice();
+    game->load();
+    game->initGame();
+
+    int fallSpeed = 500; // 初始下落速度（毫秒）
+    int lastFallTime = GetTickCount();
+
+    BeginBatchDraw();
+    while (!game->gameOver)
+    {
+        bool moveRight = false;
+        bool moveLeft = false;
+        bool moveUp = false;
+        bool moveDown = false;
+
+
+        while (peekmessage(&msg))
+        {
+            if (msg.message == WM_KEYDOWN)
+            {
+                if (msg.vkcode == VK_ESCAPE)
+                {
+                    running = false;
+                    break;
+                }
+                else if (msg.vkcode == VK_UP || msg.vkcode == 'W')
+                {
+                    moveUp = true;
+                }
+                else if (msg.vkcode == VK_DOWN || msg.vkcode == 'S')
+                {
+                    moveDown = true;
+                }
+                else if (msg.vkcode == VK_LEFT || msg.vkcode == 'A')
+                {
+                    moveLeft = true;
+                }
+                else if (msg.vkcode == VK_RIGHT || msg.vkcode == 'D')
+                {
+                    moveRight = true;
+                }
+            }
+        }
+        if (moveUp)
+        {
+            game->update('w');
+        }
+        if (moveDown)
+        {
+            game->update('s');
+        }
+        if (moveLeft)
+        {
+            game->update('a');
+        }
+        if (moveRight)
+        {
+            game->update('d');
+        }
+        if (!moveUp && !moveDown && !moveLeft && !moveRight)
+        {
+            game->update(' ');
+        }
+        cleardevice();
+
+        GameMap = game->getMap();
+        for (int i = 0; i < game->GameHigh; i++)
+        {
+            for (position u : GameMap[i])
+            {
+                putimage_alpha(u.x, u.y, &game->MapImg[u.val]);
+            }
+        }
+        int currentTime = GetTickCount();
+        if (currentTime - lastFallTime >= fallSpeed)
+        {
+            lastFallTime = currentTime;
+
+            if (game->canMoveTo(game->tetrominoX, game->tetrominoY + 1))
+            {
+                game->tetrominoY++;
+            }
+            else
+            {
+                // 无法下落，固定方块
+                game->mergeTetromino();
+                game->clearLines();
+                game->generateNewTetromino();
+
+                // 根据分数调整下落速度
+                fallSpeed = max(100, 500 - (game->getScore() / 1000) * 50);
+            }
+        }
         for (int i = 0; i < game->GameHigh; i++)
         {
             for (position u : GameMap[i])

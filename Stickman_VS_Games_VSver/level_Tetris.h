@@ -25,7 +25,6 @@ private:
 	static const int GRID_HEIGHT = 20;
 	int grid[GRID_HEIGHT][GRID_WIDTH];
 	int score;
-	bool gameOver;
 	mt19937 rng;
 
 	// 定义地图元素类型
@@ -84,18 +83,16 @@ private:
 
 	// 当前方块信息
 	int currentTetromino;
-	int tetrominoX;
-	int tetrominoY;
+	
 	int currentShape[TETROMINO_SIZE][TETROMINO_SIZE];
 
 	void initGrid();
-	void generateNewTetromino();
-	bool canMoveTo(int newX, int newY);
-	void rotateTetromino();
-	void mergeTetromino();
-	void clearLines();
+	
+	
 	void display() const;
 
+	IMAGE img_Tetris[12];
+	int img_size = 20;
 public:
 	GameTetris();
 	void initGame();
@@ -104,6 +101,23 @@ public:
 	GameState state() const;
 	vector<vector<int>> getGrid() const;
 	int getScore() const;
+
+	bool gameOver = false;
+	map<int, IMAGE> MapImg;
+	void load(); // 加载游戏素材
+	vector<vector<position>> getMap() const;
+	int GameHigh = 24;
+	//int GridSize = 40;
+	int GameFrame = 3; // 游戏刷新率
+
+	void generateNewTetromino();
+	bool canMoveTo(int newX, int newY);
+	void rotateTetromino();
+	void mergeTetromino();
+
+	int tetrominoX;
+	int tetrominoY;
+	void clearLines();
 };
 
 #endif
