@@ -1,7 +1,10 @@
-// level_Tetris.cpp
+#include <windows.h>
+#include <iostream>
 #include "level_Tetris.h"
 
 GameTetris::GameTetris() : rng(time(nullptr)) {}
+
+// Private methods
 
 void GameTetris::initGrid()
 {
@@ -188,55 +191,33 @@ void GameTetris::clearLines()
     }
 }
 
-void GameTetris::display() const
+void GameTetris::display(const vector<vector<int>> &grid, int size) const
 {
     system("cls");
-    cout << "俄罗斯方块 - 分数: " << score << "\n\n";
-
-    // 创建临时网格用于显示
-    int displayGrid[GRID_HEIGHT][GRID_WIDTH];
-    memcpy(displayGrid, grid, sizeof(grid));
-
-    // 将当前方块添加到显示网格
-    for (int i = 0; i < TETROMINO_SIZE; ++i)
-    {
-        for (int j = 0; j < TETROMINO_SIZE; ++j)
-        {
-            if (currentShape[i][j] != EMPTY)
-            {
-                int y = tetrominoY + i;
-                int x = tetrominoX + j;
-                if (y >= 0 && y < GRID_HEIGHT && x >= 0 && x < GRID_WIDTH)
-                    displayGrid[y][x] = currentShape[i][j];
-            }
-        }
-    }
-
-    // 显示边框和网格
-    cout << "+";
-    for (int j = 0; j < GRID_WIDTH; ++j)
-        cout << "-";
-    cout << "+\n";
 
     for (int i = 0; i < GRID_HEIGHT; ++i)
     {
-        cout << "|";
         for (int j = 0; j < GRID_WIDTH; ++j)
         {
-            cout << displayGrid[i][j];
+            if (grid[i][j] == WALL)
+                cout << "# ";
+            else if (grid[i][j] == BRICK)
+                cout << "* ";
+            else
+                cout << "  ";
         }
-        cout << "|\n";
+        cout << "\n";
     }
 
-    cout << "+";
-    for (int j = 0; j < GRID_WIDTH; ++j)
-        cout << "-";
-    cout << "+\n\n";
-
-    cout << "控制: A/D - 左/右移动, W - 旋转, S - 加速下落, ESC - 退出\n";
+    cout << "WASD to move, Q to quit." << endl;
     if (gameOver)
-        cout << "\n游戏结束! 最终分数: " << score << "\n";
+    {
+        cout << "\nGame Over!\n"
+             << endl;
+    }
 }
+
+// Public methods
 
 void GameTetris::initGame()
 {
@@ -249,10 +230,7 @@ void GameTetris::initGame()
 void GameTetris::startGame()
 {
     initGame();
-    display();
-
-    int fallSpeed = 500; // 初始下落速度（毫秒）
-    int lastFallTime = GetTickCount();
+    display(getGrid(), GRID_HEIGHT);
 
     while (!gameOver)
     {
@@ -260,61 +238,24 @@ void GameTetris::startGame()
         if (_kbhit())
         {
             char input = _getch();
-            if (input == 27) // ESC键
+            if (input == 'q')
                 break;
 
-            switch (input)
-            {
-            case 'a': // 左移
-                if (canMoveTo(tetrominoX - 1, tetrominoY))
-                    tetrominoX--;
-                break;
-            case 'd': // 右移
-                if (canMoveTo(tetrominoX + 1, tetrominoY))
-                    tetrominoX++;
-                break;
-            case 'w': // 旋转
-                rotateTetromino();
-                break;
-            case 's': // 加速下落
-                if (canMoveTo(tetrominoX, tetrominoY + 1))
-                    tetrominoY++;
-                break;
-            }
-
-            display();
+            update(input);
+            display(getGrid(), GRID_HEIGHT);
         }
-
-        // 自动下落
-        int currentTime = GetTickCount();
-        if (currentTime - lastFallTime >= fallSpeed)
+        // 自更新
+        else
         {
-            lastFallTime = currentTime;
-
-            if (canMoveTo(tetrominoX, tetrominoY + 1))
-            {
-                tetrominoY++;
-            }
-            else
-            {
-                // 无法下落，固定方块
-                mergeTetromino();
-                clearLines();
-                generateNewTetromino();
-
-                // 根据分数调整下落速度
-                fallSpeed = max(100, 500 - (score / 1000) * 50);
-            }
-
-            display();
+            update(' ');
+            display(getGrid(), GRID_HEIGHT);
         }
 
-        // 短暂休眠以减少CPU使用
-        Sleep(30);
+        Sleep(200);
     }
 }
 
-void GameTetris::update(char key)
+bool GameTetris::processInput(char key)
 {
     switch (key)
     {
@@ -333,6 +274,31 @@ void GameTetris::update(char key)
         if (canMoveTo(tetrominoX, tetrominoY + 1))
             tetrominoY++;
         break;
+    case ' ':
+        break;
+    default:
+        return false;
+    }
+
+    return true;
+}
+
+void GameTetris::update(char key)
+{
+    if (processInput(key))
+    {
+        // 自动下落逻辑
+        if (canMoveTo(tetrominoX, tetrominoY + 1))
+        {
+            tetrominoY++;
+        }
+        else
+        {
+            // 无法下落，固定方块
+            mergeTetromino();
+            clearLines();
+            generateNewTetromino();
+        }
     }
 }
 
@@ -352,6 +318,22 @@ vector<vector<int>> GameTetris::getGrid() const
             gridCopy[i][j] = grid[i][j];
         }
     }
+
+    // 将当前方块添加到显示网格
+    for (int i = 0; i < TETROMINO_SIZE; ++i)
+    {
+        for (int j = 0; j < TETROMINO_SIZE; ++j)
+        {
+            if (currentShape[i][j] != EMPTY)
+            {
+                int y = tetrominoY + i;
+                int x = tetrominoX + j;
+                if (y >= 0 && y < GRID_HEIGHT && x >= 0 && x < GRID_WIDTH)
+                    gridCopy[y][x] = currentShape[i][j];
+            }
+        }
+    }
+
     return gridCopy;
 }
 

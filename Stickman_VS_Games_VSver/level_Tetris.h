@@ -1,4 +1,3 @@
-// level_Tetris.h
 #ifndef LEVEL_TETRIS_H
 #define LEVEL_TETRIS_H
 
@@ -11,113 +10,99 @@
 #include <iomanip>
 #include <string>
 #include <cstring>
-#define WIN32_LEAN_AND_MEAN
-#define NOMINMAX
-#include <windows.h>
 #include "engine.h"
 
 using namespace std;
 
 class GameTetris : public Game
 {
+
 private:
 	static const int GRID_WIDTH = 10;
 	static const int GRID_HEIGHT = 20;
-	int grid[GRID_HEIGHT][GRID_WIDTH];
-	int score;
+	int grid[GRID_HEIGHT][GRID_WIDTH] = {0};
+	int score = 0;
+	bool gameOver = false;
 	mt19937 rng;
 
-	// ¶¨ÒåµØÍ¼ÔªËØÀàÐÍ
+	// ï¿½ï¿½ï¿½ï¿½ï¿½Í¼Ôªï¿½ï¿½
 	static const enum {
 		EMPTY,
 		WALL,
 		BRICK
 	} MAP;
 
-	// ¶¨Òå²»Í¬µÄ¶íÂÞË¹·½¿éÊýÁ¿ºÍ´óÐ¡
+	// ï¿½ï¿½ï¿½å²»Í¬ï¿½Ä¶ï¿½ï¿½ï¿½Ë¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Í´ï¿½Ð¡
 	static const int TETROMINO_COUNT = 7;
 	static const int TETROMINO_SIZE = 4;
 	int tetrominos[TETROMINO_COUNT][TETROMINO_SIZE][TETROMINO_SIZE] = {
-		// IÐÍ·½¿é
+		// Iï¿½Í·ï¿½ï¿½ï¿½
 		{
 			{EMPTY, EMPTY, EMPTY, EMPTY},
 			{BRICK, BRICK, BRICK, BRICK},
 			{EMPTY, EMPTY, EMPTY, EMPTY},
 			{EMPTY, EMPTY, EMPTY, EMPTY}},
-		// JÐÍ·½¿é
+		// Jï¿½Í·ï¿½ï¿½ï¿½
 		{
 			{BRICK, EMPTY, EMPTY, EMPTY},
 			{BRICK, BRICK, BRICK, EMPTY},
 			{EMPTY, EMPTY, EMPTY, EMPTY},
 			{EMPTY, EMPTY, EMPTY, EMPTY}},
-		// LÐÍ·½¿é
+		// Lï¿½Í·ï¿½ï¿½ï¿½
 		{
 			{EMPTY, EMPTY, BRICK, EMPTY},
 			{BRICK, BRICK, BRICK, EMPTY},
 			{EMPTY, EMPTY, EMPTY, EMPTY},
 			{EMPTY, EMPTY, EMPTY, EMPTY}},
-		// OÐÍ·½¿é
+		// Oï¿½Í·ï¿½ï¿½ï¿½
 		{
 			{EMPTY, BRICK, BRICK, EMPTY},
 			{EMPTY, BRICK, BRICK, EMPTY},
 			{EMPTY, EMPTY, EMPTY, EMPTY},
 			{EMPTY, EMPTY, EMPTY, EMPTY}},
-		// SÐÍ·½¿é
+		// Sï¿½Í·ï¿½ï¿½ï¿½
 		{
 			{EMPTY, BRICK, BRICK, EMPTY},
 			{BRICK, BRICK, EMPTY, EMPTY},
 			{EMPTY, EMPTY, EMPTY, EMPTY},
 			{EMPTY, EMPTY, EMPTY, EMPTY}},
-		// TÐÍ·½¿é
+		// Tï¿½Í·ï¿½ï¿½ï¿½
 		{
 			{EMPTY, BRICK, EMPTY, EMPTY},
 			{BRICK, BRICK, BRICK, EMPTY},
 			{EMPTY, EMPTY, EMPTY, EMPTY},
 			{EMPTY, EMPTY, EMPTY, EMPTY}},
-		// ZÐÍ·½¿é
+		// Zï¿½Í·ï¿½ï¿½ï¿½
 		{
 			{BRICK, BRICK, EMPTY, EMPTY},
 			{EMPTY, BRICK, BRICK, EMPTY},
 			{EMPTY, EMPTY, EMPTY, EMPTY},
 			{EMPTY, EMPTY, EMPTY, EMPTY}}};
 
-	// µ±Ç°·½¿éÐÅÏ¢
+	// ï¿½ï¿½Ç°ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
 	int currentTetromino;
 	
 	int currentShape[TETROMINO_SIZE][TETROMINO_SIZE];
 
 	void initGrid();
-	
-	
-	void display() const;
-
-	IMAGE img_Tetris[12];
-	int img_size = 20;
-public:
-	GameTetris();
-	void initGame();
-	void startGame();
-	void update(char key);
-	GameState state() const;
-	vector<vector<int>> getGrid() const;
-	int getScore() const;
-
-	bool gameOver = false;
-	map<int, IMAGE> MapImg;
-	void load(); // ¼ÓÔØÓÎÏ·ËØ²Ä
-	vector<vector<position>> getMap() const;
-	int GameHigh = 24;
-	//int GridSize = 40;
-	int GameFrame = 3; // ÓÎÏ·Ë¢ÐÂÂÊ
-
 	void generateNewTetromino();
 	bool canMoveTo(int newX, int newY);
 	void rotateTetromino();
 	void mergeTetromino();
-
-	int tetrominoX;
-	int tetrominoY;
 	void clearLines();
+	void display(const vector<vector<int>> &grid, int size) const; // ï¿½ï¿½Ê¾ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½
+	bool processInput(char key);								   // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+
+	IMAGE img_Tetris[12];
+	int img_size = 20;
+public:
+	GameTetris();						 // ï¿½ï¿½ï¿½ìº¯ï¿½ï¿½
+	void initGame();					 // ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½Ï·
+	void startGame();					 // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï·
+	void update(char key);				 // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï·×´Ì¬
+	GameState state() const;			 // ï¿½ï¿½È¡ï¿½ï¿½Ï·×´Ì¬
+	vector<vector<int>> getGrid() const; // ï¿½ï¿½È¡ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½
+	int getScore() const;				 // ï¿½ï¿½È¡ï¿½ï¿½Ï·ï¿½Ã·ï¿½
 };
 
 #endif
