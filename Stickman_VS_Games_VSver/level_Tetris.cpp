@@ -371,9 +371,23 @@ vector<vector<position>> GameTetris::getMap() const // 重绘地图
         {
             if (state[i][j] != EMPTY)
             {
-                GameMap[i][j].val = state[i][j];
+                GameMap[i][12+j].val = state[i][j];
             }
         }
+    }
+    for (int i = 0; i < 12; i++)
+    {
+        for (int j = 11; j < 24; j++)
+        {
+                GameMap[j][i].val = WALL;
+        }
+		    
+    }
+
+    for (int i = 22; i < 36; i++)
+    {
+        for (int j = 11; j < 24; j++)
+            GameMap[j][i].val = WALL;
     }
     return GameMap;
 }

@@ -19,10 +19,9 @@ class GameTetris : public Game
 
 private:
 	static const int GRID_WIDTH = 10;
-	static const int GRID_HEIGHT = 20;
+	static const int GRID_HEIGHT = 24;
 	int grid[GRID_HEIGHT][GRID_WIDTH] = {0};
 	int score = 0;
-	bool gameOver = false;
 	mt19937 rng;
 
 	// �����ͼԪ��
@@ -102,7 +101,16 @@ public:
 	void update(char key);				 // �������������Ϸ״̬
 	GameState state() const;			 // ��ȡ��Ϸ״̬
 	vector<vector<int>> getGrid() const; // ��ȡ��Ϸ����
-	int getScore() const;				 // ��ȡ��Ϸ�÷�
+	int getScore() const;	// ��ȡ��Ϸ�÷�
+
+	int tetrominoX = 0, tetrominoY = 0; // ��ǰ�����λ��
+	bool gameOver = false;
+	void load(); // 加载游戏素材
+	map<int, IMAGE> MapImg;
+	vector<vector<position>> getMap() const;
+	int GameHigh = 24;
+	int GridSize = 20;
+	int GameFrame = 6;
 };
 
 #endif
