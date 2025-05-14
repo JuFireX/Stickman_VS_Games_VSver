@@ -1,4 +1,3 @@
-// level_Tetris.h
 #ifndef LEVEL_TETRIS_H
 #define LEVEL_TETRIS_H
 
@@ -11,24 +10,22 @@
 #include <iomanip>
 #include <string>
 #include <cstring>
-#define WIN32_LEAN_AND_MEAN
-#define NOMINMAX
-#include <windows.h>
 #include "engine.h"
 
 using namespace std;
 
 class GameTetris : public Game
 {
+
 private:
 	static const int GRID_WIDTH = 10;
 	static const int GRID_HEIGHT = 20;
-	int grid[GRID_HEIGHT][GRID_WIDTH];
-	int score;
-	bool gameOver;
+	int grid[GRID_HEIGHT][GRID_WIDTH] = {0};
+	int score = 0;
+	bool gameOver = false;
 	mt19937 rng;
 
-	// 定义地图元素类型
+	// 定义地图元素
 	static const enum {
 		EMPTY,
 		WALL,
@@ -94,16 +91,17 @@ private:
 	void rotateTetromino();
 	void mergeTetromino();
 	void clearLines();
-	void display() const;
+	void display(const vector<vector<int>> &grid, int size) const; // 显示游戏矩阵
+	bool processInput(char key);								   // 处理输入
 
 public:
-	GameTetris();
-	void initGame();
-	void startGame();
-	void update(char key);
-	GameState state() const;
-	vector<vector<int>> getGrid() const;
-	int getScore() const;
+	GameTetris();						 // 构造函数
+	void initGame();					 // 初始化游戏
+	void startGame();					 // 启动游戏
+	void update(char key);				 // 根据输入更新游戏状态
+	GameState state() const;			 // 获取游戏状态
+	vector<vector<int>> getGrid() const; // 获取游戏网格
+	int getScore() const;				 // 获取游戏得分
 };
 
 #endif
