@@ -1,1 +1,1 @@
-在 C:\Users\27950\Desktop\学习资料\计算机编程\Stickman_VS_Games_VSver 中找不到 CMakeLists.txt 选择 CMakeLists.txt
+在 F:\Code Projects\Stickman_VS_Games_VSver 中找不到 CMakeLists.txt 选择 CMakeLists.txt

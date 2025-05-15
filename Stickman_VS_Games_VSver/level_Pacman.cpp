@@ -1,33 +1,33 @@
 #include <windows.h>
 #include <iostream>
 #include "level_Pacman.h"
-GamePacman::GamePacman() : rng(time(nullptr))
-{
-}
+
+GamePacman::GamePacman() : rng(time(nullptr)) {}
+
 void GamePacman::initGrid()
 {
+    // 地图
     int map[20][20] = {
-            {WALLLL, WALLLL, WALLLL, WALLLL, WALLLL, WALLLL, WALLLL, WALLLL, WALLLL, WALLLL, WALLLL, WALLLL, WALLLL, WALLLL, WALLLL, WALLLL, WALLLL, WALLLL, WALLLL, WALLLL},
-            {WALLLL, PELLET, PELLET, PELLET, PELLET, PELLET, PELLET, PELLET, PELLET, WALLLL, WALLLL, WALLLL, WALLLL, WALLLL, WALLLL, PELLET, PELLET, PELLET, PELLET, WALLLL},
-            {WALLLL, PELLET, WALLLL, PELLET, WALLLL, WALLLL, WALLLL, WALLLL, PELLET, WALLLL, WALLLL, WALLLL, WALLLL, WALLLL, WALLLL, PELLET, WALLLL, WALLLL, PELLET, WALLLL},
-            {WALLLL, PELLET, WALLLL, PELLET, WALLLL, WALLLL, WALLLL, WALLLL, PELLET, PELLET, PELLET, PELLET, PELLET, PELLET, PELLET, PELLET, PELLET, WALLLL, PELLET, WALLLL},
-            {WALLLL, PELLET, WALLLL, PELLET, PELLET, PELLET, PELLET, PELLET, PELLET, WALLLL, WALLLL, PELLET, WALLLL, WALLLL, WALLLL, WALLLL, PELLET, PELLET, PELLET, WALLLL},
-            {WALLLL, PELLET, WALLLL, PELLET, WALLLL, WALLLL, WALLLL, WALLLL, PELLET, WALLLL, WALLLL, PELLET, WALLLL, WALLLL, WALLLL, WALLLL, PELLET, WALLLL, WALLLL, WALLLL},
-            {WALLLL, PELLET, PELLET, PELLET, WALLLL, WALLLL, WALLLL, WALLLL, PELLET, PELLET, PELLET, PELLET, PELLET, PELLET, PELLET, PELLET, PELLET, WALLLL, WALLLL, WALLLL},
-            {WALLLL, PELLET, WALLLL, WALLLL, WALLLL, WALLLL, WALLLL, WALLLL, PELLET, WALLLL, WALLLL, PELLET, WALLLL, WALLLL, WALLLL, WALLLL, PELLET, WALLLL, WALLLL, WALLLL},
-            {WALLLL, PELLET, WALLLL, WALLLL, WALLLL, WALLLL, PELLET, PELLET, PELLET, WALLLL, WALLLL, PELLET, WALLLL, WALLLL, WALLLL, WALLLL, PELLET, WALLLL, WALLLL, WALLLL},
-            {WALLLL, PELLET, PELLET, PELLET, PELLET, PELLET, PELLET, WALLLL, PELLET, PELLET, PELLET, PELLET, PELLET, PELLET, PELLET, PELLET, PELLET, WALLLL, WALLLL, WALLLL},
-            {WALLLL, PELLET, WALLLL, PELLET, WALLLL, WALLLL, PELLET, WALLLL, WALLLL, PELLET, WALLLL, PELLET, WALLLL, WALLLL, WALLLL, WALLLL, PELLET, WALLLL, WALLLL, WALLLL},
-            {WALLLL, PELLET, WALLLL, PELLET, WALLLL, WALLLL, PELLET, PELLET, PELLET, PELLET, WALLLL, PELLET, WALLLL, WALLLL, WALLLL, WALLLL, PELLET, PELLET, PELLET, WALLLL},
-            {WALLLL, PELLET, WALLLL, PELLET, WALLLL, WALLLL, WALLLL, WALLLL, WALLLL, WALLLL, WALLLL, PELLET, WALLLL, WALLLL, WALLLL, WALLLL, WALLLL, WALLLL, PELLET, WALLLL},
-            {WALLLL, PELLET, PELLET, PELLET, WALLLL, WALLLL, WALLLL, WALLLL, WALLLL, WALLLL, WALLLL, PELLET, WALLLL, WALLLL, WALLLL, WALLLL, WALLLL, WALLLL, PELLET, WALLLL},
-            {WALLLL, WALLLL, WALLLL, PELLET, WALLLL, WALLLL, WALLLL, WALLLL, PELLET, PELLET, PELLET, PELLET, PELLET, PELLET, PELLET, WALLLL, WALLLL, WALLLL, PELLET, WALLLL},
-            {WALLLL, PELLET, PELLET, PELLET, WALLLL, WALLLL, WALLLL, WALLLL, PELLET, WALLLL, WALLLL, WALLLL, WALLLL, WALLLL, PELLET, WALLLL, WALLLL, WALLLL, PELLET, WALLLL},
-            {WALLLL, PELLET, WALLLL, PELLET, PELLET, PELLET, PELLET, PELLET, PELLET, WALLLL, WALLLL, WALLLL, WALLLL, WALLLL, PELLET, PELLET, PELLET, PELLET, PELLET, WALLLL},
-            {WALLLL, PELLET, WALLLL, WALLLL, PELLET, WALLLL, WALLLL, WALLLL, PELLET, WALLLL, WALLLL, WALLLL, WALLLL, WALLLL, PELLET, WALLLL, WALLLL, WALLLL, WALLLL, WALLLL},
-            {WALLLL, PELLET, PELLET, PELLET, PELLET, WALLLL, WALLLL, WALLLL, PELLET, PELLET, PELLET, PELLET, PELLET, PELLET, PELLET, WALLLL, WALLLL, WALLLL, WALLLL, WALLLL},
-            {WALLLL, WALLLL, WALLLL, WALLLL, WALLLL, WALLLL, WALLLL, WALLLL, WALLLL, WALLLL, WALLLL, WALLLL, WALLLL, WALLLL, WALLLL, WALLLL, WALLLL, WALLLL, WALLLL, WALLLL}
-    };
+        {WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL},
+        {WALL, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, WALL, WALL, WALL, WALL, WALL, WALL, FOOD, FOOD, FOOD, FOOD, WALL},
+        {WALL, FOOD, WALL, FOOD, WALL, WALL, WALL, WALL, FOOD, WALL, WALL, WALL, WALL, WALL, WALL, FOOD, WALL, WALL, FOOD, WALL},
+        {WALL, FOOD, WALL, FOOD, WALL, WALL, WALL, WALL, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, WALL, FOOD, WALL},
+        {WALL, FOOD, WALL, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, WALL, WALL, FOOD, WALL, WALL, WALL, WALL, FOOD, FOOD, FOOD, WALL},
+        {WALL, FOOD, WALL, FOOD, WALL, WALL, WALL, WALL, FOOD, WALL, WALL, FOOD, WALL, WALL, WALL, WALL, FOOD, WALL, WALL, WALL},
+        {WALL, FOOD, FOOD, FOOD, WALL, WALL, WALL, WALL, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, WALL, WALL, WALL},
+        {WALL, FOOD, WALL, WALL, WALL, WALL, WALL, WALL, FOOD, WALL, WALL, FOOD, WALL, WALL, WALL, WALL, FOOD, WALL, WALL, WALL},
+        {WALL, FOOD, WALL, WALL, WALL, WALL, FOOD, FOOD, FOOD, WALL, WALL, FOOD, WALL, WALL, WALL, WALL, FOOD, WALL, WALL, WALL},
+        {WALL, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, WALL, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, WALL, WALL, WALL},
+        {WALL, FOOD, WALL, FOOD, WALL, WALL, FOOD, WALL, WALL, FOOD, WALL, FOOD, WALL, WALL, WALL, WALL, FOOD, WALL, WALL, WALL},
+        {WALL, FOOD, WALL, FOOD, WALL, WALL, FOOD, FOOD, FOOD, FOOD, WALL, FOOD, WALL, WALL, WALL, WALL, FOOD, FOOD, FOOD, WALL},
+        {WALL, FOOD, WALL, FOOD, WALL, WALL, WALL, WALL, WALL, WALL, WALL, FOOD, WALL, WALL, WALL, WALL, WALL, WALL, FOOD, WALL},
+        {WALL, FOOD, FOOD, FOOD, WALL, WALL, WALL, WALL, WALL, WALL, WALL, FOOD, WALL, WALL, WALL, WALL, WALL, WALL, FOOD, WALL},
+        {WALL, WALL, WALL, FOOD, WALL, WALL, WALL, WALL, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, WALL, WALL, WALL, FOOD, WALL},
+        {WALL, FOOD, FOOD, FOOD, WALL, WALL, WALL, WALL, FOOD, WALL, WALL, WALL, WALL, WALL, FOOD, WALL, WALL, WALL, FOOD, WALL},
+        {WALL, FOOD, WALL, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, WALL, WALL, WALL, WALL, WALL, FOOD, FOOD, FOOD, FOOD, FOOD, WALL},
+        {WALL, FOOD, WALL, WALL, FOOD, WALL, WALL, WALL, FOOD, WALL, WALL, WALL, WALL, WALL, FOOD, WALL, WALL, WALL, WALL, WALL},
+        {WALL, FOOD, FOOD, FOOD, FOOD, WALL, WALL, WALL, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, WALL, WALL, WALL, WALL, WALL},
+        {WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL}};
 
     for (int i = 0; i < GRID_SIZE; ++i)
     {
@@ -37,6 +37,7 @@ void GamePacman::initGrid()
         }
     }
 }
+
 void GamePacman::initMovers()
 {
     player.x = 1;
@@ -59,13 +60,16 @@ void GamePacman::initMovers()
     ghost[2].speed = 1;
     ghost[2].form = 0;
     ghost[2].live = 1;
-    //结构体整体赋值
-}void GamePacman::updateGrid() {
+    // 结构体整体赋值
+}
+
+void GamePacman::updateGrid()
+{
     // 清除之前的玩家和鬼魂位置
-    grid[player.y][player.x] = EMPTYY;
-    grid[ghost[0].y][ghost[0].x] = EMPTYY;
-    grid[ghost[1].y][ghost[1].x] = EMPTYY;
-    grid[ghost[2].y][ghost[2].x] = EMPTYY;
+    grid[player.y][player.x] = EMPTY;
+    grid[ghost[0].y][ghost[0].x] = EMPTY;
+    grid[ghost[1].y][ghost[1].x] = EMPTY;
+    grid[ghost[2].y][ghost[2].x] = EMPTY;
 
     // 更新新的位置
     grid[player.y][player.x] = PLAYER;
@@ -73,6 +77,7 @@ void GamePacman::initMovers()
     grid[ghost[1].y][ghost[1].x] = GHOST2;
     grid[ghost[2].y][ghost[2].x] = GHOST3;
 }
+
 bool GamePacman::processInput(char key)
 {
     Direction newDir = player.direction;
@@ -99,31 +104,32 @@ bool GamePacman::processInput(char key)
     player.direction = newDir;
     return true;
 }
+
 void GamePacman::movePlayer()
 {
     switch (player.direction)
     {
     case Direction::RIGHT:
-        if (grid[player.y][player.x + 1] != WALLLL)
+        if (grid[player.y][player.x + 1] != WALL)
             player.x += player.speed;
         break;
     case Direction::UP:
-        if (grid[player.y - 1][player.x] != WALLLL)
+        if (grid[player.y - 1][player.x] != WALL)
             player.y -= player.speed;
         break;
     case Direction::LEFT:
-        if (grid[player.y][player.x - 1] != WALLLL)
+        if (grid[player.y][player.x - 1] != WALL)
             player.x -= player.speed;
         break;
     case Direction::DOWN:
-        if (grid[player.y + 1][player.x] != WALLLL)
+        if (grid[player.y + 1][player.x] != WALL)
             player.y += player.speed;
         break;
     }
     updateGrid();
-
 }
-//main
+
+// main
 void GamePacman::initGame()
 {
     gameOver = false;
@@ -133,16 +139,17 @@ void GamePacman::initGame()
     updateGrid();
 }
 
-
 void GamePacman::update(char key)
 {
     if (processInput(key))
         movePlayer();
 }
+
 int GamePacman::getScore() const
 {
     return 0;
 }
+
 GameState GamePacman::state() const
 {
     return gameOver ? GameState::GameOver : GameState::Running;
@@ -160,8 +167,9 @@ vector<vector<int>> GamePacman::getGrid() const
     }
     return gridCopy;
 }
+
 // Test methods
-void GamePacman::display(const vector<vector<int>>& grid, int size) const
+void GamePacman::display(const vector<vector<int>> &grid, int size) const
 {
 
     //    system("cls");
@@ -169,9 +177,9 @@ void GamePacman::display(const vector<vector<int>>& grid, int size) const
     {
         for (int j = 0; j < size; ++j)
         {
-            if (grid[i][j] == WALLLL)
+            if (grid[i][j] == WALL)
                 cout << "# ";
-            else if (grid[i][j] == PELLET)
+            else if (grid[i][j] == FOOD)
                 cout << "* ";
             else if (grid[i][j] == PLAYER)
                 cout << "@ ";
@@ -187,17 +195,18 @@ void GamePacman::display(const vector<vector<int>>& grid, int size) const
         cout << endl;
     }
 
-
     cout << "\n使用WASD键移动, ESC退出\n";
-
 }
 
-void GamePacman::startGame() {
+void GamePacman::startGame()
+{
     initGame();
     display(getGrid(), 20);
 
-    while (!gameOver) {
-        if (_kbhit()) {
+    while (!gameOver)
+    {
+        if (_kbhit())
+        {
             char input = _getch();
             if (input == 'q')
                 break;
@@ -205,7 +214,8 @@ void GamePacman::startGame() {
             display(getGrid(), 20);
         }
         // 自更新
-        else {
+        else
+        {
             update(' ');
             display(getGrid(), 20);
         }

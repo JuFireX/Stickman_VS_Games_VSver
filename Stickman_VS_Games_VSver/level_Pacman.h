@@ -19,14 +19,15 @@ class GamePacman : public Game
 private:
     // 定义地图元素
     static const enum {
-        EMPTYY,
-        WALLLL,
+        EMPTY,
+        WALL,
         PLAYER,
         GHOST1,
         GHOST2,
         GHOST3,
-        PELLET
+        FOOD
     } MAP;
+
     struct man
     {
         int x;
@@ -37,7 +38,8 @@ private:
         int speed;
         bool live;
         bool close;
-    }player;
+    } player;
+
     struct ghost
     {
         int x;
@@ -48,12 +50,12 @@ private:
         int speed;
         int form;
         bool live;
-    }ghost[3];
+    } ghost[3];
 
     static const int GRID_SIZE = 20;
-    int grid[GRID_SIZE][GRID_SIZE] = { 0 };
-    vector<pair<int, int>> snake; // 蛇身体的坐标
-    pair<int, int> food;          // 食物的坐标
+    int grid[GRID_SIZE][GRID_SIZE] = {0};
+    vector<pair<int, int>> snake;
+    pair<int, int> food;
     Direction direction = Direction::RIGHT;
     bool gameOver = false;
     int score = 0;
@@ -63,18 +65,18 @@ private:
     void initGrid();
     void movePlayer();
     bool processInput(char key);
-    void display(const vector<vector<int>>& grid, int size) const;
+    void display(const vector<vector<int>> &grid, int size) const;
     void updateGrid(); // 更新游戏网格
 
-
 public:
-    GamePacman();						 // 构造函数
-    void initGame();					 // 初始化游戏矩阵
-    void startGame();					 // 开始游戏
-    void update(char key);				 // 根据输入更新游戏矩阵
-    GameState state() const;			 // 获取游戏状态
+    GamePacman();                        // 构造函数
+    void initGame();                     // 初始化游戏矩阵
+    void startGame();                    // 开始游戏
+    void update(char key);               // 根据输入更新游戏矩阵
+    GameState state() const;             // 获取游戏状态
     vector<vector<int>> getGrid() const; // 获取游戏矩阵
-    int getScore() const;				 // 获取游戏得分
+    int getScore() const;                // 获取游戏得分
 };
 
 #endif
+// level_Pacman.h
