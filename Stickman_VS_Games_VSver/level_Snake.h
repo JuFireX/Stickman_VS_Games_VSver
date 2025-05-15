@@ -54,8 +54,8 @@ public:
     GameState state() const;             // 获取游戏状态
     vector<vector<int>> getGrid() const; // 获取游戏网格
     int getScore() const;                // 获取游戏得分
-	bool gameOver = false;
 
+	bool gameOver = false;
     void load(); // 加载游戏素材
     map<int, IMAGE> MapImg;
     vector<vector<position>> getMap() const;

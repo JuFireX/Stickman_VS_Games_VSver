@@ -19,70 +19,68 @@ class GameTetris : public Game
 
 private:
 	static const int GRID_WIDTH = 10;
-	static const int GRID_HEIGHT = 20;
+	static const int GRID_HEIGHT = 24;
 	int grid[GRID_HEIGHT][GRID_WIDTH] = {0};
 	int score = 0;
-	bool gameOver = false;
 	mt19937 rng;
 
-	// ╤╗рЕ╣ьм╪т╙кь
+	// О©╫О©╫О©╫О©╫О©╫м╪т╙О©╫О©╫
 	static const enum {
 		EMPTY,
 		WALL,
 		BRICK
 	} MAP;
 
-	// ╤╗рЕ╡╩м╛╣д╤Мбчк╧╥╫©ИйЩа©╨м╢Сп║
+	// О©╫О©╫О©╫Е╡╩м╛О©╫д╤О©╫О©╫О©╫к╧О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫м╢О©╫п║
 	static const int TETROMINO_COUNT = 7;
 	static const int TETROMINO_SIZE = 4;
 	int tetrominos[TETROMINO_COUNT][TETROMINO_SIZE][TETROMINO_SIZE] = {
-		// Iпм╥╫©И
+		// IО©╫м╥О©╫О©╫О©╫
 		{
 			{EMPTY, EMPTY, EMPTY, EMPTY},
 			{BRICK, BRICK, BRICK, BRICK},
 			{EMPTY, EMPTY, EMPTY, EMPTY},
 			{EMPTY, EMPTY, EMPTY, EMPTY}},
-		// Jпм╥╫©И
+		// JО©╫м╥О©╫О©╫О©╫
 		{
 			{BRICK, EMPTY, EMPTY, EMPTY},
 			{BRICK, BRICK, BRICK, EMPTY},
 			{EMPTY, EMPTY, EMPTY, EMPTY},
 			{EMPTY, EMPTY, EMPTY, EMPTY}},
-		// Lпм╥╫©И
+		// LО©╫м╥О©╫О©╫О©╫
 		{
 			{EMPTY, EMPTY, BRICK, EMPTY},
 			{BRICK, BRICK, BRICK, EMPTY},
 			{EMPTY, EMPTY, EMPTY, EMPTY},
 			{EMPTY, EMPTY, EMPTY, EMPTY}},
-		// Oпм╥╫©И
+		// OО©╫м╥О©╫О©╫О©╫
 		{
 			{EMPTY, BRICK, BRICK, EMPTY},
 			{EMPTY, BRICK, BRICK, EMPTY},
 			{EMPTY, EMPTY, EMPTY, EMPTY},
 			{EMPTY, EMPTY, EMPTY, EMPTY}},
-		// Sпм╥╫©И
+		// SО©╫м╥О©╫О©╫О©╫
 		{
 			{EMPTY, BRICK, BRICK, EMPTY},
 			{BRICK, BRICK, EMPTY, EMPTY},
 			{EMPTY, EMPTY, EMPTY, EMPTY},
 			{EMPTY, EMPTY, EMPTY, EMPTY}},
-		// Tпм╥╫©И
+		// TО©╫м╥О©╫О©╫О©╫
 		{
 			{EMPTY, BRICK, EMPTY, EMPTY},
 			{BRICK, BRICK, BRICK, EMPTY},
 			{EMPTY, EMPTY, EMPTY, EMPTY},
 			{EMPTY, EMPTY, EMPTY, EMPTY}},
-		// Zпм╥╫©И
+		// ZО©╫м╥О©╫О©╫О©╫
 		{
 			{BRICK, BRICK, EMPTY, EMPTY},
 			{EMPTY, BRICK, BRICK, EMPTY},
 			{EMPTY, EMPTY, EMPTY, EMPTY},
 			{EMPTY, EMPTY, EMPTY, EMPTY}}};
 
-	// ╣╠г╟╥╫©Ипео╒
+	// О©╫О©╫г╟О©╫О©╫О©╫О©╫О©╫О©╫о╒
 	int currentTetromino;
-	int tetrominoX;
-	int tetrominoY;
+	
 	int currentShape[TETROMINO_SIZE][TETROMINO_SIZE];
 
 	void initGrid();
@@ -91,17 +89,28 @@ private:
 	void rotateTetromino();
 	void mergeTetromino();
 	void clearLines();
-	void display(const vector<vector<int>> &grid, int size) const; // отй╬сно╥╬ьуС
-	bool processInput(char key);								   // ╢╕юМйДхК
+	void display(const vector<vector<int>> &grid, int size) const; // О©╫О©╫й╬О©╫О©╫о╥О©╫О©╫О©╫О©╫
+	bool processInput(char key);								   // О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫
 
+	IMAGE img_Tetris[12];
+	int img_size = 20;
 public:
-	GameTetris();						 // ╧╧тЛ╨╞йЩ
-	void initGame();					 // ЁУй╪╩╞сно╥
-	void startGame();					 // фТ╤╞сно╥
-	void update(char key);				 // ╦Ы╬щйДхК╦Эпбсно╥в╢л╛
-	GameState state() const;			 // ╩Ях║сно╥в╢л╛
-	vector<vector<int>> getGrid() const; // ╩Ях║сно╥мЬ╦Я
-	int getScore() const;				 // ╩Ях║сно╥╣ц╥ж
+	GameTetris();						 // О©╫О©╫О©╫Л╨╞О©╫О©╫
+	void initGame();					 // О©╫О©╫й╪О©╫О©╫О©╫О©╫о╥
+	void startGame();					 // О©╫О©╫О©╫О©╫О©╫О©╫о╥
+	void update(char key);				 // О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫О©╫о╥в╢л╛
+	GameState state() const;			 // О©╫О©╫х║О©╫О©╫о╥в╢л╛
+	vector<vector<int>> getGrid() const; // О©╫О©╫х║О©╫О©╫о╥О©╫О©╫О©╫О©╫
+	int getScore() const;	// О©╫О©╫х║О©╫О©╫о╥О©╫ц╥О©╫
+
+	int tetrominoX = 0, tetrominoY = 0; // О©╫О©╫г╟О©╫О©╫О©╫О©╫О©╫н╩О©╫О©╫
+	bool gameOver = false;
+	void load(); // Е┼═Х╫╫Ф╦╦Ф┬▐Г╢═Ф²░
+	map<int, IMAGE> MapImg;
+	vector<vector<position>> getMap() const;
+	int GameHigh = 24;
+	int GridSize = 20;
+	int GameFrame = 6;
 };
 
 #endif

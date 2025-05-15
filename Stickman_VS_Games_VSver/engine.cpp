@@ -12,6 +12,7 @@
 #include "engine.h"
 #include <windows.h>
 #include <wingdi.h>
+#include "level_Tetris.h"
 
 // ...
 using namespace std;
@@ -245,59 +246,32 @@ void Engine::runGameSnake()
     BeginBatchDraw();
     while (!game->gameOver)
     {
-        bool moveRight = false;
-        bool moveLeft = false;
-        bool moveUp = false;
-        bool moveDown = false;
+        char inputKey = ' ';
 
-
-        while (peekmessage(&msg))
-        {
-            if (msg.message == WM_KEYDOWN)
-            {
-                if (msg.vkcode == VK_ESCAPE)
-                {
+        // 只保留最后一个方向键消息
+        while (peekmessage(&msg)) {
+            if (msg.message == WM_KEYDOWN) {
+                if (msg.vkcode == VK_ESCAPE) {
                     running = false;
                     break;
                 }
-                else if (msg.vkcode == VK_UP || msg.vkcode == 'W')
-                {
-                    moveUp = true;
+                else if (msg.vkcode == VK_UP || msg.vkcode == 'W') {
+                    inputKey = 'w';
                 }
-                else if (msg.vkcode == VK_DOWN || msg.vkcode == 'S')
-                {
-                    moveDown = true;
+                else if (msg.vkcode == VK_DOWN || msg.vkcode == 'S') {
+                    inputKey = 's';
                 }
-                else if (msg.vkcode == VK_LEFT || msg.vkcode == 'A')
-                {
-                    moveLeft = true;
+                else if (msg.vkcode == VK_LEFT || msg.vkcode == 'A') {
+                    inputKey = 'a';
                 }
-                else if (msg.vkcode == VK_RIGHT || msg.vkcode == 'D')
-                {
-                    moveRight = true;
+                else if (msg.vkcode == VK_RIGHT || msg.vkcode == 'D') {
+                    inputKey = 'd';
                 }
             }
         }
-        if (moveUp)
-        {
-            game->update('w');
-        }
-        if (moveDown)
-        {
-            game->update('s');
-        }
-        if (moveLeft)
-        {
-            game->update('a');
-        }
-        if (moveRight)
-        {
-            game->update('d');
-        }
-		if (!moveUp && !moveDown && !moveLeft && !moveRight)
-        {
-            game->update(' ');
-        }
+
+        // 每帧只处理最后一个方向输入
+        game->update(inputKey);
         cleardevice();
 
         GameMap = game->getMap();
@@ -333,59 +307,32 @@ void Engine::runGameSokoban()
     BeginBatchDraw();
     while (!game->gameOver)
     {
-        bool moveRight = false;
-        bool moveLeft = false;
-        bool moveUp = false;
-        bool moveDown = false;
+        char inputKey = ' ';
 
-
-        while (peekmessage(&msg))
-        {
-            if (msg.message == WM_KEYDOWN)
-            {
-                if (msg.vkcode == VK_ESCAPE)
-                {
+        // 只保留最后一个方向键消息
+        while (peekmessage(&msg)) {
+            if (msg.message == WM_KEYDOWN) {
+                if (msg.vkcode == VK_ESCAPE) {
                     running = false;
                     break;
                 }
-                else if (msg.vkcode == VK_UP || msg.vkcode == 'W')
-                {
-                    moveUp = true;
+                else if (msg.vkcode == VK_UP || msg.vkcode == 'W') {
+                    inputKey = 'w';
                 }
-                else if (msg.vkcode == VK_DOWN || msg.vkcode == 'S')
-                {
-                    moveDown = true;
+                else if (msg.vkcode == VK_DOWN || msg.vkcode == 'S') {
+                    inputKey = 's';
                 }
-                else if (msg.vkcode == VK_LEFT || msg.vkcode == 'A')
-                {
-                    moveLeft = true;
+                else if (msg.vkcode == VK_LEFT || msg.vkcode == 'A') {
+                    inputKey = 'a';
                 }
-                else if (msg.vkcode == VK_RIGHT || msg.vkcode == 'D')
-                {
-                    moveRight = true;
+                else if (msg.vkcode == VK_RIGHT || msg.vkcode == 'D') {
+                    inputKey = 'd';
                 }
             }
         }
-        if (moveUp)
-        {
-            game->update('w');
-        }
-        if (moveDown)
-        {
-            game->update('s');
-        }
-        if (moveLeft)
-        {
-            game->update('a');
-        }
-        if (moveRight)
-        {
-            game->update('d');
-        }
-        if (!moveUp && !moveDown && !moveLeft && !moveRight)
-        {
-            game->update(' ');
-        }
+
+        // 每帧只处理最后一个方向输入
+        game->update(inputKey);
         cleardevice();
 
         GameMap = game->getMap();
@@ -401,6 +348,68 @@ void Engine::runGameSokoban()
         Sleep(1000 / game->GameFrame);
 
     }
+    EndBatchDraw();
+    closegraph();
+    delete game;
+}
+
+void Engine::runGameTetris()
+{
+    bool fuck = true;
+
+    GameTetris* game = new GameTetris();
+
+    initgraph(width, height); // ��������
+    setbkcolor(WHITE);        // ���ñ���ɫΪ��ɫ
+    cleardevice();
+    game->load();
+    game->initGame();
+    BeginBatchDraw();
+    while (!game->gameOver)
+    {
+
+        char inputKey = ' ';
+
+        // 只保留最后一个方向键消息
+        while (peekmessage(&msg)) {
+            if (msg.message == WM_KEYDOWN) {
+                if (msg.vkcode == VK_ESCAPE) {
+                    running = false;
+                    break;
+                }
+                else if (msg.vkcode == VK_UP || msg.vkcode == 'W') {
+                    inputKey = 'w';
+                }
+                else if (msg.vkcode == VK_DOWN || msg.vkcode == 'S') {
+                    inputKey = 's';
+                }
+                else if (msg.vkcode == VK_LEFT || msg.vkcode == 'A') {
+                    inputKey = 'a';
+                }
+                else if (msg.vkcode == VK_RIGHT || msg.vkcode == 'D') {
+                    inputKey = 'd';
+                }
+            }
+        }
+
+        // 每帧只处理最后一个方向输入
+        game->update(inputKey);
+
+        cleardevice();
+		GameMap = game->getMap();
+        for (int i = 0; i < game->GameHigh; i++)
+        {
+            for (position u : GameMap[i])
+            {
+                putimage_alpha(u.x, u.y, &game->MapImg[u.val]);
+            }
+        }
+        FlushBatchDraw();
+
+        Sleep(1000 / game->GameFrame);
+
+    }
+
     EndBatchDraw();
     closegraph();
     delete game;
