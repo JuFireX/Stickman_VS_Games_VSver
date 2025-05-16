@@ -17,7 +17,7 @@ using namespace std;
 class GamePacman : public Game
 {
 private:
-    // ¶¨ÒåµØÍ¼ÔªËØ
+    // ï¿½ï¿½ï¿½ï¿½ï¿½Í¼Ôªï¿½ï¿½
     static const enum {
         EMPTY,
         WALL,
@@ -27,6 +27,7 @@ private:
         GHOST3,
         FOOD
     } MAP;
+
 
     struct man
     {
@@ -38,8 +39,9 @@ private:
         int speed;
         bool live;
         bool close;
+		
     } player;
-
+    
     struct ghost
     {
         int x;
@@ -51,13 +53,12 @@ private:
         int form;
         bool live;
     } ghost[3];
-
+    IMAGE ghost_img[3];
     static const int GRID_SIZE = 20;
-    int grid[GRID_SIZE][GRID_SIZE] = { 0 };
+    int grid[GRID_SIZE][GRID_SIZE] = {0};
     vector<pair<int, int>> snake;
     pair<int, int> food;
     Direction direction = Direction::RIGHT;
-    bool gameOver = false;
     int score = 0;
     mt19937 rng;
 
@@ -65,18 +66,30 @@ private:
     void initGrid();
     void movePlayer();
     bool processInput(char key);
-    void display(const vector<vector<int>>& grid, int size) const;
-    void updateGrid(); // ¸üÐÂÓÎÏ·Íø¸ñ
-
+    void display(const vector<vector<int>> &grid, int size) const;
+    void updateGrid(); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½
+    IMAGE Wall;
+	IMAGE Food;
 public:
-    GamePacman();                        // ¹¹Ôìº¯Êý
-    void initGame();                     // ³õÊ¼»¯ÓÎÏ·¾ØÕó
-    void startGame();                    // ¿ªÊ¼ÓÎÏ·
-    void update(char key);               // ¸ù¾ÝÊäÈë¸üÐÂÓÎÏ·¾ØÕó
-    GameState state() const;             // »ñÈ¡ÓÎÏ·×´Ì¬
-    vector<vector<int>> getGrid() const; // »ñÈ¡ÓÎÏ·¾ØÕó
-    int getScore() const;                // »ñÈ¡ÓÎÏ·µÃ·Ö
+    GamePacman();                        // ï¿½ï¿½ï¿½ìº¯ï¿½ï¿½
+    void initGame();                     // ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½
+    void startGame();                    // ï¿½ï¿½Ê¼ï¿½ï¿½Ï·
+    void update(char key);               // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½
+    GameState state() const;             // ï¿½ï¿½È¡ï¿½ï¿½Ï·×´Ì¬
+    vector<vector<int>> getGrid() const; // ï¿½ï¿½È¡ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½
+    int getScore() const;                // ï¿½ï¿½È¡ï¿½ï¿½Ï·ï¿½Ã·ï¿½
+
+    bool gameOver = false;
+    void load() override; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï·ï¿½Ø²ï¿½
+    map<int, IMAGE> MapImg;
+    vector<vector<position>> getMap() const override;
+    int GameHigh = 24;
+    int GridSize = 4;
+    int GameFrame = 6; // ï¿½ï¿½Ï·Ë¢ï¿½ï¿½ï¿½ï¿½
+    int img_size = 20;
+    IMAGE player_img[2];
 };
 
 #endif
+// level_Pacman.h
 // level_Pacman.h
