@@ -4,9 +4,13 @@
 
 GamePacman::GamePacman() : rng(time(nullptr)) {}
 
+
+GamePacman::GamePacman() : rng(time(nullptr)) {}
+
 void GamePacman::initGrid()
 {
-    // µØÍ¼
+    // ï¿½ï¿½Í¼
+    // ï¿½ï¿½Í¼
     int map[20][20] = {
         {WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL},
         {WALL, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, WALL, WALL, WALL, WALL, WALL, WALL, FOOD, FOOD, FOOD, FOOD, WALL},
@@ -27,7 +31,7 @@ void GamePacman::initGrid()
         {WALL, FOOD, WALL, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, WALL, WALL, WALL, WALL, WALL, FOOD, FOOD, FOOD, FOOD, FOOD, WALL},
         {WALL, FOOD, WALL, WALL, FOOD, WALL, WALL, WALL, FOOD, WALL, WALL, WALL, WALL, WALL, FOOD, WALL, WALL, WALL, WALL, WALL},
         {WALL, FOOD, FOOD, FOOD, FOOD, WALL, WALL, WALL, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, WALL, WALL, WALL, WALL, WALL},
-        {WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL}};
+        {WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL} };
 
     for (int i = 0; i < GRID_SIZE; ++i)
     {
@@ -38,21 +42,24 @@ void GamePacman::initGrid()
     }
 }
 
+
 void GamePacman::initMovers()
 {
     player.x = 1;
     player.y = 18;
     player.direction = Direction::RIGHT;
     player.speed = 1;
+    player.speed = 1;
     ghost[0].x = 18;
     ghost[0].y = 1;
     ghost[0].direction = Direction::LEFT;
+    ghost[0].speed = 1;
     ghost[0].speed = 1;
     ghost[0].live = 1;
     ghost[1].x = 18;
     ghost[1].y = 16;
     ghost[1].direction = Direction::LEFT;
-    ghost[1].speed = 2;
+    ghost[1].speed = 1;
     ghost[1].live = 1;
     ghost[2].x = 1;
     ghost[2].y = 1;
@@ -60,23 +67,31 @@ void GamePacman::initMovers()
     ghost[2].speed = 1;
     ghost[2].form = 0;
     ghost[2].live = 1;
-    // ½á¹¹ÌåÕûÌå¸³Öµ
+    // ï¿½á¹¹ï¿½ï¿½ï¿½ï¿½ï¿½å¸³Öµ
 }
-
+void GamePacman::initGame()
+{
+    gameOver = false;
+    score = 0;
+    initGrid();
+    initMovers();
+    updateGrid();
+}
 void GamePacman::updateGrid()
 {
-    // Çå³ýÖ®Ç°µÄÍæ¼ÒºÍ¹í»êÎ»ÖÃ
-    grid[player.y][player.x] = EMPTY;
-    grid[ghost[0].y][ghost[0].x] = EMPTY;
-    grid[ghost[1].y][ghost[1].x] = EMPTY;
-    grid[ghost[2].y][ghost[2].x] = EMPTY;
+    // ï¿½ï¿½ï¿½Ö®Ç°ï¿½ï¿½ï¿½ï¿½ÒºÍ¹ï¿½ï¿½ï¿½Î»ï¿½ï¿½
+    grid[player.old_y][player.old_x] = EMPTY;
+    grid[ghost[0].old_y][ghost[0].old_x] = EMPTY;
+    grid[ghost[1].old_y][ghost[1].old_x] = EMPTY;
+    grid[ghost[2].old_y][ghost[2].old_x] = EMPTY;
 
-    // ¸üÐÂÐÂµÄÎ»ÖÃ
+    // ï¿½ï¿½ï¿½ï¿½ï¿½Âµï¿½Î»ï¿½ï¿½
     grid[player.y][player.x] = PLAYER;
     grid[ghost[0].y][ghost[0].x] = GHOST1;
     grid[ghost[1].y][ghost[1].x] = GHOST2;
     grid[ghost[2].y][ghost[2].x] = GHOST3;
 }
+
 
 bool GamePacman::processInput(char key)
 {
@@ -105,23 +120,30 @@ bool GamePacman::processInput(char key)
     return true;
 }
 
+
 void GamePacman::movePlayer()
 {
+    player.old_x = player.x;
+    player.old_y = player.y;
     switch (player.direction)
     {
     case Direction::RIGHT:
+        if (grid[player.y][player.x + 1] != WALL)
         if (grid[player.y][player.x + 1] != WALL)
             player.x += player.speed;
         break;
     case Direction::UP:
         if (grid[player.y - 1][player.x] != WALL)
+        if (grid[player.y - 1][player.x] != WALL)
             player.y -= player.speed;
         break;
     case Direction::LEFT:
         if (grid[player.y][player.x - 1] != WALL)
+        if (grid[player.y][player.x - 1] != WALL)
             player.x -= player.speed;
         break;
     case Direction::DOWN:
+        if (grid[player.y + 1][player.x] != WALL)
         if (grid[player.y + 1][player.x] != WALL)
             player.y += player.speed;
         break;
@@ -129,30 +151,10 @@ void GamePacman::movePlayer()
     updateGrid();
 }
 
-// main
-void GamePacman::initGame()
-{
-    gameOver = false;
-    score = 0;
-    initGrid();
-    initMovers();
-    updateGrid();
-}
-
 void GamePacman::update(char key)
 {
     if (processInput(key))
         movePlayer();
-}
-
-int GamePacman::getScore() const
-{
-    return 0;
-}
-
-GameState GamePacman::state() const
-{
-    return gameOver ? GameState::GameOver : GameState::Running;
 }
 
 vector<vector<int>> GamePacman::getGrid() const
@@ -167,18 +169,27 @@ vector<vector<int>> GamePacman::getGrid() const
     }
     return gridCopy;
 }
+//ï¿½ï¿½ï¿½Þ¸ï¿½
+int GamePacman::getScore() const
+{
+    return 0;
+}
 
+GameState GamePacman::state() const
+{
+    return gameOver ? GameState::GameOver : GameState::Running;
+}
 // Test methods
 void GamePacman::display(const vector<vector<int>> &grid, int size) const
 {
 
-    //    system("cls");
+    system("cls");
     for (int i = 0; i < size; ++i)
     {
         for (int j = 0; j < size; ++j)
         {
             if (grid[i][j] == WALL)
-                cout << "# ";
+                cout << "  "; // ï¿½Õ¸ï¿½
             else if (grid[i][j] == FOOD)
                 cout << "* ";
             else if (grid[i][j] == PLAYER)
@@ -194,15 +205,19 @@ void GamePacman::display(const vector<vector<int>> &grid, int size) const
         }
         cout << endl;
     }
-
-    cout << "\nÊ¹ÓÃWASD¼üÒÆ¶¯, ESCÍË³ö\n";
 }
 
+void GamePacman::startGame()
+{
 void GamePacman::startGame()
 {
     initGame();
     display(getGrid(), 20);
 
+    while (!gameOver)
+    {
+        if (_kbhit())
+        {
     while (!gameOver)
     {
         if (_kbhit())
@@ -213,7 +228,9 @@ void GamePacman::startGame()
             update(input);
             display(getGrid(), 20);
         }
-        // ×Ô¸üÐÂ
+        // ï¿½Ô¸ï¿½ï¿½ï¿½
+        else
+        {
         else
         {
             update(' ');
@@ -222,10 +239,10 @@ void GamePacman::startGame()
         Sleep(200);
     }
 }
-//ÒÔÏÂÎªäÖÈ¾²¿·Ö
+//ï¿½ï¿½ï¿½ï¿½Îªï¿½ï¿½È¾ï¿½ï¿½ï¿½ï¿½
 void GamePacman::load()  
 {  
-   // ÐÞ¸´´íÎó£ºÈ·±£Â·¾¶ºÍ²ÎÊýÕýÈ·  
+   // ï¿½Þ¸ï¿½ï¿½ï¿½ï¿½ï¿½È·ï¿½ï¿½Â·ï¿½ï¿½ï¿½Í²ï¿½ï¿½ï¿½ï¿½ï¿½È·  
    loadimage(&player_img[0], _T("../PictureResource/GamePacman/2.png"), img_size, img_size, true);  
    loadimage(&player_img[1], _T("../PictureResource/GamePacman/1.png"), img_size, img_size, true);
    loadimage(&ghost_img[0], _T("../PictureResource/GamePacman/3.png"), img_size, img_size, true);
@@ -240,7 +257,7 @@ void GamePacman::load()
    MapImg[GHOST3] = ghost_img[2];
 }
 
-vector<vector<position>> GamePacman::getMap() const // ÖØ»æµØÍ¼
+vector<vector<position>> GamePacman::getMap() const // ï¿½Ø»ï¿½ï¿½Í¼
 {
     vector<vector<int>> state = getGrid();
     vector<vector<position>> GameMap;

@@ -17,7 +17,7 @@ using namespace std;
 class GamePacman : public Game
 {
 private:
-    // ¶¨ÒåµØÍ¼ÔªËØ
+    // ï¿½ï¿½ï¿½ï¿½ï¿½Í¼Ôªï¿½ï¿½
     static const enum {
         EMPTY,
         WALL,
@@ -28,12 +28,13 @@ private:
         FOOD
     } MAP;
 
+
     struct man
     {
         int x;
         int y;
-        int map_x;
-        int map_y;
+        int old_x;
+        int old_y;
         Direction direction;
         int speed;
         bool live;
@@ -45,8 +46,8 @@ private:
     {
         int x;
         int y;
-        int map_x;
-        int map_y;
+        int old_x;
+        int old_y;
         Direction direction;
         int speed;
         int form;
@@ -66,28 +67,29 @@ private:
     void movePlayer();
     bool processInput(char key);
     void display(const vector<vector<int>> &grid, int size) const;
-    void updateGrid(); // ¸üÐÂÓÎÏ·Íø¸ñ
+    void updateGrid(); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½
     IMAGE Wall;
 	IMAGE Food;
 public:
-    GamePacman();                        // ¹¹Ôìº¯Êý
-    void initGame();                     // ³õÊ¼»¯ÓÎÏ·¾ØÕó
-    void startGame();                    // ¿ªÊ¼ÓÎÏ·
-    void update(char key);               // ¸ù¾ÝÊäÈë¸üÐÂÓÎÏ·¾ØÕó
-    GameState state() const;             // »ñÈ¡ÓÎÏ·×´Ì¬
-    vector<vector<int>> getGrid() const; // »ñÈ¡ÓÎÏ·¾ØÕó
-    int getScore() const;                // »ñÈ¡ÓÎÏ·µÃ·Ö
+    GamePacman();                        // ï¿½ï¿½ï¿½ìº¯ï¿½ï¿½
+    void initGame();                     // ï¿½ï¿½Ê¼ï¿½ï¿½ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½
+    void startGame();                    // ï¿½ï¿½Ê¼ï¿½ï¿½Ï·
+    void update(char key);               // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½
+    GameState state() const;             // ï¿½ï¿½È¡ï¿½ï¿½Ï·×´Ì¬
+    vector<vector<int>> getGrid() const; // ï¿½ï¿½È¡ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½
+    int getScore() const;                // ï¿½ï¿½È¡ï¿½ï¿½Ï·ï¿½Ã·ï¿½
 
     bool gameOver = false;
-    void load() override; // ¼ÓÔØÓÎÏ·ËØ²Ä
+    void load() override; // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï·ï¿½Ø²ï¿½
     map<int, IMAGE> MapImg;
     vector<vector<position>> getMap() const override;
     int GameHigh = 24;
     int GridSize = 4;
-    int GameFrame = 6; // ÓÎÏ·Ë¢ÐÂÂÊ
+    int GameFrame = 6; // ï¿½ï¿½Ï·Ë¢ï¿½ï¿½ï¿½ï¿½
     int img_size = 20;
     IMAGE player_img[2];
 };
 
 #endif
+// level_Pacman.h
 // level_Pacman.h
