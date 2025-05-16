@@ -232,7 +232,7 @@ void GamePacman::load()
    loadimage(&ghost_img[1], _T("../PictureResource/GamePacman/4.png"), img_size, img_size, true);
    loadimage(&ghost_img[2], _T("../PictureResource/GamePacman/5.png"), img_size, img_size, true);
    loadimage(&Wall, _T("../PictureResource/GamePacman/wall.png"), img_size, img_size, true);
-   loadimage(&Food, _T("../PictureResource/GamePacman/1.png"), 10, 10, true);
+   loadimage(&Food, _T("../PictureResource/GamePacman/food.png"), 10, 10, true);
    MapImg[WALL] = Wall;
    MapImg[FOOD] = Food;
    MapImg[GHOST1] = ghost_img[0];
