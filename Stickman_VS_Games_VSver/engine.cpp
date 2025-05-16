@@ -427,9 +427,11 @@ void Engine::runGamePacman()
     game->load();
     game->initGame();
     BeginBatchDraw();
+    int cntframe = 0;
+    int cnt_ad = 0;
     while (!game->gameOver)
     {
-        int cnt=0;
+        
         char inputKey = ' ';
 
         // 只保留最后一个方向键消息
@@ -465,7 +467,9 @@ void Engine::runGamePacman()
             {
                 if (u.val == 2)
                 {
-                     putimage_alpha(u.x, u.y, &game->player_img[cnt%2]);
+                    if (cntframe % 3 == 0)
+                        cnt_ad++;
+                        putimage_alpha(u.x, u.y, &game->player_img[cnt_ad%2]);
                 }
                 else
                 {
@@ -474,7 +478,7 @@ void Engine::runGamePacman()
             }
         }
         FlushBatchDraw();
-        cnt++;
+        cntframe++;
         Sleep(1000 / game->GameFrame);
 
     }
