@@ -422,13 +422,14 @@ void Engine::runGamePacman()
     GamePacman* game = new GamePacman();
 
     initgraph(width, height); // ��������
-    setbkcolor(WHITE);        // ���ñ���ɫΪ��ɫ
+    //setbkcolor(WHITE);        // ���ñ���ɫΪ��ɫ
     cleardevice();
     game->load();
     game->initGame();
     BeginBatchDraw();
     int cntframe = 0;
     int cnt_ad = 0;
+    IMAGE* img = &game->player_img[0];
     while (!game->gameOver)
     {
         
@@ -461,22 +462,35 @@ void Engine::runGamePacman()
 
         cleardevice();
         GameMap = game->getMap();
-        for (int i = 0; i < game->GameHigh; i++)
-        {
-            for (position u : GameMap[i])
-            {
+        switch (inputKey) {
+        case 'w': img = &game->player_img[2]; break; // 上
+        case 's': img = &game->player_img[3]; break; // 下
+        case 'a': img = &game->player_img[1]; break; // 左
+        case 'd': img = &game->player_img[0]; break; // 右
+        default: break;
+        }
+
+        for (int i = 0; i < game->GameHigh; i++) {
+            for (position u : GameMap[i]) {
                 if (u.val == 2)
-                {
-                    if (cntframe % 3 == 0)
-                        cnt_ad++;
-                        putimage_alpha(u.x, u.y, &game->player_img[cnt_ad%2]);
+                { 
+                    if (cntframe % 2 == 0) cnt_ad++;
+                    if (cnt_ad % 2 == 0)
+                    {
+                        putimage_alpha(u.x, u.y, &game->player_img[4]);
+                    }
+                    else 
+                    {
+                        putimage_alpha(u.x, u.y, img);
+                    }
                 }
                 else
                 {
-					putimage_alpha(u.x, u.y, &game->MapImg[u.val]);
+                    putimage_alpha(u.x, u.y, &game->MapImg[u.val]);
                 }
             }
         }
+
         FlushBatchDraw();
         cntframe++;
         Sleep(1000 / game->GameFrame);

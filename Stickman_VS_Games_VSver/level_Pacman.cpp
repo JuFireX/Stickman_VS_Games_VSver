@@ -232,8 +232,11 @@ void GamePacman::startGame()
 void GamePacman::load()  
 {  
    // �޸�����ȷ��·���Ͳ�����ȷ  
-   loadimage(&player_img[0], _T("../PictureResource/GamePacman/2.png"), img_size, img_size, true);  
-   loadimage(&player_img[1], _T("../PictureResource/GamePacman/1.png"), img_size, img_size, true);
+   loadimage(&player_img[0], _T("../PictureResource/GamePacman/RIGHT.png"), img_size, img_size, true);  
+   loadimage(&player_img[1], _T("../PictureResource/GamePacman/LEFT.png"), img_size, img_size, true);
+   loadimage(&player_img[2], _T("../PictureResource/GamePacman/UP.png"), img_size, img_size, true);
+   loadimage(&player_img[3], _T("../PictureResource/GamePacman/DOWN.png"), img_size, img_size, true);
+   loadimage(&player_img[4], _T("../PictureResource/GamePacman/close.png"), img_size, img_size, true);
    loadimage(&ghost_img[0], _T("../PictureResource/GamePacman/3.png"), img_size, img_size, true);
    loadimage(&ghost_img[1], _T("../PictureResource/GamePacman/4.png"), img_size, img_size, true);
    loadimage(&ghost_img[2], _T("../PictureResource/GamePacman/5.png"), img_size, img_size, true);

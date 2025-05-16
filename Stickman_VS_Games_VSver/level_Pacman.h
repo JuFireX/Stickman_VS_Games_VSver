@@ -87,7 +87,7 @@ public:
     int GridSize = 4;
     int GameFrame = 6; // ��Ϸˢ����
     int img_size = 20;
-    IMAGE player_img[2];
+    IMAGE player_img[5];
 };
 
 #endif
