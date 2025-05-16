@@ -13,7 +13,7 @@
 #include <windows.h>
 #include <wingdi.h>
 #include "level_Tetris.h"
-
+#include "level_pacman.h"
 // ...
 using namespace std;
 Engine::Engine() {}
@@ -406,6 +406,75 @@ void Engine::runGameTetris()
         }
         FlushBatchDraw();
 
+        Sleep(1000 / game->GameFrame);
+
+    }
+
+    EndBatchDraw();
+    closegraph();
+    delete game;
+}
+
+void Engine::runGamePacman()
+{
+    bool fuck = true;
+
+    GamePacman* game = new GamePacman();
+
+    initgraph(width, height); // ��������
+    setbkcolor(WHITE);        // ���ñ���ɫΪ��ɫ
+    cleardevice();
+    game->load();
+    game->initGame();
+    BeginBatchDraw();
+    while (!game->gameOver)
+    {
+        int cnt=0;
+        char inputKey = ' ';
+
+        // 只保留最后一个方向键消息
+        while (peekmessage(&msg)) {
+            if (msg.message == WM_KEYDOWN) {
+                if (msg.vkcode == VK_ESCAPE) {
+                    running = false;
+                    break;
+                }
+                else if (msg.vkcode == VK_UP || msg.vkcode == 'W') {
+                    inputKey = 'w';
+                }
+                else if (msg.vkcode == VK_DOWN || msg.vkcode == 'S') {
+                    inputKey = 's';
+                }
+                else if (msg.vkcode == VK_LEFT || msg.vkcode == 'A') {
+                    inputKey = 'a';
+                }
+                else if (msg.vkcode == VK_RIGHT || msg.vkcode == 'D') {
+                    inputKey = 'd';
+                }
+            }
+        }
+
+        // 每帧只处理最后一个方向输入
+        game->update(inputKey);
+
+        cleardevice();
+        GameMap = game->getMap();
+        for (int i = 0; i < game->GameHigh; i++)
+        {
+            for (position u : GameMap[i])
+            {
+                if (u.val == 2)
+                {
+                     putimage_alpha(u.x, u.y, &game->player_img[cnt%2]);
+                }
+                else
+                {
+					putimage_alpha(u.x, u.y, &game->MapImg[u.val]);
+                }
+            }
+        }
+        FlushBatchDraw();
+        cnt++;
         Sleep(1000 / game->GameFrame);
 
     }

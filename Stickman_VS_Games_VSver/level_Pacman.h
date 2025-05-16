@@ -38,8 +38,9 @@ private:
         int speed;
         bool live;
         bool close;
+		
     } player;
-
+    
     struct ghost
     {
         int x;
@@ -51,13 +52,12 @@ private:
         int form;
         bool live;
     } ghost[3];
-
+    IMAGE ghost_img[3];
     static const int GRID_SIZE = 20;
     int grid[GRID_SIZE][GRID_SIZE] = {0};
     vector<pair<int, int>> snake;
     pair<int, int> food;
     Direction direction = Direction::RIGHT;
-    bool gameOver = false;
     int score = 0;
     mt19937 rng;
 
@@ -67,7 +67,8 @@ private:
     bool processInput(char key);
     void display(const vector<vector<int>> &grid, int size) const;
     void updateGrid(); // 更新游戏网格
-
+    IMAGE Wall;
+	IMAGE Food;
 public:
     GamePacman();                        // 构造函数
     void initGame();                     // 初始化游戏矩阵
@@ -76,6 +77,16 @@ public:
     GameState state() const;             // 获取游戏状态
     vector<vector<int>> getGrid() const; // 获取游戏矩阵
     int getScore() const;                // 获取游戏得分
+
+    bool gameOver = false;
+    void load() override; // 加载游戏素材
+    map<int, IMAGE> MapImg;
+    vector<vector<position>> getMap() const override;
+    int GameHigh = 24;
+    int GridSize = 4;
+    int GameFrame = 6; // 游戏刷新率
+    int img_size = 20;
+    IMAGE player_img[2];
 };
 
 #endif

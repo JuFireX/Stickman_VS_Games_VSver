@@ -7,9 +7,9 @@ int main()
     //engine->runGameSnake();
     //engine->runGame2048();
     //engine->runGameSokoban();
-	engine->runGameTetris();
+	//engine->runGameTetris();
+    engine->runGamePacman();
     delete engine;
 
-    std::cout << LEVEL_2048 ;
     return 0;
 }

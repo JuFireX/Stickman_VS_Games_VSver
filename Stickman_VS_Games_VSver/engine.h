@@ -75,5 +75,6 @@ public:
 	void runGameSnake();
 	void runGameSokoban();
 	void runGameTetris();
+	void runGamePacman();
 };
 #endif // ENGINE_H

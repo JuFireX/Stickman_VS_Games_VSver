@@ -43,11 +43,11 @@ void GamePacman::initMovers()
     player.x = 1;
     player.y = 18;
     player.direction = Direction::RIGHT;
-    player.speed = 3;
+    player.speed = 1;
     ghost[0].x = 18;
     ghost[0].y = 1;
     ghost[0].direction = Direction::LEFT;
-    ghost[0].speed = 2;
+    ghost[0].speed = 1;
     ghost[0].live = 1;
     ghost[1].x = 18;
     ghost[1].y = 16;
@@ -221,4 +221,49 @@ void GamePacman::startGame()
         }
         Sleep(200);
     }
+}
+//以下为渲染部分
+void GamePacman::load()  
+{  
+   // 修复错误：确保路径和参数正确  
+   loadimage(&player_img[0], _T("../PictureResource/GamePacman/2.png"), img_size, img_size, true);  
+   loadimage(&player_img[1], _T("../PictureResource/GamePacman/1.png"), img_size, img_size, true);
+   loadimage(&ghost_img[0], _T("../PictureResource/GamePacman/3.png"), img_size, img_size, true);
+   loadimage(&ghost_img[1], _T("../PictureResource/GamePacman/4.png"), img_size, img_size, true);
+   loadimage(&ghost_img[2], _T("../PictureResource/GamePacman/5.png"), img_size, img_size, true);
+   loadimage(&Wall, _T("../PictureResource/GamePacman/wall.png"), img_size, img_size, true);
+   loadimage(&Food, _T("../PictureResource/GamePacman/1.png"), 10, 10, true);
+   MapImg[WALL] = Wall;
+   MapImg[FOOD] = Food;
+   MapImg[GHOST1] = ghost_img[0];
+   MapImg[GHOST2] = ghost_img[1];
+   MapImg[GHOST3] = ghost_img[2];
+}
+
+vector<vector<position>> GamePacman::getMap() const // 重绘地图
+{
+    vector<vector<int>> state = getGrid();
+    vector<vector<position>> GameMap;
+    int sizeY = 480 / 24;
+    int sizeX = 720 / 36;
+    for (int i = 0; i < 24; i++)
+    {
+        vector<position> row;
+        for (int j = 0; j < 36; j++)
+        {
+            row.push_back({ 0, j * sizeX, i * sizeY });
+        }
+        GameMap.push_back(row);
+    }
+    for (int i = 0; i < GRID_SIZE; i++)
+    {
+        for (int j = 0; j < GRID_SIZE; j++)
+        {
+            if (state[i][j] != EMPTY)
+            {
+                GameMap[2+i][8+j].val = state[i][j];
+            }
+        }
+    }
+    return GameMap;
 }
