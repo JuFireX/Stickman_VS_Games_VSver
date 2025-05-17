@@ -345,8 +345,15 @@ int GameTetris::getScore() const
 //以下为渲染部分
 void GameTetris::load()
 {
-	loadimage(&img_Tetris[0], _T("./PictureResource/GameTetris/wall.png"), img_size, img_size, true);
+	loadimage(&img_Tetris[0], _T("./PictureResource/GameTetris/wall.png"), 40, 40, true);
 	loadimage(&img_Tetris[1], _T("./PictureResource/GameTetris/brick.png"), img_size, img_size, true);
+    loadimage(&img_Tetris[2], _T("./PictureResource/GameTetris/brick2.png"), 40, 40, true);
+	loadimage(&img_Tetris[3], _T("./PictureResource/GameTetris/castle.png"), 160, 160, true);
+    loadimage(&img_Tetris[4], _T("./PictureResource/GameTetris/cloud1.png"), 108, 84, true);
+	loadimage(&img_Tetris[5], _T("./PictureResource/GameTetris/cloud2.png"), 132, 96, true);
+	loadimage(&img_Tetris[6], _T("./PictureResource/GameTetris/back.png"), 720, 480, true);
+	loadimage(&img_Tetris[7], _T("./PictureResource/GameTetris/tennal.png"), 200, 80, true);
+	loadimage(&img_Tetris[8], _T("./PictureResource/GameTetris/luckybrick.png"), 40, 40, true);
 	MapImg[WALL] = img_Tetris[0];
 	MapImg[BRICK] = img_Tetris[1];
 }
@@ -371,23 +378,27 @@ vector<vector<position>> GameTetris::getMap() const // 重绘地图
         {
             if (state[i][j] != EMPTY)
             {
-                GameMap[i][12+j].val = state[i][j];
+                GameMap[i][10+j].val = state[i][j];
             }
         }
     }
-    for (int i = 0; i < 12; i++)
+    for (int i = 0; i < 10; i++)
     {
-        for (int j = 11; j < 24; j++)
+        for (int j = 16; j < 24; j++)
         {
+            if(j%2==0&&i%2==0)
                 GameMap[j][i].val = WALL;
         }
 		    
     }
 
-    for (int i = 22; i < 36; i++)
+    for (int i = 20; i < 36; i++)
     {
-        for (int j = 11; j < 24; j++)
-            GameMap[j][i].val = WALL;
+        for (int j = 16; j < 24; j++)
+        {
+			if (j % 2 == 0 && i % 2 == 0)
+				GameMap[j][i].val = WALL;
+        }
     }
     return GameMap;
 }

@@ -205,10 +205,6 @@ void GameSnake::initGame()
 
 void GameSnake::update(char key)
 {
-	if (key == ' ')
-	{
-		moveSnake();
-	}
 	if (processInput(key))
 		moveSnake();
 }
