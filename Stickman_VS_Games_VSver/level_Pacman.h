@@ -54,6 +54,7 @@ private:
     static const int GRID_SIZE = 20;
     int food_grid[GRID_SIZE][GRID_SIZE] = { 0 };
     int run_grid[GRID_SIZE][GRID_SIZE] = { 0 };
+    int run_grid_copy[GRID_SIZE][GRID_SIZE] = { 0 };
     int grid[GRID_SIZE][GRID_SIZE] = { 0 };
     
     Direction direction = Direction::RIGHT;
@@ -66,8 +67,8 @@ private:
     void initGrid();
     void movePlayer();
     void moveGhosts();
+    void judgeScore();
     int ghost1(int g_map_x, int g_map_y, int p_map_x, int p_map_y, int* g1_track_x, int* g1_track_y);
-    int judgeScore();
     bool processInput(char key);
     void display(const vector<vector<int>>& grid, int size) const;
     void updateGrid(); // 更新游戏网格

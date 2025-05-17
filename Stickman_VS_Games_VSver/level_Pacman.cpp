@@ -101,8 +101,10 @@ void GamePacman::initGrid()
                 run_grid[i][j] = EMPTY;
                 target++;
             }
+            run_grid_copy[i][j] = run_grid[i][j];
         }
     }
+
 }
 
 void GamePacman::initMovers()
@@ -127,6 +129,8 @@ void GamePacman::initMovers()
     ghost[1].direction = Direction::LEFT;
     ghost[1].speed = 1;
     ghost[1].live = 1;
+    // ghost[2]相关代码已注释
+    /*
     ghost[2].x = 1;
     ghost[2].y = 1;
     ghost[2].old_x = 1;
@@ -135,11 +139,12 @@ void GamePacman::initMovers()
     ghost[2].speed = 1;
     ghost[2].form = 0;
     ghost[2].live = 1;
+    */
 }
 void GamePacman::initGame()
 {
     phase = 1;
-    score = 0;
+    score = 1;
     initGrid();
     initMovers();
     updateGrid();
@@ -155,13 +160,13 @@ void GamePacman::updateGrid()
     run_grid[player.old_y][player.old_x] = EMPTY;
     run_grid[ghost[0].old_y][ghost[0].old_x] = EMPTY;
     run_grid[ghost[1].old_y][ghost[1].old_x] = EMPTY;
-    run_grid[ghost[2].old_y][ghost[2].old_x] = EMPTY;
+    // run_grid[ghost[2].old_y][ghost[2].old_x] = EMPTY;
 
     // 鏇存柊鏂扮殑浣嶇疆
     run_grid[player.y][player.x] = PLAYER;
     run_grid[ghost[0].y][ghost[0].x] = GHOST1;
     run_grid[ghost[1].y][ghost[1].x] = GHOST2;
-    run_grid[ghost[2].y][ghost[2].x] = GHOST3;
+    // run_grid[ghost[2].y][ghost[2].x] = GHOST3;
 }
 
 bool GamePacman::processInput(char input)
@@ -222,61 +227,73 @@ void GamePacman::movePlayer()
 
 void GamePacman::moveGhosts()
 {
+    // 添加静态计数器，用于控制幽灵移动频率（减半速度）
+    static int moveCounter = 0;
+
     // 保存幽灵的旧位置
     ghost[0].old_x = ghost[0].x;
     ghost[0].old_y = ghost[0].y;
     ghost[1].old_x = ghost[1].x;
     ghost[1].old_y = ghost[1].y;
-    ghost[2].old_x = ghost[2].x;
-    ghost[2].old_y = ghost[2].y;
+    // ghost[2].old_x = ghost[2].x;
+    // ghost[2].old_y = ghost[2].y;
 
     // 使用ghost1函数控制幽灵移动
     int track_x, track_y;
-    int dir = ghost1(ghost[0].x, ghost[0].y, player.x, player.y, &track_x, &track_y);
 
-    // 根据返回的方向移动幽灵
-    switch (dir)
-    {
-    case 0: // 右
-        if (run_grid[ghost[0].y][ghost[0].x + 1] != WALL)
-            ghost[0].x += ghost[0].speed;
-        break;
-    case 1: // 上
-        if (run_grid[ghost[0].y - 1][ghost[0].x] != WALL)
-            ghost[0].y -= ghost[0].speed;
-        break;
-    case 2: // 左
-        if (run_grid[ghost[0].y][ghost[0].x - 1] != WALL)
-            ghost[0].x -= ghost[0].speed;
-        break;
-    case 3: // 下
-        if (run_grid[ghost[0].y + 1][ghost[0].x] != WALL)
-            ghost[0].y += ghost[0].speed;
-        break;
-    }
+    // 只在计数器为0时移动幽灵（每两次调用移动一次）
+    if (moveCounter == 0) {
+        // ghost1移动逻辑
+        int dir1 = ghost1(ghost[0].x, ghost[0].y, player.x, player.y, &track_x, &track_y);
 
-    // 简单的随机移动逻辑用于其他幽灵
-    for (int i = 1; i < 3; i++) {
-        int random_dir = rng() % 4;
-        switch (random_dir) {
+        // 根据返回的方向移动幽灵1
+        switch (dir1)
+        {
         case 0: // 右
-            if (run_grid[ghost[i].y][ghost[i].x + 1] != WALL)
-                ghost[i].x += ghost[i].speed;
+            if (run_grid[ghost[0].y][ghost[0].x + 1] != WALL)
+                ghost[0].x += ghost[0].speed;
             break;
         case 1: // 上
-            if (run_grid[ghost[i].y - 1][ghost[i].x] != WALL)
-                ghost[i].y -= ghost[i].speed;
+            if (run_grid[ghost[0].y - 1][ghost[0].x] != WALL)
+                ghost[0].y -= ghost[0].speed;
             break;
         case 2: // 左
-            if (run_grid[ghost[i].y][ghost[i].x - 1] != WALL)
-                ghost[i].x -= ghost[i].speed;
+            if (run_grid[ghost[0].y][ghost[0].x - 1] != WALL)
+                ghost[0].x -= ghost[0].speed;
             break;
         case 3: // 下
-            if (run_grid[ghost[i].y + 1][ghost[i].x] != WALL)
-                ghost[i].y += ghost[i].speed;
+            if (run_grid[ghost[0].y + 1][ghost[0].x] != WALL)
+                ghost[0].y += ghost[0].speed;
+            break;
+        }
+
+        // ghost2也使用ghost1函数进行智能追踪
+        int dir2 = ghost1(ghost[1].x, ghost[1].y, player.x, player.y, &track_x, &track_y);
+
+        // 根据返回的方向移动幽灵2
+        switch (dir2)
+        {
+        case 0: // 右
+            if (run_grid[ghost[1].y][ghost[1].x + 1] != WALL)
+                ghost[1].x += ghost[1].speed;
+            break;
+        case 1: // 上
+            if (run_grid[ghost[1].y - 1][ghost[1].x] != WALL)
+                ghost[1].y -= ghost[1].speed;
+            break;
+        case 2: // 左
+            if (run_grid[ghost[1].y][ghost[1].x - 1] != WALL)
+                ghost[1].x -= ghost[1].speed;
+            break;
+        case 3: // 下
+            if (run_grid[ghost[1].y + 1][ghost[1].x] != WALL)
+                ghost[1].y += ghost[1].speed;
             break;
         }
     }
+
+    // 更新计数器，在0和1之间切换
+    moveCounter = (moveCounter + 1) % 2;
 }
 
 void GamePacman::update(char key)
@@ -299,12 +316,18 @@ void GamePacman::update(char key)
             }
         }
     }
-
+    judgeScore();
     // 检查玩家是否与幽灵碰撞
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < 2; i++) { // 修改为只检查ghost1和ghost2
         if (player.x == ghost[i].x && player.y == ghost[i].y) {
-            // 玩家与幽灵碰撞，游戏结束
-            phase = 0;
+            for (int i = 0; i < GRID_SIZE; ++i)
+            {
+                for (int j = 0; j < GRID_SIZE; ++j)
+                {
+                    run_grid[i][j] = run_grid_copy[i][j];
+                }
+            }
+            initMovers();
             break;
         }
     }
@@ -323,12 +346,11 @@ vector<vector<int>> GamePacman::getGrid() const
     return gridCopy;
 }
 //已修改
-int GamePacman::judgeScore()
+void GamePacman::judgeScore()
 {
     // 检查是否达到目标分数，并更新游戏阶段
     if (score >= target)
-        phase = 2;
-    return score;
+        gameOver = true;
 }
 
 int GamePacman::getScore() const
@@ -338,7 +360,6 @@ int GamePacman::getScore() const
 
 GameState GamePacman::state() const
 {
-    // return phase==0 ? GameState::GameOver : GameState::Running;
     return GameState::Running;
 }
 // Test methods
@@ -359,8 +380,8 @@ void GamePacman::display(const vector<vector<int>>& grid, int size) const
                 cout << "1 ";
             else if (grid[i][j] == GHOST2)
                 cout << "2 ";
-            else if (grid[i][j] == GHOST3)
-                cout << "3 ";
+            // else if (grid[i][j] == GHOST3)
+            //     cout << "3 ";
             else if (grid[i][j] == EMPTY)
                 cout << "  "; // 空白区域
             else
@@ -375,7 +396,8 @@ void GamePacman::startGame()
 {
     initGame();
     display(getGrid(), 20);
-    while (phase == 1)
+
+    while (!gameOver)
     {
         if (_kbhit())
         {
@@ -383,30 +405,17 @@ void GamePacman::startGame()
             if (input == 'q')
                 break;
             update(input);
-
             display(getGrid(), 20);
-            cout << "score:" << getScore() << "  " << "target:" << target << "  " << "phase:" << phase;
         }
-        // 鑷�鏇存�?
+        // 自更新
         else
         {
             update(' ');
             display(getGrid(), 20);
-            cout << "score:" << getScore() << "  " << "target:" << target << "  " << "phase:" << phase;
         }
         Sleep(1000 / 6);
     }
-    while (phase == 0)
-    {
-        cout << "lose";
-        Sleep(1000);
-    }
-
-    while (phase == 2)
-    {
-        cout << "win";
-        Sleep(1000);
-    }
+    
 
 }
 //����Ϊ��Ⱦ����

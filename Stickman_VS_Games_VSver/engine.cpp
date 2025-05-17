@@ -480,7 +480,7 @@ void Engine::runGamePacman()
     int cntframe = 0;
     int cnt_ad = 0;
     IMAGE* img = &game->player_img[0];
-    while (game->phase)
+    while (!game->gameOver)
     {
         
         char inputKey = ' ';
