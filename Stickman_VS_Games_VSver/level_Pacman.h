@@ -17,7 +17,7 @@ using namespace std;
 class GamePacman : public Game
 {
 private:
-    // �����ͼԪ��
+    // 定义地图元素
     static const enum {
         EMPTY,
         WALL,
@@ -27,7 +27,6 @@ private:
         GHOST3,
         FOOD
     } MAP;
-
 
     struct man
     {
@@ -39,9 +38,8 @@ private:
         int speed;
         bool live;
         bool close;
-		
     } player;
-    
+
     struct ghost
     {
         int x;
@@ -53,43 +51,37 @@ private:
         int form;
         bool live;
     } ghost[3];
-    IMAGE ghost_img[3];
+
     static const int GRID_SIZE = 20;
-    int grid[GRID_SIZE][GRID_SIZE] = {0};
-    vector<pair<int, int>> snake;
-    pair<int, int> food;
+    int food_grid[GRID_SIZE][GRID_SIZE] = { 0 };
+    int run_grid[GRID_SIZE][GRID_SIZE] = { 0 };
+    int grid[GRID_SIZE][GRID_SIZE] = { 0 };
+    int phase = 0;
     Direction direction = Direction::RIGHT;
+    //bool gameOver = false;
     int score = 0;
+    int target = 0;
     mt19937 rng;
 
     void initMovers();
     void initGrid();
     void movePlayer();
+    void moveGhosts();
+    int ghost1(int g_map_x, int g_map_y, int p_map_x, int p_map_y, int* g1_track_x, int* g1_track_y);
+    int judgeScore();
     bool processInput(char key);
-    void display(const vector<vector<int>> &grid, int size) const;
-    void updateGrid(); // ������Ϸ����
-    IMAGE Wall;
-	IMAGE Food;
-public:
-    GamePacman();                        // ���캯��
-    void initGame();                     // ��ʼ����Ϸ����
-    void startGame();                    // ��ʼ��Ϸ
-    void update(char key);               // �������������Ϸ����
-    GameState state() const;             // ��ȡ��Ϸ״̬
-    vector<vector<int>> getGrid() const; // ��ȡ��Ϸ����
-    int getScore() const;                // ��ȡ��Ϸ�÷�
+    void display(const vector<vector<int>>& grid, int size) const;
+    void updateGrid(); // 更新游戏网格
 
-    bool gameOver = false;
-    void load() override; // ������Ϸ�ز�
-    map<int, IMAGE> MapImg;
-    vector<vector<position>> getMap() const override;
-    int GameHigh = 24;
-    int GridSize = 4;
-    int GameFrame = 6; // ��Ϸˢ����
-    int img_size = 20;
-    IMAGE player_img[2];
+public:
+    GamePacman();                        // 构造函数
+    void initGame();                     // 初始化游戏矩阵
+    void startGame();                    // 开始游戏
+    void update(char key);               // 根据输入更新游戏矩阵
+    GameState state() const;             // 获取游戏状态
+    vector<vector<int>> getGrid() const; // 获取游戏矩阵
+    int getScore() const;                // 获取游戏得分
 };
 
 #endif
-// level_Pacman.h
 // level_Pacman.h
