@@ -284,10 +284,10 @@ void GameSnake::startGame()
 
 void GameSnake::load() // 下载图片
 {
-	loadimage(&img_snake[0], _T("../PictureResource/GameSnake/head.png"), img_size, img_size, true);
-	loadimage(&img_snake[1], _T("../PictureResource/GameSnake/body.png"), img_size, img_size, true);
-	loadimage(&img_snake[2], _T("../PictureResource/GameSnake/food.png"), img_size, img_size, true);
-	loadimage(&img_snake[3], _T("../PictureResource/GameSnake/wall.png"), img_size, img_size, true);
+	loadimage(&img_snake[0], _T("./PictureResource/GameSnake/head.png"), img_size, img_size, true);
+	loadimage(&img_snake[1], _T("./PictureResource/GameSnake/body.png"), img_size, img_size, true);
+	loadimage(&img_snake[2], _T("./PictureResource/GameSnake/food.png"), img_size, img_size, true);
+	loadimage(&img_snake[3], _T("./PictureResource/GameSnake/wall.png"), img_size, img_size, true);
 	MapImg[SNAKE_HEAD] = img_snake[0];
 	MapImg[SNAKE_BODY] = img_snake[1];
 	MapImg[FOOD] = img_snake[2];

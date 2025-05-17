@@ -129,7 +129,6 @@
   <ItemGroup>
     <ClCompile Include="engine.cpp" />
     <ClCompile Include="level_2048.cpp" />
-    <ClCompile Include="level_Mario.cpp" />
     <ClCompile Include="level_Pacman.cpp" />
     <ClCompile Include="level_Snake.cpp" />
     <ClCompile Include="level_Sokoban.cpp" />
@@ -139,7 +138,6 @@
   <ItemGroup>
     <ClInclude Include="engine.h" />
     <ClInclude Include="level_2048.h" />
-    <ClInclude Include="level_Mario.h" />
     <ClInclude Include="level_Pacman.h" />
     <ClInclude Include="level_Snake.h" />
     <ClInclude Include="level_Sokoban.h" />

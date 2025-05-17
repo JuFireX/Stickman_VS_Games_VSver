@@ -13,15 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="资源文件\Fonts">
-      <UniqueIdentifier>{648b99e0-5df0-4410-a092-f2869359e7c6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="资源文件\Textures">
-      <UniqueIdentifier>{6aaffab0-9903-4fdd-8ef1-fb77c50765c2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="资源文件\Audio">
-      <UniqueIdentifier>{60673e68-4aef-49e0-90b6-88a377560719}</UniqueIdentifier>
-    </Filter>
     <Filter Include="源文件\Levels">
       <UniqueIdentifier>{1dfe7683-e2c0-4d5c-8217-72742d0de94b}</UniqueIdentifier>
     </Filter>
@@ -37,9 +28,6 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="level_2048.cpp">
-      <Filter>源文件\Levels</Filter>
-    </ClCompile>
-    <ClCompile Include="level_Mario.cpp">
       <Filter>源文件\Levels</Filter>
     </ClCompile>
     <ClCompile Include="level_Pacman.cpp">
@@ -60,9 +48,6 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="level_2048.h">
-      <Filter>头文件\Levels</Filter>
-    </ClInclude>
-    <ClInclude Include="level_Mario.h">
       <Filter>头文件\Levels</Filter>
     </ClInclude>
     <ClInclude Include="level_Pacman.h">
