@@ -480,7 +480,7 @@ void Engine::runGamePacman()
     int cntframe = 0;
     int cnt_ad = 0;
     IMAGE* img = &game->player_img[0];
-    while (!game->gameOver)
+    while (game->phase)
     {
         
         char inputKey = ' ';
@@ -488,8 +488,8 @@ void Engine::runGamePacman()
         // 只保留最后一个方向键消息
         while (peekmessage(&msg)) {
             if (msg.message == WM_KEYDOWN) {
-                if (msg.vkcode == VK_ESCAPE) {
-                    game->gameOver = true;
+                if (msg.vkcode == VK_ESCAPE||msg.vkcode == 'Q') {
+                    game->phase = 0;
                     break;
                 }
                 else if (msg.vkcode == VK_UP || msg.vkcode == 'W') {
@@ -504,6 +504,9 @@ void Engine::runGamePacman()
                 else if (msg.vkcode == VK_RIGHT || msg.vkcode == 'D') {
                     inputKey = 'd';
                 }
+				else if (msg.vkcode == 'R') {
+					inputKey = 'r';
+				}
             }
         }
 

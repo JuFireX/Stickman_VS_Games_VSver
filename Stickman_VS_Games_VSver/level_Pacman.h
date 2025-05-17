@@ -55,7 +55,7 @@ private:
     int food_grid[GRID_SIZE][GRID_SIZE] = { 0 };
     int run_grid[GRID_SIZE][GRID_SIZE] = { 0 };
     int grid[GRID_SIZE][GRID_SIZE] = { 0 };
-    int phase = 0;
+    
     Direction direction = Direction::RIGHT;
     //bool gameOver = false;
     int score = 0;
@@ -93,6 +93,7 @@ public:
     int GameFrame = 6; // ��Ϸˢ����
     int img_size = 20;
     IMAGE player_img[5];
+    int phase = 0;
 };
 
 #endif
