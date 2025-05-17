@@ -147,7 +147,16 @@ void Engine::runGame2048()
 
     Game2048* game = new Game2048();
 
-    initgraph(width, height); // ��������
+    initgraph(width, height);
+    HWND hwnd = GetHWnd();
+    SetForegroundWindow(hwnd);
+    SetActiveWindow(hwnd);
+    SetFocus(hwnd);
+
+    // 切换到美式英文输入法
+    HKL hkl = LoadKeyboardLayout(L"00000409", KLF_ACTIVATE);
+    ActivateKeyboardLayout(hkl, KLF_SETFORPROCESS);
+    // ��������
     setbkcolor(WHITE);        // ���ñ���ɫΪ��ɫ
     cleardevice();
     game->load();
@@ -173,7 +182,7 @@ void Engine::runGame2048()
         bool moveLeft = false;
         bool moveUp = false;
         bool moveDown = false;
-
+        bool if_quit = false;
 
         while (peekmessage(&msg))
         {
@@ -200,6 +209,11 @@ void Engine::runGame2048()
                 {
                     moveRight = true;
                 }
+				else if (msg.vkcode == VK_ESCAPE||msg.vkcode=='Q')
+				{
+					if_quit = true;
+					break;
+				}
             }
         }
         if (moveUp)
@@ -222,7 +236,11 @@ void Engine::runGame2048()
         {
             game->update(' ');
         }
-
+        if (if_quit)
+        {
+			running = false;
+			break;
+        }
         Sleep(1000 / game->GameFrame);
 
     }
@@ -238,6 +256,13 @@ void Engine::runGameSnake()
     GameSnake* game = new GameSnake();
 
     initgraph(width, height); // ��������
+    HWND hwnd = GetHWnd();
+    SetForegroundWindow(hwnd);
+    SetActiveWindow(hwnd);
+    SetFocus(hwnd);
+
+    // 切换到美式英文输入法
+    HKL hkl = LoadKeyboardLayout(L"00000409", KLF_ACTIVATE);
     setbkcolor(WHITE);        // ���ñ���ɫΪ��ɫ
     cleardevice();
     game->load();
@@ -299,6 +324,14 @@ void Engine::runGameSokoban()
     GameSokoban* game = new GameSokoban();
 
     initgraph(width, height); // ��������
+    HWND hwnd = GetHWnd();
+    SetForegroundWindow(hwnd);
+    SetActiveWindow(hwnd);
+    SetFocus(hwnd);
+
+    // 切换到美式英文输入法
+    HKL hkl = LoadKeyboardLayout(L"00000409", KLF_ACTIVATE);
+    ActivateKeyboardLayout(hkl, KLF_SETFORPROCESS);
     setbkcolor(WHITE);        // ���ñ���ɫΪ��ɫ
     cleardevice();
     game->load();
@@ -312,8 +345,8 @@ void Engine::runGameSokoban()
         // 只保留最后一个方向键消息
         while (peekmessage(&msg)) {
             if (msg.message == WM_KEYDOWN) {
-                if (msg.vkcode == VK_ESCAPE) {
-                    running = false;
+                if (msg.vkcode == VK_ESCAPE|| msg.vkcode == 'Q') {
+                    game->gameOver = true;
                     break;
                 }
                 else if (msg.vkcode == VK_UP || msg.vkcode == 'W') {
@@ -328,6 +361,9 @@ void Engine::runGameSokoban()
                 else if (msg.vkcode == VK_RIGHT || msg.vkcode == 'D') {
                     inputKey = 'd';
                 }
+				else if (msg.vkcode == 'R') {
+                    inputKey = 'r';
+				}
             }
         }
 
@@ -360,6 +396,13 @@ void Engine::runGameTetris()
     GameTetris* game = new GameTetris();
 
     initgraph(width, height); // ��������
+    HWND hwnd = GetHWnd();
+    SetForegroundWindow(hwnd);
+    SetActiveWindow(hwnd);
+    SetFocus(hwnd);
+
+    // 切换到美式英文输入法
+    HKL hkl = LoadKeyboardLayout(L"00000409", KLF_ACTIVATE);
     setbkcolor(WHITE);        // ���ñ���ɫΪ��ɫ
     cleardevice();
     game->load();
@@ -374,7 +417,7 @@ void Engine::runGameTetris()
         while (peekmessage(&msg)) {
             if (msg.message == WM_KEYDOWN) {
                 if (msg.vkcode == VK_ESCAPE) {
-                    running = false;
+                    game->gameOver = true;
                     break;
                 }
                 else if (msg.vkcode == VK_UP || msg.vkcode == 'W') {
@@ -422,6 +465,13 @@ void Engine::runGamePacman()
     GamePacman* game = new GamePacman();
 
     initgraph(width, height); // ��������
+    HWND hwnd = GetHWnd();
+    SetForegroundWindow(hwnd);
+    SetActiveWindow(hwnd);
+    SetFocus(hwnd);
+
+    // 切换到美式英文输入法
+    HKL hkl = LoadKeyboardLayout(L"00000409", KLF_ACTIVATE);
     //setbkcolor(WHITE);        // ���ñ���ɫΪ��ɫ
     cleardevice();
     game->load();
@@ -430,7 +480,7 @@ void Engine::runGamePacman()
     int cntframe = 0;
     int cnt_ad = 0;
     IMAGE* img = &game->player_img[0];
-    while (!game->gameOver)
+    while (game->phase)
     {
         
         char inputKey = ' ';
@@ -438,8 +488,8 @@ void Engine::runGamePacman()
         // 只保留最后一个方向键消息
         while (peekmessage(&msg)) {
             if (msg.message == WM_KEYDOWN) {
-                if (msg.vkcode == VK_ESCAPE) {
-                    running = false;
+                if (msg.vkcode == VK_ESCAPE||msg.vkcode == 'Q') {
+                    game->phase = 0;
                     break;
                 }
                 else if (msg.vkcode == VK_UP || msg.vkcode == 'W') {
@@ -454,6 +504,9 @@ void Engine::runGamePacman()
                 else if (msg.vkcode == VK_RIGHT || msg.vkcode == 'D') {
                     inputKey = 'd';
                 }
+				else if (msg.vkcode == 'R') {
+					inputKey = 'r';
+				}
             }
         }
 

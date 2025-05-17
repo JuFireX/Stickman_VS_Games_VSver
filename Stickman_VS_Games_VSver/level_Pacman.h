@@ -17,7 +17,6 @@ using namespace std;
 class GamePacman : public Game
 {
 private:
-    // 定义地图元素
     static const enum {
         EMPTY,
         WALL,
@@ -56,7 +55,7 @@ private:
     int food_grid[GRID_SIZE][GRID_SIZE] = { 0 };
     int run_grid[GRID_SIZE][GRID_SIZE] = { 0 };
     int grid[GRID_SIZE][GRID_SIZE] = { 0 };
-    int phase = 0;
+    
     Direction direction = Direction::RIGHT;
     //bool gameOver = false;
     int score = 0;
@@ -73,14 +72,28 @@ private:
     void display(const vector<vector<int>>& grid, int size) const;
     void updateGrid(); // 更新游戏网格
 
+    IMAGE ghost_img[3];
+    IMAGE Wall;
+	IMAGE Food;
 public:
-    GamePacman();                        // 构造函数
-    void initGame();                     // 初始化游戏矩阵
-    void startGame();                    // 开始游戏
-    void update(char key);               // 根据输入更新游戏矩阵
-    GameState state() const;             // 获取游戏状态
-    vector<vector<int>> getGrid() const; // 获取游戏矩阵
-    int getScore() const;                // 获取游戏得分
+    GamePacman();                        // ���캯��
+    void initGame();                     // ��ʼ����Ϸ����
+    void startGame();                    // ��ʼ��Ϸ
+    void update(char key);               // �������������Ϸ����
+    GameState state() const;             // ��ȡ��Ϸ״̬
+    vector<vector<int>> getGrid() const; // ��ȡ��Ϸ����
+    int getScore() const;                // ��ȡ��Ϸ�÷�
+
+    bool gameOver = false;
+    void load() override; // ������Ϸ�ز�
+    map<int, IMAGE> MapImg;
+    vector<vector<position>> getMap() const override;
+    int GameHigh = 24;
+    int GridSize = 4;
+    int GameFrame = 6; // ��Ϸˢ����
+    int img_size = 20;
+    IMAGE player_img[5];
+    int phase = 0;
 };
 
 #endif

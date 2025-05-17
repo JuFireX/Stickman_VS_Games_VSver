@@ -172,6 +172,7 @@ void GameSokoban::checkWinCondition()
     if (boxesOnTarget == targetCount && targetCount > 0)
     {
         gameWon = true;
+        gameOver = true;
     }
 }
 
@@ -215,7 +216,6 @@ void GameSokoban::update(char key)
 {
     processInput(key);
 }
-
 GameState GameSokoban::state() const
 {
     return gameOver ? GameState::GameOver : GameState::Running;
@@ -240,7 +240,7 @@ int GameSokoban::getScore() const
 }
 
 // Test methods
-void GameSokoban::display(const vector<vector<int>> &grid, int size) const
+void GameSokoban::display(const vector<vector<int>>& grid, int size) const
 {
     system("cls");
 
@@ -248,14 +248,23 @@ void GameSokoban::display(const vector<vector<int>> &grid, int size) const
     {
         for (int j = 0; j < size; ++j)
         {
-            cout << grid[i][j] << ' ';
+            if (grid[i][j] == EMPTY)
+                cout << "  ";
+            else if (grid[i][j] == WALL)
+                cout << "# ";
+            else if (grid[i][j] == PLAYER)
+                cout << "@ ";
+            else if (grid[i][j] == BOX)
+                cout << "B ";
+            else if (grid[i][j] == BOX_ON_TARGET)
+                cout << "X ";
+            else if (grid[i][j] == TARGET)
+                cout << "T ";
+            else
+                cout << "  ";
         }
         cout << "\n";
     }
-
-    cout << "\n使用WASD键移动, ESC退出\n";
-    if (gameWon)
-        cout << "\n恭喜! 你完成了关卡!\n";
 }
 
 void GameSokoban::startGame()
@@ -280,11 +289,11 @@ void GameSokoban::startGame()
 
 void GameSokoban::load()
 {
-    loadimage(&img_Sokoban[0], _T("../PictureResource/GameSokoban/wall.png"), img_size, img_size, true);
-    loadimage(&img_Sokoban[1], _T("../PictureResource/GameSokoban/box.jpg"), img_size, img_size, true);
-    loadimage(&img_Sokoban[2], _T("../PictureResource/GameSokoban/player.png"), img_size, img_size, true);
-    loadimage(&img_Sokoban[3], _T("../PictureResource/GameSokoban/target.png"), img_size, img_size, true);
-    loadimage(&img_Sokoban[4], _T("../PictureResource/GameSokoban/target_on_boa.png"), img_size, img_size, true);
+    loadimage(&img_Sokoban[0], _T("./PictureResource/GameSokoban/wall.png"), img_size, img_size, true);
+    loadimage(&img_Sokoban[1], _T("./PictureResource/GameSokoban/box.jpg"), img_size, img_size, true);
+    loadimage(&img_Sokoban[2], _T("./PictureResource/GameSokoban/player.png"), img_size, img_size, true);
+    loadimage(&img_Sokoban[3], _T("./PictureResource/GameSokoban/target.png"), img_size, img_size, true);
+    loadimage(&img_Sokoban[4], _T("./PictureResource/GameSokoban/target_on_boa.png"), img_size, img_size, true);
     MapImg[WALL] = img_Sokoban[0];
     MapImg[BOX] = img_Sokoban[1];
     MapImg[PLAYER] = img_Sokoban[2];

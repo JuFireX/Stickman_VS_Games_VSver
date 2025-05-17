@@ -345,8 +345,8 @@ int GameTetris::getScore() const
 //以下为渲染部分
 void GameTetris::load()
 {
-	loadimage(&img_Tetris[0], _T("../PictureResource/GameTetris/wall.png"), img_size, img_size, true);
-	loadimage(&img_Tetris[1], _T("../PictureResource/GameTetris/brick.png"), img_size, img_size, true);
+	loadimage(&img_Tetris[0], _T("./PictureResource/GameTetris/wall.png"), img_size, img_size, true);
+	loadimage(&img_Tetris[1], _T("./PictureResource/GameTetris/brick.png"), img_size, img_size, true);
 	MapImg[WALL] = img_Tetris[0];
 	MapImg[BRICK] = img_Tetris[1];
 }
