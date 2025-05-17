@@ -402,7 +402,10 @@ void Engine::runGameTetris()
     SetFocus(hwnd);
 
     // 切换到美式英文输入法
+    // 切换到美式英文输入法（"00000409"）
     HKL hkl = LoadKeyboardLayout(L"00000409", KLF_ACTIVATE);
+    ActivateKeyboardLayout(hkl, KLF_SETFORPROCESS);
+
     setbkcolor(WHITE);        // ���ñ���ɫΪ��ɫ
     cleardevice();
     game->load();
@@ -469,9 +472,10 @@ void Engine::runGamePacman()
     SetForegroundWindow(hwnd);
     SetActiveWindow(hwnd);
     SetFocus(hwnd);
-
     // 切换到美式英文输入法
     HKL hkl = LoadKeyboardLayout(L"00000409", KLF_ACTIVATE);
+    ActivateKeyboardLayout(hkl, KLF_SETFORPROCESS);
+
     //setbkcolor(WHITE);        // ���ñ���ɫΪ��ɫ
     cleardevice();
     game->load();
@@ -488,23 +492,29 @@ void Engine::runGamePacman()
         // 只保留最后一个方向键消息
         while (peekmessage(&msg)) {
             if (msg.message == WM_KEYDOWN) {
-                if (msg.vkcode == VK_ESCAPE||msg.vkcode == 'Q') {
+                if (msg.vkcode == VK_ESCAPE||msg.vkcode == 'Q')
+                {
                     game->phase = 0;
                     break;
                 }
-                else if (msg.vkcode == VK_UP || msg.vkcode == 'W') {
+                else if (msg.vkcode == VK_UP || msg.vkcode == 'W')
+                {
                     inputKey = 'w';
                 }
-                else if (msg.vkcode == VK_DOWN || msg.vkcode == 'S') {
+                else if (msg.vkcode == VK_DOWN || msg.vkcode == 'S')
+                {
                     inputKey = 's';
                 }
-                else if (msg.vkcode == VK_LEFT || msg.vkcode == 'A') {
+                else if (msg.vkcode == VK_LEFT || msg.vkcode == 'A')
+                {
                     inputKey = 'a';
                 }
-                else if (msg.vkcode == VK_RIGHT || msg.vkcode == 'D') {
+                else if (msg.vkcode == VK_RIGHT || msg.vkcode == 'D')
+                {
                     inputKey = 'd';
                 }
-				else if (msg.vkcode == 'R') {
+				else if (msg.vkcode == 'R')
+                {
 					inputKey = 'r';
 				}
             }
