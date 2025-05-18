@@ -50,8 +50,7 @@ public:
     void update(char key);               // 根据输入更新游戏矩阵
     GameState state() const;             // 获取游戏状态
     vector<vector<int>> getGrid() const; // 获取游戏矩阵
-    int getScore() const;
-    // 获取游戏得分
+    int getScore() const;                // 获取游戏得分
 
     bool gameOver = false;
     map<int, IMAGE> MapImg;

@@ -13,8 +13,10 @@
 #include "level_Sokoban.h"
 #include "level_Tetris.h"
 #include "level_pacman.h"
+#pragma comment(lib, "MSIMG32.LIB")
 
 using namespace std;
+
 Engine::Engine() {}
 
 /*Game2048* game = new Game2048();
@@ -122,7 +124,7 @@ void Engine::close()
     closegraph();
     delete game;
 }*/
-#pragma comment(lib, "MSIMG32.LIB")
+
 inline void Engine::putimage_alpha(int x, int y, IMAGE *img)
 {
     int w = img->getwidth();
@@ -139,6 +141,7 @@ inline void Engine::putimage_alpha(int x, int y, IMAGE *img)
     AlphaBlend(GetImageHDC(NULL), x, y, w, h,
                GetImageHDC(img), 0, 0, w, h, blendFunction);
 }
+
 void Engine::runGame2048()
 {
 
@@ -155,8 +158,7 @@ void Engine::runGame2048()
     // 切换到美式英文输入法
     HKL hkl = LoadKeyboardLayout(L"00000409", KLF_ACTIVATE);
     ActivateKeyboardLayout(hkl, KLF_SETFORPROCESS);
-    // ????????
-    setbkcolor(WHITE); // ????????????
+    setbkcolor(WHITE);   // 设置背景色
     cleardevice();
     game->load();
 
@@ -253,7 +255,7 @@ void Engine::runGameSnake()
 
     GameSnake *game = new GameSnake();
 
-    initgraph(width, height); // ????????
+    initgraph(width, height); // 初始化窗口
     HWND hwnd = GetHWnd();
     SetForegroundWindow(hwnd);
     SetActiveWindow(hwnd);
@@ -261,7 +263,7 @@ void Engine::runGameSnake()
 
     // 切换到美式英文输入法
     HKL hkl = LoadKeyboardLayout(L"00000409", KLF_ACTIVATE);
-    // setbkcolor(WHITE);        // ????????????
+    // setbkcolor(WHITE);        // 设置背景色
     cleardevice();
     game->load();
 
@@ -326,7 +328,7 @@ void Engine::runGameSokoban()
 
     GameSokoban *game = new GameSokoban();
 
-    initgraph(width, height); // ????????
+    initgraph(width, height); 
     HWND hwnd = GetHWnd();
     SetForegroundWindow(hwnd);
     SetActiveWindow(hwnd);
@@ -335,7 +337,7 @@ void Engine::runGameSokoban()
     // 切换到美式英文输入法
     HKL hkl = LoadKeyboardLayout(L"00000409", KLF_ACTIVATE);
     ActivateKeyboardLayout(hkl, KLF_SETFORPROCESS);
-    // setbkcolor(WHITE);
+    // setbkcolor(WHITE);   // 设置背景色
     cleardevice();
     game->load();
 
@@ -404,7 +406,7 @@ void Engine::runGameTetris()
 
     GameTetris *game = new GameTetris();
 
-    initgraph(width, height); // ????????
+    initgraph(width, height);
     HWND hwnd = GetHWnd();
     SetForegroundWindow(hwnd);
     SetActiveWindow(hwnd);
@@ -415,7 +417,7 @@ void Engine::runGameTetris()
     HKL hkl = LoadKeyboardLayout(L"00000409", KLF_ACTIVATE);
     ActivateKeyboardLayout(hkl, KLF_SETFORPROCESS);
 
-    // setbkcolor(WHITE);        // ????????????
+    // setbkcolor(WHITE);        // 设置背景色
     cleardevice();
     game->load();
     game->initGame();
@@ -488,7 +490,7 @@ void Engine::runGamePacman()
 
     GamePacman *game = new GamePacman();
 
-    initgraph(width, height); // ????????
+    initgraph(width, height);
     HWND hwnd = GetHWnd();
     SetForegroundWindow(hwnd);
     SetActiveWindow(hwnd);
@@ -497,7 +499,7 @@ void Engine::runGamePacman()
     HKL hkl = LoadKeyboardLayout(L"00000409", KLF_ACTIVATE);
     ActivateKeyboardLayout(hkl, KLF_SETFORPROCESS);
 
-    // setbkcolor(WHITE);        // ????????????
+    // setbkcolor(WHITE);        // 设置背景色
     cleardevice();
     game->load();
     game->initGame();

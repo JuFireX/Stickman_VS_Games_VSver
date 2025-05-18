@@ -4,7 +4,7 @@
 
 GamePacman::GamePacman() : rng(time(nullptr)) {}
 
-int GamePacman::ghostDiriction(int ghostX, int ghostY, int playerX, int playerY, int *track_x, int *track_y)
+int GamePacman::ghostDirection(int ghostX, int ghostY, int playerX, int playerY, int *track_x, int *track_y)
 {
     int map1[20][20] = {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
                         {0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0},
@@ -27,7 +27,7 @@ int GamePacman::ghostDiriction(int ghostX, int ghostY, int playerX, int playerY,
                         {0, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0},
                         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
     int trace[400][3];
-    int k = 0, l = 0, derection = 2;
+    int k = 0, l = 0, direction = 2;
     trace[k][0] = ghostX;
     trace[k][1] = ghostY;
     trace[k][2] = 0;
@@ -55,14 +55,14 @@ int GamePacman::ghostDiriction(int ghostX, int ghostY, int playerX, int playerY,
         k = trace[k][2];
     }
     if ((ghostX) < trace[k][0])
-        derection = 0;
+        direction = 0;
     if ((ghostX) > trace[k][0])
-        derection = 2;
+        direction = 2;
     if ((ghostY) > trace[k][1])
-        derection = 1;
+        direction = 1;
     if ((ghostY) < trace[k][1])
-        derection = 3;
-    return derection;
+        direction = 3;
+    return direction;
 }
 
 void GamePacman::initGrid()
@@ -152,13 +152,14 @@ void GamePacman::updateGrid()
         food_grid[player.old_y][player.old_x] = EMPTY;
         score += 1;
     }
-    // 娓??涔?????瀹跺?楝奸?浣?疆
+
+    // 
     run_grid[player.old_y][player.old_x] = EMPTY;
     run_grid[ghost[0].old_y][ghost[0].old_x] = EMPTY;
     run_grid[ghost[1].old_y][ghost[1].old_x] = EMPTY;
     run_grid[ghost[2].old_y][ghost[2].old_x] = EMPTY;
 
-    // ?存??扮?浣?疆
+    // 
     run_grid[player.y][player.x] = PLAYER;
     run_grid[ghost[0].y][ghost[0].x] = GHOST1;
     run_grid[ghost[1].y][ghost[1].x] = GHOST2;
@@ -182,7 +183,7 @@ bool GamePacman::processInput(char input)
     case 's':
         newDir = Direction::DOWN;
         break;
-    case 'r': // ??疆?冲?
+    case 'r':
         initGame();
         return true;
     case ' ':
@@ -258,14 +259,14 @@ void GamePacman::moveGhosts()
     ghost[2].old_x = ghost[2].x;
     ghost[2].old_y = ghost[2].y;
 
-    // 使用ghostDiriction函数控制幽灵移动
+    // 使用 ghostDirection 函数控制幽灵移动
     int track_x, track_y;
 
     // 只在计数器为0时移动幽灵（每两次调用移动一次）
     if (moveCounter == 0)
     {
-        // ghostDiriction移动逻辑
-        int dir1 = ghostDiriction(ghost[0].x, ghost[0].y, player.x, player.y, &track_x, &track_y);
+        // ghostDirection移动逻辑
+        int dir1 = ghostDirection(ghost[0].x, ghost[0].y, player.x, player.y, &track_x, &track_y);
 
         // 根据返回的方向移动幽灵1
         switch (dir1)
@@ -288,8 +289,8 @@ void GamePacman::moveGhosts()
             break;
         }
 
-        // ghost2也使用ghostDiriction函数进行智能追踪
-        int dir2 = ghostDiriction(ghost[1].x, ghost[1].y, player.old_x, player.old_y, &track_x, &track_y);
+        // ghost2也使用 ghostDirection 函数进行智能追踪
+        int dir2 = ghostDirection(ghost[1].x, ghost[1].y, player.old_x, player.old_y, &track_x, &track_y);
 
         // 根据返回的方向移动幽灵2
         switch (dir2)
@@ -311,7 +312,7 @@ void GamePacman::moveGhosts()
                 ghost[1].y += ghost[1].speed;
             break;
         }
-        int dir3 = ghostDiriction(ghost[2].x, ghost[2].y, player.old_x, player.old_y, &track_x, &track_y);
+        int dir3 = ghostDirection(ghost[2].x, ghost[2].y, player.old_x, player.old_y, &track_x, &track_y);
 
         // 根据返回的方向移动幽灵3
         switch (dir3)
@@ -347,7 +348,7 @@ void GamePacman::update(char key)
     // 移动幽灵
     moveGhosts();
 
-    // 更新grid数组，确保幽灵显示
+    // 更新 grid 数组，确保幽灵显示
     for (int i = 0; i < GRID_SIZE; ++i)
     {
         for (int j = 0; j < GRID_SIZE; ++j)
@@ -407,6 +408,8 @@ GameState GamePacman::state() const
 {
     return GameState::Running;
 }
+
+
 // Test methods
 void GamePacman::display(const vector<vector<int>> &grid, int size) const
 {
