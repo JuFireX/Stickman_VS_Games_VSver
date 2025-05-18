@@ -19,113 +19,7 @@ using namespace std;
 
 Engine::Engine() {}
 
-/*Game2048* game = new Game2048();
-
-void Engine::render()
-{
-	GameMap = game->getMap();
-	for (int i = 0; i < game->GameHigh; i++)
-	{
-		for (position u : GameMap[i])
-		{
-			putimage(u.x, u.y, &game->MapImg[u.val]);
-		}
-	}
-	FlushBatchDraw();
-}
-
-void Engine::MessageHandle()
-{
-	bool moveRight = false;
-	bool moveLeft = false;
-	bool moveUp = false;
-	bool moveDown = false;
-
-	while (peekmessage(&msg))
-	{
-		if (msg.message == WM_KEYDOWN)
-		{
-			if (msg.vkcode == VK_ESCAPE)
-			{
-				running = false;
-				break;
-			}
-			else if (msg.vkcode == VK_UP || msg.vkcode == 'W')
-			{
-				moveUp = true;
-			}
-			else if (msg.vkcode == VK_DOWN || msg.vkcode == 'S')
-			{
-				moveDown = true;
-			}
-			else if (msg.vkcode == VK_LEFT || msg.vkcode == 'A')
-			{
-				moveLeft = true;
-			}
-			else if (msg.vkcode == VK_RIGHT || msg.vkcode == 'D')
-			{
-				moveRight = true;
-			}
-		}
-	}
-	if (moveUp)
-	{
-		game->update('w');
-	}
-	else if (moveDown)
-	{
-		game->update('s');
-	}
-	else if (moveLeft)
-	{
-		game->update('a');
-	}
-	else if (moveRight)
-	{
-		game->update('d');
-	}
-	else
-	{
-		game->update(' ');
-	}
-}
-
-void Engine::init()
-{
-	bool fuck = true;
-	initgraph(width, height); // ????????
-	setbkcolor(WHITE);        // ????????????
-	cleardevice();
-	game->load();
-}
-
-void Engine::run()
-{
-
-	game->initGame();
-	BeginBatchDraw();
-	while (!game->gameOver)
-	{
-
-		cleardevice();
-		render();
-
-		MessageHandle();
-
-		Sleep(1000/6);
-
-	}
-	EndBatchDraw();
-}
-
-
-void Engine::close()
-{
-	closegraph();
-	delete game;
-}*/
-
-inline void Engine::putimage_alpha(int x, int y, IMAGE* img)
+inline void Engine::putimage_alpha(int x, int y, IMAGE* img, int alpha)
 {
 	int w = img->getwidth();
 	int h = img->getheight();
@@ -134,13 +28,41 @@ inline void Engine::putimage_alpha(int x, int y, IMAGE* img)
 	BLENDFUNCTION blendFunction;
 	blendFunction.BlendOp = AC_SRC_OVER;      // 指定源图像覆盖目标图像
 	blendFunction.BlendFlags = 0;             // 必须为 0
-	blendFunction.SourceConstantAlpha = 255;  // 全不透明 (0-255)
+	blendFunction.SourceConstantAlpha = alpha;  // 全不透明 (0-255)
 	blendFunction.AlphaFormat = AC_SRC_ALPHA; // 使用源图像的 alpha 通道
 
 	// 调用 AlphaBlend 函数
 	AlphaBlend(GetImageHDC(NULL), x, y, w, h,
 		GetImageHDC(img), 0, 0, w, h, blendFunction);
 }
+void Engine::fadeout_clear_screen(int width, int height, int steps, int delay)
+{
+	IMAGE mask;
+	loadimage(&mask, _T("./PictureResource/white.png") , width, height, true);
+	for (int i = 1; i <= steps; ++i)
+	{
+		int alpha = i * 255 / steps;
+		putimage_alpha(0, 0, &mask, alpha);
+		FlushBatchDraw();            
+		Sleep(delay);                
+	}
+}
+
+
+void Engine::initGame()
+{
+	initgraph(width, height);
+	HWND hwnd = GetHWnd();
+	SetForegroundWindow(hwnd);
+	SetActiveWindow(hwnd);
+	SetFocus(hwnd);
+
+	// 切换到美式英文输入法
+	HKL hkl = LoadKeyboardLayout(L"00000409", KLF_ACTIVATE);
+	ActivateKeyboardLayout(hkl, KLF_SETFORPROCESS);
+}
+
+
 
 void Engine::runGame2048()
 {
@@ -166,19 +88,6 @@ void Engine::runGame2048()
 	BeginBatchDraw();
 	while (!game->gameOver)
 	{
-
-		cleardevice();
-
-		GameMap = game->getMap();
-		for (int i = 0; i < game->GameHigh; i++)
-		{
-			for (position u : GameMap[i])
-			{
-				putimage(u.x, u.y, &game->MapImg[u.val]);
-			}
-		}
-		FlushBatchDraw();
-
 		bool moveRight = false;
 		bool moveLeft = false;
 		bool moveUp = false;
@@ -242,8 +151,41 @@ void Engine::runGame2048()
 			running = false;
 			break;
 		}
+
+		cleardevice();
+
+		GameMap = game->getMap();
+		for (int i = 0; i < game->GameHigh; i++)
+		{
+			for (position u : GameMap[i])
+			{
+				putimage(u.x, u.y, &game->MapImg[u.val]);
+			}
+		}
+		FlushBatchDraw();
+
 		Sleep(1000 / game->GameFrame);
 	}
+	//cleardevice();
+	fadeout_clear_screen(width, height, 255, 10);
+	/*t step = 255;
+	int alpha = 255;
+	int delay = 10;
+	for (int j = 0; j <= step; j++)
+	{
+		cleardevice();
+		GameMap = game->getMap();
+		for (int i = 0; i < game->GameHigh; i++)
+		{
+			for (position u : GameMap[i])
+			{
+				putimage_alpha(u.x, u.y, &game->MapImg[u.val],alpha-(255/step)*j);
+			}
+		}
+		FlushBatchDraw();
+		Sleep(delay);
+	}
+	cleardevice();*/
 	EndBatchDraw();
 	closegraph();
 	delete game;
@@ -310,7 +252,7 @@ void Engine::runGameSnake()
 		{
 			for (position u : GameMap[i])
 			{
-				putimage_alpha(u.x, u.y, &game->MapImg[u.val]);
+				putimage_alpha(u.x, u.y, &game->MapImg[u.val],255);
 			}
 		}
 		FlushBatchDraw();
@@ -388,7 +330,7 @@ void Engine::runGameSokoban()
 		{
 			for (position u : GameMap[i])
 			{
-				putimage_alpha(u.x, u.y, &game->MapImg[u.val]);
+				putimage_alpha(u.x, u.y, &game->MapImg[u.val],255);
 			}
 		}
 		FlushBatchDraw();
@@ -459,21 +401,21 @@ void Engine::runGameTetris()
 		// 每帧只处理最后一个方向输入
 		game->update(inputKey);
 		cleardevice();
-		putimage_alpha(0, 0, &game->img_Tetris[6]);
-		putimage_alpha(560, 160, &game->img_Tetris[3]);
-		putimage_alpha(42, 42, &game->img_Tetris[4]);
-		putimage_alpha(370, 60, &game->img_Tetris[5]);
-		putimage_alpha(80, 200, &game->img_Tetris[8]);
+		putimage_alpha(0, 0, &game->img_Tetris[6],255);
+		putimage_alpha(560, 160, &game->img_Tetris[3],255);
+		putimage_alpha(42, 42, &game->img_Tetris[4],255);
+		putimage_alpha(370, 60, &game->img_Tetris[5],255);
+		putimage_alpha(80, 200, &game->img_Tetris[8],255);
 		// 绘制游戏地图
 		GameMap = game->getMap();
 		for (int i = 0; i < game->GameHigh; i++)
 		{
 			for (position u : GameMap[i])
 			{
-				putimage_alpha(u.x, u.y, &game->MapImg[u.val]);
+				putimage_alpha(u.x, u.y, &game->MapImg[u.val],255);
 			}
 		}
-		putimage_alpha(0, 400, &game->img_Tetris[7]);
+		putimage_alpha(0, 400, &game->img_Tetris[7],255);
 		FlushBatchDraw();
 
 		Sleep(1000 / game->GameFrame);
@@ -578,16 +520,16 @@ void Engine::runGamePacman()
 						cnt_ad++;
 					if (cnt_ad % 2 == 0)
 					{
-						putimage_alpha(u.x, u.y, &game->player_img[4]);
+						putimage_alpha(u.x, u.y, &game->player_img[4],255);
 					}
 					else
 					{
-						putimage_alpha(u.x, u.y, img);
+						putimage_alpha(u.x, u.y, img,255);
 					}
 				}
 				else
 				{
-					putimage_alpha(u.x, u.y, &game->MapImg[u.val]);
+					putimage_alpha(u.x, u.y, &game->MapImg[u.val],255);
 				}
 			}
 		}

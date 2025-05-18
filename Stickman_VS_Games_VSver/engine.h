@@ -67,7 +67,7 @@ private:
 	int MapSizeX = 20, MapSizeY = 12;
 	bool running = true;
 	ExMessage msg = ExMessage();
-	inline void putimage_alpha(int x, int y, IMAGE* img);
+	inline void putimage_alpha(int x, int y, IMAGE* img,int alpha);
 
 public:
 	Engine();
@@ -78,6 +78,8 @@ public:
 	void runGameSokoban();
 	void runGameTetris();
 	void runGamePacman();
+	void initGame();
+	void fadeout_clear_screen(int wide,int height,int step,int delay);
 };
 #endif
 // ENGINE_H
