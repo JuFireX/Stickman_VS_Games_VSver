@@ -27,7 +27,7 @@ void pause(int timeout)
 }
 
 // 根据参数字符串模拟流式输出
-void streamOutput(const string &output, int speed, int timeout)
+void streamOutput(const string& output, int speed, int timeout)
 {
 	for (char c : output)
 	{
@@ -40,14 +40,14 @@ void streamOutput(const string &output, int speed, int timeout)
 }
 
 // 根据参数字符串直接输出
-void directOutput(const string &output, int timeout)
+void directOutput(const string& output, int timeout)
 {
 	cout << output << endl;
 	pause(timeout);
 }
 
 // 输出选择
-int choiceOutput(const string &output, const vector<string> &choices)
+int choiceOutput(const string& output, const vector<string>& choices)
 {
 	streamOutput(output, 10, 0);
 	for (int i = 0; i < choices.size(); i++)
@@ -82,7 +82,7 @@ int main()
 	int count = 1;
 	int temp = 0;
 BEGINING:
-	Engine *engine = new Engine();
+	Engine* engine = new Engine();
 	vector<string> choices;
 	int choice = 0;
 	initGameCli(count++);
@@ -121,7 +121,7 @@ BEGINING:
 	temp = 0;
 	do
 	{
-		choice = choiceOutput("你决定:", {"观察左侧石门", "观察右侧石门", "结束观察"});
+		choice = choiceOutput("你决定:", { "观察左侧石门", "观察右侧石门", "结束观察" });
 		switch (choice)
 		{
 		case 1:
@@ -159,7 +159,7 @@ BEGINING:
 	streamOutput("你来到了马里奥的世界...", 10, 1);
 	streamOutput("视线尽头是一座城堡. emmm设定上一般城堡都是需要钥匙才能进的...", 10, 1);
 	streamOutput("向前走去,不远处的半空漂浮着一个\"幸运方块\"...", 10, 1);
-	choice = choiceOutput("你决定:", {"上蹿下跳", "视而不见", "观察方块", "触碰方块"});
+	choice = choiceOutput("你决定:", { "上蹿下跳", "视而不见", "观察方块", "触碰方块" });
 	switch (choice)
 	{
 	case 1:
@@ -172,7 +172,7 @@ BEGINING:
 	case 2:
 		streamOutput("鹅, 不愧是你, 毕竟自古CT不抬头.", 10, 1);
 		streamOutput("继续前进, 你发现了一个深坑.", 10, 1);
-		choice = choiceOutput("你决定:", {"视而不见继续前进", "观察坑的周围"});
+		choice = choiceOutput("你决定:", { "视而不见继续前进", "观察坑的周围" });
 		switch (choice)
 		{
 		case 1:
@@ -236,7 +236,7 @@ BEGINING:
 	streamOutput("方块落下, 阶梯之外, 皆化作泡影...", 10, 1);
 	streamOutput("码神赞赏你的智慧, 治好了你的甲沟炎!(可以跳在台阶上了)", 10, 1);
 
-	choice = choiceOutput("你决定:", {"跳到台阶顶", "跳到半台阶腰", "跳到台阶脚"});
+	choice = choiceOutput("你决定:", { "跳到台阶顶", "跳到半台阶腰", "跳到台阶脚" });
 	switch (choice)
 	{
 	case 1:
@@ -265,7 +265,7 @@ BEGINING:
 	temp = 0;
 	do
 	{
-		choice = choiceOutput("你决定:", {"钻进通道", "前往城堡", "尝试跳回去"});
+		choice = choiceOutput("你决定:", { "钻进通道", "前往城堡", "尝试跳回去" });
 		switch (choice)
 		{
 		case 1:
@@ -369,7 +369,7 @@ BEGINING:
 	streamOutput("费了一些脑细胞, 石门终于挪动...", 10, 1);
 	streamOutput("......", 10, 1);
 	streamOutput("你再次来到马里奥的世界.", 10, 1);
-	choices = {"观察石门", "观察天空", "观察幸运方块", "观察深坑周围", "前往登神长阶"};
+	choices = { "观察石门", "观察天空", "观察幸运方块", "观察深坑周围", "前往登神长阶" };
 	do
 	{
 		choice = choiceOutput("你决定:", choices);
@@ -396,7 +396,7 @@ BEGINING:
 	// 第五关报幕
 	streamOutput("是熟悉的阶梯.", 10, 1);
 	streamOutput("(这里我想写一个分支, 观察场景中的一些物体)", 10, 1);
-	choices = {"观察通道入口", "观察台阶", "观察手中的方盒", "观察城堡的门", "进入城堡"};
+	choices = { "观察通道入口", "观察台阶", "观察手中的方盒", "观察城堡的门", "进入城堡" };
 	do
 	{
 		choice = choiceOutput("你决定:", choices);

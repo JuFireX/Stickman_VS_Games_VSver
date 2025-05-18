@@ -38,13 +38,13 @@ inline void Engine::putimage_alpha(int x, int y, IMAGE* img, int alpha)
 void Engine::fadeout_clear_screen(int width, int height, int steps, int delay)
 {
 	IMAGE mask;
-	loadimage(&mask, _T("./PictureResource/white.png") , width, height, true);
+	loadimage(&mask, _T("./PictureResource/white.png"), width, height, true);
 	for (int i = 1; i <= steps; ++i)
 	{
 		int alpha = i * 255 / steps;
 		putimage_alpha(0, 0, &mask, alpha);
-		FlushBatchDraw();            
-		Sleep(delay);                
+		FlushBatchDraw();
+		Sleep(delay);
 	}
 }
 
@@ -252,7 +252,7 @@ void Engine::runGameSnake()
 		{
 			for (position u : GameMap[i])
 			{
-				putimage_alpha(u.x, u.y, &game->MapImg[u.val],255);
+				putimage_alpha(u.x, u.y, &game->MapImg[u.val], 255);
 			}
 		}
 		FlushBatchDraw();
@@ -330,7 +330,7 @@ void Engine::runGameSokoban()
 		{
 			for (position u : GameMap[i])
 			{
-				putimage_alpha(u.x, u.y, &game->MapImg[u.val],255);
+				putimage_alpha(u.x, u.y, &game->MapImg[u.val], 255);
 			}
 		}
 		FlushBatchDraw();
@@ -401,21 +401,21 @@ void Engine::runGameTetris()
 		// 每帧只处理最后一个方向输入
 		game->update(inputKey);
 		cleardevice();
-		putimage_alpha(0, 0, &game->img_Tetris[6],255);
-		putimage_alpha(560, 160, &game->img_Tetris[3],255);
-		putimage_alpha(42, 42, &game->img_Tetris[4],255);
-		putimage_alpha(370, 60, &game->img_Tetris[5],255);
-		putimage_alpha(80, 200, &game->img_Tetris[8],255);
+		putimage_alpha(0, 0, &game->img_Tetris[6], 255);
+		putimage_alpha(560, 160, &game->img_Tetris[3], 255);
+		putimage_alpha(42, 42, &game->img_Tetris[4], 255);
+		putimage_alpha(370, 60, &game->img_Tetris[5], 255);
+		putimage_alpha(80, 200, &game->img_Tetris[8], 255);
 		// 绘制游戏地图
 		GameMap = game->getMap();
 		for (int i = 0; i < game->GameHigh; i++)
 		{
 			for (position u : GameMap[i])
 			{
-				putimage_alpha(u.x, u.y, &game->MapImg[u.val],255);
+				putimage_alpha(u.x, u.y, &game->MapImg[u.val], 255);
 			}
 		}
-		putimage_alpha(0, 400, &game->img_Tetris[7],255);
+		putimage_alpha(0, 400, &game->img_Tetris[7], 255);
 		FlushBatchDraw();
 
 		Sleep(1000 / game->GameFrame);
@@ -520,16 +520,16 @@ void Engine::runGamePacman()
 						cnt_ad++;
 					if (cnt_ad % 2 == 0)
 					{
-						putimage_alpha(u.x, u.y, &game->player_img[4],255);
+						putimage_alpha(u.x, u.y, &game->player_img[4], 255);
 					}
 					else
 					{
-						putimage_alpha(u.x, u.y, img,255);
+						putimage_alpha(u.x, u.y, img, 255);
 					}
 				}
 				else
 				{
-					putimage_alpha(u.x, u.y, &game->MapImg[u.val],255);
+					putimage_alpha(u.x, u.y, &game->MapImg[u.val], 255);
 				}
 			}
 		}
