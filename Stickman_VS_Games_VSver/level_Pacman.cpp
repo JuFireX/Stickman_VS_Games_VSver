@@ -463,10 +463,10 @@ void GamePacman::startGame()
 
 
 }
-//????????????
-void GamePacman::load()  
-{  
-   // ?????????????????????  
+
+
+void GamePacman::load()
+{
    loadimage(&player_img[0], _T("./PictureResource/GamePacman/RIGHT.png"), img_size, img_size, true);  
    loadimage(&player_img[1], _T("./PictureResource/GamePacman/LEFT.png"), img_size, img_size, true);
    loadimage(&player_img[2], _T("./PictureResource/GamePacman/UP.png"), img_size, img_size, true);

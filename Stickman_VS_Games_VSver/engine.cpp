@@ -1,20 +1,19 @@
 // engine.cpp
-
 #include <memory>
 #include <vector>
 #include <iostream>
 #include <cstring>
 #include <string>
 #include <graphics.h>
+#include <windows.h>
+#include <wingdi.h>
+#include "engine.h"
 #include "level_2048.h"
 #include "level_Snake.h"
 #include "level_Sokoban.h"
-#include "engine.h"
-#include <windows.h>
-#include <wingdi.h>
 #include "level_Tetris.h"
 #include "level_pacman.h"
-// ...
+
 using namespace std;
 Engine::Engine() {}
 

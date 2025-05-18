@@ -291,8 +291,9 @@ void GameSokoban::startGame()
         // 非自更新
     }
 }
-//目测要加三个函数（以下部分与主逻辑无关）
 
+
+//目测要加三个函数（以下部分与主逻辑无关）
 void GameSokoban::load()
 {
     loadimage(&img_Sokoban[0], _T("./PictureResource/GameSokoban/wall.png"), img_size, img_size, true);

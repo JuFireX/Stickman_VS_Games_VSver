@@ -2,9 +2,7 @@
 #include <iostream>
 #include "level_Snake.h"
 
-GameSnake::GameSnake() : rng(time(nullptr))
-{
-}
+GameSnake::GameSnake() : rng(time(nullptr)){}
 
 // Private methods
 

@@ -64,4 +64,5 @@ public:
     int GameFrame = 4;
 };
 
-#endif // LEVEL_SNAKE_H
+#endif
+// LEVEL_SNAKE_H

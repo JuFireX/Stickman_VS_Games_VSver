@@ -1,9 +1,11 @@
 // engine.h
 #ifndef ENGINE_H
 #define ENGINE_H
+
 #include <vector>
 #include <graphics.h>
-#include<map>
+#include <map>
+
 using namespace std;
 
 enum Level

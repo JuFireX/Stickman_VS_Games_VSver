@@ -62,4 +62,5 @@ public:
     int GameFrame = 10; // ÓÎÏ·Ë¢ÐÂÂÊ
 };
 
-#endif // LEVEL_SOKOBAN_H
+#endif
+// LEVEL_SOKOBAN_H
