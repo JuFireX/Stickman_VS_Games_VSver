@@ -21,13 +21,13 @@ class GameSnake : public Game
 private:
     static const int GRID_SIZE = 20;
     int grid[GRID_SIZE][GRID_SIZE] = {0};
-    vector<pair<int, int>> snake; // è›‡èº«ä½“çš„åæ ‡
-    pair<int, int> food;          // é£Ÿç‰©çš„åæ ‡
+    vector<pair<int, int>> snake; // ÉßÉíÌåµÄ×ø±ê
+    pair<int, int> food;          // Ê³ÎïµÄ×ø±ê
     Direction direction = Direction::RIGHT;
     int score = 0;
     mt19937 rng;
 
-    // å®šä¹‰åœ°å›¾å…ƒç´ 
+    // ¶¨ÒåµØÍ¼ÔªËØ
     static const enum {
         EMPTY,
         WALL,
@@ -40,23 +40,23 @@ private:
     void initSnake();
     void generateFood();
     bool moveSnake();
-    void display(const vector<vector<int>> &grid, int size) const; // æ˜¾ç¤ºæ¸¸æˆçŸ©é˜µ
+    void display(const vector<vector<int>> &grid, int size) const; // ÏÔÊ¾ÓÎÏ·¾ØÕó
     bool processInput(char key);
-    void updateGrid(); // æ›´æ–°æ¸¸æˆç½‘æ ¼
+    void updateGrid(); // ¸üĞÂÓÎÏ·Íø¸ñ
 
     IMAGE img_snake[4];
     int img_size = 20;
 public:
-    GameSnake();                         // æ„é€ å‡½æ•°
-    void initGame();                     // åˆå§‹åŒ–æ¸¸æˆ
-    void startGame();                    // å¯åŠ¨æ¸¸æˆ
-    void update(char key);               // æ ¹æ®è¾“å…¥æ›´æ–°æ¸¸æˆçŠ¶æ€
-    GameState state() const;             // è·å–æ¸¸æˆçŠ¶æ€
-    vector<vector<int>> getGrid() const; // è·å–æ¸¸æˆç½‘æ ¼
-    int getScore() const;                // è·å–æ¸¸æˆå¾—åˆ†
+    GameSnake();                         // ¹¹Ôìº¯Êı
+    void initGame();                     // ³õÊ¼»¯ÓÎÏ·
+    void startGame();                    // Æô¶¯ÓÎÏ·
+    void update(char key);               // ¸ù¾İÊäÈë¸üĞÂÓÎÏ·×´Ì¬
+    GameState state() const;             // »ñÈ¡ÓÎÏ·×´Ì¬
+    vector<vector<int>> getGrid() const; // »ñÈ¡ÓÎÏ·Íø¸ñ
+    int getScore() const;                // »ñÈ¡ÓÎÏ·µÃ·Ö
 
 	bool gameOver = false;
-    void load(); // åŠ è½½æ¸¸æˆç´ æ
+    void load(); // ¼ÓÔØÓÎÏ·ËØ²Ä
     map<int, IMAGE> MapImg;
     vector<vector<position>> getMap() const;
     int GameHigh = 24;

@@ -24,61 +24,61 @@ private:
 	int score = 0;
 	mt19937 rng;
 
-	// �����ͼԪ��
+	// ?????????
 	static const enum {
 		EMPTY,
 		WALL,
 		BRICK
 	} MAP;
 
-	// ���岻ͬ�Ķ���˹���������ʹ�С
+	// ??????????????????????��
 	static const int TETROMINO_COUNT = 7;
 	static const int TETROMINO_SIZE = 4;
 	int tetrominos[TETROMINO_COUNT][TETROMINO_SIZE][TETROMINO_SIZE] = {
-		// I�ͷ���
+		// I?????
 		{
 			{EMPTY, EMPTY, EMPTY, EMPTY},
 			{BRICK, BRICK, BRICK, BRICK},
 			{EMPTY, EMPTY, EMPTY, EMPTY},
 			{EMPTY, EMPTY, EMPTY, EMPTY}},
-		// J�ͷ���
+		// J?????
 		{
 			{BRICK, EMPTY, EMPTY, EMPTY},
 			{BRICK, BRICK, BRICK, EMPTY},
 			{EMPTY, EMPTY, EMPTY, EMPTY},
 			{EMPTY, EMPTY, EMPTY, EMPTY}},
-		// L�ͷ���
+		// L?????
 		{
 			{EMPTY, EMPTY, BRICK, EMPTY},
 			{BRICK, BRICK, BRICK, EMPTY},
 			{EMPTY, EMPTY, EMPTY, EMPTY},
 			{EMPTY, EMPTY, EMPTY, EMPTY}},
-		// O�ͷ���
+		// O?????
 		{
 			{EMPTY, BRICK, BRICK, EMPTY},
 			{EMPTY, BRICK, BRICK, EMPTY},
 			{EMPTY, EMPTY, EMPTY, EMPTY},
 			{EMPTY, EMPTY, EMPTY, EMPTY}},
-		// S�ͷ���
+		// S?????
 		{
 			{EMPTY, BRICK, BRICK, EMPTY},
 			{BRICK, BRICK, EMPTY, EMPTY},
 			{EMPTY, EMPTY, EMPTY, EMPTY},
 			{EMPTY, EMPTY, EMPTY, EMPTY}},
-		// T�ͷ���
+		// T?????
 		{
 			{EMPTY, BRICK, EMPTY, EMPTY},
 			{BRICK, BRICK, BRICK, EMPTY},
 			{EMPTY, EMPTY, EMPTY, EMPTY},
 			{EMPTY, EMPTY, EMPTY, EMPTY}},
-		// Z�ͷ���
+		// Z?????
 		{
 			{BRICK, BRICK, EMPTY, EMPTY},
 			{EMPTY, BRICK, BRICK, EMPTY},
 			{EMPTY, EMPTY, EMPTY, EMPTY},
 			{EMPTY, EMPTY, EMPTY, EMPTY}}};
 
-	// ��ǰ������Ϣ
+	// ??????????
 	int currentTetromino;
 	
 	int currentShape[TETROMINO_SIZE][TETROMINO_SIZE];
@@ -89,23 +89,23 @@ private:
 	void rotateTetromino();
 	void mergeTetromino();
 	void clearLines();
-	void display(const vector<vector<int>> &grid, int size) const; // ��ʾ��Ϸ����
-	bool processInput(char key);								   // ��������
+	void display(const vector<vector<int>> &grid, int size) const; // ??????????
+	bool processInput(char key);								   // ????????
 
 	
 	int img_size = 20;
 public:
-	GameTetris();						 // ���캯��
-	void initGame();					 // ��ʼ����Ϸ
-	void startGame();					 // ������Ϸ
-	void update(char key);				 // �������������Ϸ״̬
-	GameState state() const;			 // ��ȡ��Ϸ״̬
-	vector<vector<int>> getGrid() const; // ��ȡ��Ϸ����
-	int getScore() const;	// ��ȡ��Ϸ�÷�
+	GameTetris();						 // ??????
+	void initGame();					 // ????????
+	void startGame();					 // ???????
+	void update(char key);				 // ????????????????
+	GameState state() const;			 // ????????
+	vector<vector<int>> getGrid() const; // ??????????
+	int getScore() const;	// ???????��?
 
-	int tetrominoX = 0, tetrominoY = 0; // ��ǰ�����λ��
+	int tetrominoX = 0, tetrominoY = 0; // ????????��??
 	bool gameOver = false;
-	void load(); // 加载游戏素材
+	void load(); // ������Ϸ�ز�
 	map<int, IMAGE> MapImg;
 	vector<vector<position>> getMap() const;
 	int GameHigh = 24;

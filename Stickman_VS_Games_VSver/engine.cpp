@@ -92,8 +92,8 @@ void Engine::MessageHandle()
 void Engine::init()
 {
     bool fuck = true;
-    initgraph(width, height); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-    setbkcolor(WHITE);        // ï¿½ï¿½ï¿½Ã±ï¿½ï¿½ï¿½É«Îªï¿½ï¿½É«
+    initgraph(width, height); // ????????
+    setbkcolor(WHITE);        // ????????????
     cleardevice();
     game->load();
 }
@@ -129,14 +129,14 @@ inline void Engine::putimage_alpha(int x, int y, IMAGE* img)
     int w = img->getwidth();
     int h = img->getheight();
 
-    // å®šä¹‰ BLENDFUNCTION ç»“æ„
+    // ¶¨Òå BLENDFUNCTION ½á¹¹
     BLENDFUNCTION blendFunction;
-    blendFunction.BlendOp = AC_SRC_OVER;  // æŒ‡å®šæºå›¾åƒè¦†ç›–ç›®æ ‡å›¾åƒ
-    blendFunction.BlendFlags = 0;         // å¿…é¡»ä¸º 0
-    blendFunction.SourceConstantAlpha = 255; // å…¨ä¸é€æ˜ (0-255)
-    blendFunction.AlphaFormat = AC_SRC_ALPHA; // ä½¿ç”¨æºå›¾åƒçš„ alpha é€šé“
+    blendFunction.BlendOp = AC_SRC_OVER;  // Ö¸¶¨Ô´Í¼Ïñ¸²¸ÇÄ¿±êÍ¼Ïñ
+    blendFunction.BlendFlags = 0;         // ±ØĞëÎª 0
+    blendFunction.SourceConstantAlpha = 255; // È«²»Í¸Ã÷ (0-255)
+    blendFunction.AlphaFormat = AC_SRC_ALPHA; // Ê¹ÓÃÔ´Í¼ÏñµÄ alpha Í¨µÀ
 
-    // è°ƒç”¨ AlphaBlend å‡½æ•°
+    // µ÷ÓÃ AlphaBlend º¯Êı
     AlphaBlend(GetImageHDC(NULL), x, y, w, h,
         GetImageHDC(img), 0, 0, w, h, blendFunction);
 }
@@ -153,11 +153,11 @@ void Engine::runGame2048()
     SetActiveWindow(hwnd);
     SetFocus(hwnd);
 
-    // åˆ‡æ¢åˆ°ç¾å¼è‹±æ–‡è¾“å…¥æ³•
+    // ÇĞ»»µ½ÃÀÊ½Ó¢ÎÄÊäÈë·¨
     HKL hkl = LoadKeyboardLayout(L"00000409", KLF_ACTIVATE);
     ActivateKeyboardLayout(hkl, KLF_SETFORPROCESS);
-    // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
-    setbkcolor(WHITE);        // ï¿½ï¿½ï¿½Ã±ï¿½ï¿½ï¿½É«Îªï¿½ï¿½É«
+    // ????????
+    setbkcolor(WHITE);        // ????????????
     cleardevice();
     game->load();
 
@@ -255,15 +255,15 @@ void Engine::runGameSnake()
 
     GameSnake* game = new GameSnake();
 
-    initgraph(width, height); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    initgraph(width, height); // ????????
     HWND hwnd = GetHWnd();
     SetForegroundWindow(hwnd);
     SetActiveWindow(hwnd);
     SetFocus(hwnd);
 
-    // åˆ‡æ¢åˆ°ç¾å¼è‹±æ–‡è¾“å…¥æ³•
+    // ÇĞ»»µ½ÃÀÊ½Ó¢ÎÄÊäÈë·¨
     HKL hkl = LoadKeyboardLayout(L"00000409", KLF_ACTIVATE);
-    //setbkcolor(WHITE);        // ï¿½ï¿½ï¿½Ã±ï¿½ï¿½ï¿½É«Îªï¿½ï¿½É«
+    //setbkcolor(WHITE);        // ????????????
     cleardevice();
     game->load();
 
@@ -273,7 +273,7 @@ void Engine::runGameSnake()
     {
         char inputKey = ' ';
 
-        // åªä¿ç•™æœ€åä¸€ä¸ªæ–¹å‘é”®æ¶ˆæ¯
+        // Ö»±£Áô×îºóÒ»¸ö·½Ïò¼üÏûÏ¢
         while (peekmessage(&msg)) {
             if (msg.message == WM_KEYDOWN) {
                 if (msg.vkcode == VK_ESCAPE) {
@@ -322,13 +322,13 @@ void Engine::runGameSokoban()
 
     GameSokoban* game = new GameSokoban();
 
-    initgraph(width, height); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    initgraph(width, height); // ????????
     HWND hwnd = GetHWnd();
     SetForegroundWindow(hwnd);
     SetActiveWindow(hwnd);
     SetFocus(hwnd);
 
-    // åˆ‡æ¢åˆ°ç¾å¼è‹±æ–‡è¾“å…¥æ³•
+    // ÇĞ»»µ½ÃÀÊ½Ó¢ÎÄÊäÈë·¨
     HKL hkl = LoadKeyboardLayout(L"00000409", KLF_ACTIVATE);
     ActivateKeyboardLayout(hkl, KLF_SETFORPROCESS);
     //setbkcolor(WHITE);        
@@ -341,7 +341,7 @@ void Engine::runGameSokoban()
     {
         char inputKey = ' ';
 
-        // åªä¿ç•™æœ€åä¸€ä¸ªæ–¹å‘é”®æ¶ˆæ¯
+        // Ö»±£Áô×îºóÒ»¸ö·½Ïò¼üÏûÏ¢
         while (peekmessage(&msg)) {
             if (msg.message == WM_KEYDOWN) {
                 if (msg.vkcode == VK_ESCAPE|| msg.vkcode == 'Q') {
@@ -366,7 +366,7 @@ void Engine::runGameSokoban()
             }
         }
 
-        // æ¯å¸§åªå¤„ç†æœ€åä¸€ä¸ªæ–¹å‘è¾“å…¥
+        // Ã¿Ö¡Ö»´¦Àí×îºóÒ»¸ö·½ÏòÊäÈë
         game->update(inputKey);
         cleardevice();
         GameMap = game->getMap();
@@ -393,18 +393,18 @@ void Engine::runGameTetris()
 
     GameTetris* game = new GameTetris();
 
-    initgraph(width, height); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    initgraph(width, height); // ????????
     HWND hwnd = GetHWnd();
     SetForegroundWindow(hwnd);
     SetActiveWindow(hwnd);
     SetFocus(hwnd);
 
-    // åˆ‡æ¢åˆ°ç¾å¼è‹±æ–‡è¾“å…¥æ³•
-    // åˆ‡æ¢åˆ°ç¾å¼è‹±æ–‡è¾“å…¥æ³•ï¼ˆ"00000409"ï¼‰
+    // ÇĞ»»µ½ÃÀÊ½Ó¢ÎÄÊäÈë·¨
+    // ÇĞ»»µ½ÃÀÊ½Ó¢ÎÄÊäÈë·¨£¨"00000409"£©
     HKL hkl = LoadKeyboardLayout(L"00000409", KLF_ACTIVATE);
     ActivateKeyboardLayout(hkl, KLF_SETFORPROCESS);
 
-    //setbkcolor(WHITE);        // ï¿½ï¿½ï¿½Ã±ï¿½ï¿½ï¿½É«Îªï¿½ï¿½É«
+    //setbkcolor(WHITE);        // ????????????
     cleardevice();
     game->load();
     game->initGame();
@@ -414,7 +414,7 @@ void Engine::runGameTetris()
 
         char inputKey = ' ';
 
-        // åªä¿ç•™æœ€åä¸€ä¸ªæ–¹å‘é”®æ¶ˆæ¯
+        // Ö»±£Áô×îºóÒ»¸ö·½Ïò¼üÏûÏ¢
         while (peekmessage(&msg)) {
             if (msg.message == WM_KEYDOWN) {
                 if (msg.vkcode == VK_ESCAPE) {
@@ -436,7 +436,7 @@ void Engine::runGameTetris()
             }
         }
 
-        // æ¯å¸§åªå¤„ç†æœ€åä¸€ä¸ªæ–¹å‘è¾“å…¥
+        // Ã¿Ö¡Ö»´¦Àí×îºóÒ»¸ö·½ÏòÊäÈë
         game->update(inputKey);
         cleardevice();
         putimage_alpha(0, 0, &game->img_Tetris[6]);
@@ -444,7 +444,7 @@ void Engine::runGameTetris()
 		putimage_alpha(42, 42, &game->img_Tetris[4]);
 		putimage_alpha(370, 60, &game->img_Tetris[5]);
 		putimage_alpha(80, 200, &game->img_Tetris[8]);
-		// ç»˜åˆ¶æ¸¸æˆåœ°å›¾
+		// »æÖÆÓÎÏ·µØÍ¼
 		GameMap = game->getMap();
         for (int i = 0; i < game->GameHigh; i++)
         {
@@ -471,16 +471,16 @@ void Engine::runGamePacman()
 
     GamePacman* game = new GamePacman();
 
-    initgraph(width, height); // ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    initgraph(width, height); // ????????
     HWND hwnd = GetHWnd();
     SetForegroundWindow(hwnd);
     SetActiveWindow(hwnd);
     SetFocus(hwnd);
-    // åˆ‡æ¢åˆ°ç¾å¼è‹±æ–‡è¾“å…¥æ³•
+    // ÇĞ»»µ½ÃÀÊ½Ó¢ÎÄÊäÈë·¨
     HKL hkl = LoadKeyboardLayout(L"00000409", KLF_ACTIVATE);
     ActivateKeyboardLayout(hkl, KLF_SETFORPROCESS);
 
-    //setbkcolor(WHITE);        // ï¿½ï¿½ï¿½Ã±ï¿½ï¿½ï¿½É«Îªï¿½ï¿½É«
+    //setbkcolor(WHITE);        // ????????????
     cleardevice();
     game->load();
     game->initGame();
@@ -493,7 +493,7 @@ void Engine::runGamePacman()
         
         char inputKey = ' ';
 
-        // åªä¿ç•™æœ€åä¸€ä¸ªæ–¹å‘é”®æ¶ˆæ¯
+        // Ö»±£Áô×îºóÒ»¸ö·½Ïò¼üÏûÏ¢
         while (peekmessage(&msg)) {
             if (msg.message == WM_KEYDOWN) {
                 if (msg.vkcode == VK_ESCAPE||msg.vkcode == 'Q')
@@ -524,16 +524,16 @@ void Engine::runGamePacman()
             }
         }
 
-        // æ¯å¸§åªå¤„ç†æœ€åä¸€ä¸ªæ–¹å‘è¾“å…¥
+        // Ã¿Ö¡Ö»´¦Àí×îºóÒ»¸ö·½ÏòÊäÈë
         game->update(inputKey);
 
         cleardevice();
         GameMap = game->getMap();
         switch (inputKey) {
-        case 'w': img = &game->player_img[2]; break; // ä¸Š
-        case 's': img = &game->player_img[3]; break; // ä¸‹
-        case 'a': img = &game->player_img[1]; break; // å·¦
-        case 'd': img = &game->player_img[0]; break; // å³
+        case 'w': img = &game->player_img[2]; break; // ÉÏ
+        case 's': img = &game->player_img[3]; break; // ÏÂ
+        case 'a': img = &game->player_img[1]; break; // ×ó
+        case 'd': img = &game->player_img[0]; break; // ÓÒ
         default: break;
         }
 

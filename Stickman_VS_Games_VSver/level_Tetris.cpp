@@ -8,7 +8,7 @@ GameTetris::GameTetris() : rng(time(nullptr)) {}
 
 void GameTetris::initGrid()
 {
-    // åˆå§‹åŒ–ç½‘æ ¼ä¸ºç©º
+    // ³õÊ¼»¯Íø¸ñÎª¿Õ
     for (int i = 0; i < GRID_HEIGHT; ++i)
     {
         for (int j = 0; j < GRID_WIDTH; ++j)
@@ -20,11 +20,11 @@ void GameTetris::initGrid()
 
 void GameTetris::generateNewTetromino()
 {
-    // éšæœºé€‰æ‹©ä¸€ä¸ªæ–¹å—
+    // Ëæ»úÑ¡ÔñÒ»¸ö·½¿é
     uniform_int_distribution<int> dist(0, TETROMINO_COUNT - 1);
     currentTetromino = dist(rng);
 
-    // å¤åˆ¶æ–¹å—å½¢çŠ¶
+    // ¸´ÖÆ·½¿éĞÎ×´
     for (int i = 0; i < TETROMINO_SIZE; ++i)
     {
         for (int j = 0; j < TETROMINO_SIZE; ++j)
@@ -33,11 +33,11 @@ void GameTetris::generateNewTetromino()
         }
     }
 
-    // è®¾ç½®åˆå§‹ä½ç½®ï¼ˆé¡¶éƒ¨ä¸­é—´ï¼‰
+    // ÉèÖÃ³õÊ¼Î»ÖÃ£¨¶¥²¿ÖĞ¼ä£©
     tetrominoX = GRID_WIDTH / 2 - 2;
     tetrominoY = 0;
 
-    // æ£€æŸ¥æ˜¯å¦å¯ä»¥æ”¾ç½®æ–°æ–¹å—ï¼Œå¦‚æœä¸èƒ½åˆ™æ¸¸æˆç»“æŸ
+    // ¼ì²éÊÇ·ñ¿ÉÒÔ·ÅÖÃĞÂ·½¿é£¬Èç¹û²»ÄÜÔòÓÎÏ·½áÊø
     if (!canMoveTo(tetrominoX, tetrominoY))
     {
         gameOver = true;
@@ -55,11 +55,11 @@ bool GameTetris::canMoveTo(int newX, int newY)
                 int x = newX + j;
                 int y = newY + i;
 
-                // æ£€æŸ¥è¾¹ç•Œ
+                // ¼ì²é±ß½ç
                 if (x < 0 || x >= GRID_WIDTH || y >= GRID_HEIGHT)
                     return false;
 
-                // æ£€æŸ¥ç¢°æ’
+                // ¼ì²éÅö×²
                 if (y >= 0 && grid[y][x] != EMPTY)
                     return false;
             }
@@ -70,10 +70,10 @@ bool GameTetris::canMoveTo(int newX, int newY)
 
 void GameTetris::rotateTetromino()
 {
-    // åˆ›å»ºä¸´æ—¶æ•°ç»„å­˜å‚¨æ—‹è½¬åçš„å½¢çŠ¶
+    // ´´½¨ÁÙÊ±Êı×é´æ´¢Ğı×ªºóµÄĞÎ×´
     char temp[TETROMINO_SIZE][TETROMINO_SIZE];
 
-    // æ—‹è½¬90åº¦ï¼ˆé¡ºæ—¶é’ˆï¼‰
+    // Ğı×ª90¶È£¨Ë³Ê±Õë£©
     for (int i = 0; i < TETROMINO_SIZE; ++i)
     {
         for (int j = 0; j < TETROMINO_SIZE; ++j)
@@ -82,7 +82,7 @@ void GameTetris::rotateTetromino()
         }
     }
 
-    // æ£€æŸ¥æ—‹è½¬åæ˜¯å¦å¯è¡Œ
+    // ¼ì²éĞı×ªºóÊÇ·ñ¿ÉĞĞ
     for (int i = 0; i < TETROMINO_SIZE; ++i)
     {
         for (int j = 0; j < TETROMINO_SIZE; ++j)
@@ -91,10 +91,10 @@ void GameTetris::rotateTetromino()
         }
     }
 
-    // å¦‚æœæ—‹è½¬åä¸å¯è¡Œï¼Œåˆ™æ¢å¤åŸçŠ¶
+    // Èç¹ûĞı×ªºó²»¿ÉĞĞ£¬Ôò»Ö¸´Ô­×´
     if (!canMoveTo(tetrominoX, tetrominoY))
     {
-        // é€†å‘æ—‹è½¬å›å»
+        // ÄæÏòĞı×ª»ØÈ¥
         for (int i = 0; i < TETROMINO_SIZE; ++i)
         {
             for (int j = 0; j < TETROMINO_SIZE; ++j)
@@ -115,7 +115,7 @@ void GameTetris::rotateTetromino()
 
 void GameTetris::mergeTetromino()
 {
-    // å°†å½“å‰æ–¹å—åˆå¹¶åˆ°ç½‘æ ¼ä¸­
+    // ½«µ±Ç°·½¿éºÏ²¢µ½Íø¸ñÖĞ
     for (int i = 0; i < TETROMINO_SIZE; ++i)
     {
         for (int j = 0; j < TETROMINO_SIZE; ++j)
@@ -139,7 +139,7 @@ void GameTetris::clearLines()
     {
         bool lineFull = true;
 
-        // æ£€æŸ¥å½“å‰è¡Œæ˜¯å¦å·²æ»¡
+        // ¼ì²éµ±Ç°ĞĞÊÇ·ñÒÑÂú
         for (int j = 0; j < GRID_WIDTH; ++j)
         {
             if (grid[i][j] == EMPTY)
@@ -153,7 +153,7 @@ void GameTetris::clearLines()
         {
             linesCleared++;
 
-            // å°†ä¸Šé¢çš„è¡Œå‘ä¸‹ç§»åŠ¨
+            // ½«ÉÏÃæµÄĞĞÏòÏÂÒÆ¶¯
             for (int k = i; k > 0; --k)
             {
                 for (int j = 0; j < GRID_WIDTH; ++j)
@@ -162,18 +162,18 @@ void GameTetris::clearLines()
                 }
             }
 
-            // æ¸…ç©ºé¡¶éƒ¨è¡Œ
+            // Çå¿Õ¶¥²¿ĞĞ
             for (int j = 0; j < GRID_WIDTH; ++j)
             {
                 grid[0][j] = EMPTY;
             }
 
-            // ç”±äºè¡Œå·²ä¸‹ç§»ï¼Œéœ€è¦é‡æ–°æ£€æŸ¥å½“å‰è¡Œ
+            // ÓÉÓÚĞĞÒÑÏÂÒÆ£¬ĞèÒªÖØĞÂ¼ì²éµ±Ç°ĞĞ
             i++;
         }
     }
 
-    // æ ¹æ®æ¶ˆé™¤çš„è¡Œæ•°è®¡ç®—å¾—åˆ†
+    // ¸ù¾İÏû³ıµÄĞĞÊı¼ÆËãµÃ·Ö
     switch (linesCleared)
     {
     case 1:
@@ -234,7 +234,7 @@ void GameTetris::startGame()
 
     while (!gameOver)
     {
-        // å¤„ç†ç”¨æˆ·è¾“å…¥
+        // ´¦ÀíÓÃ»§ÊäÈë
         if (_kbhit())
         {
             char input = _getch();
@@ -244,7 +244,7 @@ void GameTetris::startGame()
             update(input);
             display(getGrid(), GRID_HEIGHT);
         }
-        // è‡ªæ›´æ–°
+        // ×Ô¸üĞÂ
         else
         {
             update(' ');
@@ -259,18 +259,18 @@ bool GameTetris::processInput(char key)
 {
     switch (key)
     {
-    case 'a': // å·¦ç§»
+    case 'a': // ×óÒÆ
         if (canMoveTo(tetrominoX - 1, tetrominoY))
             tetrominoX--;
         break;
-    case 'd': // å³ç§»
+    case 'd': // ÓÒÒÆ
         if (canMoveTo(tetrominoX + 1, tetrominoY))
             tetrominoX++;
         break;
-    case 'w': // æ—‹è½¬
+    case 'w': // Ğı×ª
         rotateTetromino();
         break;
-    case 's': // åŠ é€Ÿä¸‹è½
+    case 's': // ¼ÓËÙÏÂÂä
         if (canMoveTo(tetrominoX, tetrominoY + 1))
             tetrominoY++;
         break;
@@ -287,14 +287,14 @@ void GameTetris::update(char key)
 {
     if (processInput(key))
     {
-        // è‡ªåŠ¨ä¸‹è½é€»è¾‘
+        // ×Ô¶¯ÏÂÂäÂß¼­
         if (canMoveTo(tetrominoX, tetrominoY + 1))
         {
             tetrominoY++;
         }
         else
         {
-            // æ— æ³•ä¸‹è½ï¼Œå›ºå®šæ–¹å—
+            // ÎŞ·¨ÏÂÂä£¬¹Ì¶¨·½¿é
             mergeTetromino();
             clearLines();
             generateNewTetromino();
@@ -319,7 +319,7 @@ vector<vector<int>> GameTetris::getGrid() const
         }
     }
 
-    // å°†å½“å‰æ–¹å—æ·»åŠ åˆ°æ˜¾ç¤ºç½‘æ ¼
+    // ½«µ±Ç°·½¿éÌí¼Óµ½ÏÔÊ¾Íø¸ñ
     for (int i = 0; i < TETROMINO_SIZE; ++i)
     {
         for (int j = 0; j < TETROMINO_SIZE; ++j)
@@ -342,7 +342,7 @@ int GameTetris::getScore() const
     return score;
 }
 
-//ä»¥ä¸‹ä¸ºæ¸²æŸ“éƒ¨åˆ†
+//ÒÔÏÂÎªäÖÈ¾²¿·Ö
 void GameTetris::load()
 {
 	loadimage(&img_Tetris[0], _T("./PictureResource/GameTetris/wall.png"), 40, 40, true);
@@ -357,7 +357,7 @@ void GameTetris::load()
 	MapImg[WALL] = img_Tetris[0];
 	MapImg[BRICK] = img_Tetris[1];
 }
-vector<vector<position>> GameTetris::getMap() const // é‡ç»˜åœ°å›¾
+vector<vector<position>> GameTetris::getMap() const // ÖØ»æµØÍ¼
 {
     vector<vector<int>> state = getGrid();
     vector<vector<position>> GameMap;

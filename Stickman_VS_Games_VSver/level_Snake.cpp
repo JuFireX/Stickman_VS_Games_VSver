@@ -10,13 +10,13 @@ GameSnake::GameSnake() : rng(time(nullptr))
 
 void GameSnake::initGrid()
 {
-	// åˆå§‹åŒ–ç½‘æ ¼ä¸ºç©º
+	// ³õÊ¼»¯Íø¸ñÎª¿Õ
 	for (int i = 0; i < GRID_SIZE; ++i)
 	{
 		for (int j = 0; j < GRID_SIZE; ++j)
 		{
 			if (i == 0 || i == GRID_SIZE - 1 || j == 0 || j == GRID_SIZE - 1)
-				grid[i][j] = WALL; // è¾¹ç•Œå¢™
+				grid[i][j] = WALL; // ±ß½çÇ½
 			else
 				grid[i][j] = EMPTY;
 		}
@@ -25,14 +25,14 @@ void GameSnake::initGrid()
 
 void GameSnake::initSnake()
 {
-	// æ¸…ç©ºè›‡
+	// Çå¿ÕÉß
 	snake.clear();
 
-	// åˆå§‹è›‡ä½ç½®ï¼ˆä¸­å¿ƒä½ç½®ï¼‰
+	// ³õÊ¼ÉßÎ»ÖÃ£¨ÖĞĞÄÎ»ÖÃ£©
 	int centerX = GRID_SIZE / 2;
 	int centerY = GRID_SIZE / 2;
 
-	// æ·»åŠ è›‡å¤´å’Œä¸¤ä¸ªèº«ä½“éƒ¨åˆ†
+	// Ìí¼ÓÉßÍ·ºÍÁ½¸öÉíÌå²¿·Ö
 	snake.push_back({centerY, centerX});
 	snake.push_back({centerY, centerX - 1});
 	snake.push_back({centerY, centerX - 2});
@@ -40,14 +40,14 @@ void GameSnake::initSnake()
 
 void GameSnake::generateFood()
 {
-	uniform_int_distribution<int> dist(1, GRID_SIZE - 2); // é¿å¼€è¾¹ç•Œå¢™
+	uniform_int_distribution<int> dist(1, GRID_SIZE - 2); // ±Ü¿ª±ß½çÇ½
 
 	while (true)
 	{
 		int x = dist(rng);
 		int y = dist(rng);
 
-		// ç¡®ä¿é£Ÿç‰©ä¸ä¼šç”Ÿæˆåœ¨è›‡èº«ä¸Š
+		// È·±£Ê³Îï²»»áÉú³ÉÔÚÉßÉíÉÏ
 		bool onSnake = false;
 		for (const auto &segment : snake)
 		{
@@ -68,7 +68,7 @@ void GameSnake::generateFood()
 
 void GameSnake::updateGrid()
 {
-	// æ¸…ç©ºç½‘æ ¼ï¼ˆä¿ç•™è¾¹ç•Œå¢™ï¼‰
+	// Çå¿ÕÍø¸ñ£¨±£Áô±ß½çÇ½£©
 	for (int i = 1; i < GRID_SIZE - 1; ++i)
 	{
 		for (int j = 1; j < GRID_SIZE - 1; ++j)
@@ -77,26 +77,26 @@ void GameSnake::updateGrid()
 		}
 	}
 
-	// æ”¾ç½®é£Ÿç‰©
+	// ·ÅÖÃÊ³Îï
 	grid[food.first][food.second] = FOOD;
 
-	// æ”¾ç½®è›‡èº«
+	// ·ÅÖÃÉßÉí
 	for (size_t i = 1; i < snake.size(); ++i)
 	{
 		grid[snake[i].first][snake[i].second] = SNAKE_BODY;
 	}
 
-	// æ”¾ç½®è›‡å¤´
+	// ·ÅÖÃÉßÍ·
 	grid[snake[0].first][snake[0].second] = SNAKE_HEAD;
 }
 
 bool GameSnake::moveSnake()
 {
-	// è·å–è›‡å¤´ä½ç½®
+	// »ñÈ¡ÉßÍ·Î»ÖÃ
 	int headY = snake[0].first;
 	int headX = snake[0].second;
 
-	// æ ¹æ®æ–¹å‘è®¡ç®—æ–°çš„å¤´éƒ¨ä½ç½®
+	// ¸ù¾İ·½Ïò¼ÆËãĞÂµÄÍ·²¿Î»ÖÃ
 	switch (direction)
 	{
 	case Direction::LEFT:
@@ -113,15 +113,15 @@ bool GameSnake::moveSnake()
 		break;
 	}
 
-	// æ£€æŸ¥ç¢°æ’
+	// ¼ì²éÅö×²
 	if (headX <= 0 || headX >= GRID_SIZE - 1 || headY <= 0 || headY >= GRID_SIZE - 1)
 	{
-		// æ’å¢™
+		// ×²Ç½
 		gameOver = true;
 		return false;
 	}
 
-	// æ£€æŸ¥æ˜¯å¦æ’åˆ°è‡ªå·±
+	// ¼ì²éÊÇ·ñ×²µ½×Ô¼º
 	for (size_t i = 0; i < snake.size(); ++i)
 	{
 		if (snake[i].first == headY && snake[i].second == headX)
@@ -131,24 +131,24 @@ bool GameSnake::moveSnake()
 		}
 	}
 
-	// æ£€æŸ¥æ˜¯å¦åƒåˆ°é£Ÿç‰©
+	// ¼ì²éÊÇ·ñ³Ôµ½Ê³Îï
 	bool ateFood = (headY == food.first && headX == food.second);
 
-	// ç§»åŠ¨è›‡
+	// ÒÆ¶¯Éß
 	snake.insert(snake.begin(), {headY, headX});
 	if (!ateFood)
 	{
-		// å¦‚æœæ²¡åƒåˆ°é£Ÿç‰©ï¼Œç§»é™¤å°¾éƒ¨
+		// Èç¹ûÃ»³Ôµ½Ê³Îï£¬ÒÆ³ıÎ²²¿
 		snake.pop_back();
 	}
 	else
 	{
-		// åƒåˆ°é£Ÿç‰©ï¼Œå¢åŠ åˆ†æ•°å¹¶ç”Ÿæˆæ–°é£Ÿç‰©
+		// ³Ôµ½Ê³Îï£¬Ôö¼Ó·ÖÊı²¢Éú³ÉĞÂÊ³Îï
 		score += 10;
 		generateFood();
 	}
 
-	// æ›´æ–°ç½‘æ ¼
+	// ¸üĞÂÍø¸ñ
 	updateGrid();
 
 	return true;
@@ -178,7 +178,7 @@ bool GameSnake::processInput(char key)
 		return false;
 	}
 
-	// é˜²æ­¢180åº¦è½¬å‘ï¼ˆä¸èƒ½ç›´æ¥æ‰å¤´ï¼‰
+	// ·ÀÖ¹180¶È×ªÏò£¨²»ÄÜÖ±½ÓµôÍ·£©
 	if ((direction == Direction::LEFT && newDir == Direction::RIGHT) ||
 		(direction == Direction::RIGHT && newDir == Direction::LEFT) ||
 		(direction == Direction::UP && newDir == Direction::DOWN) ||
@@ -246,9 +246,9 @@ void GameSnake::display(const vector<vector<int>> &grid, int size) const
 		cout << "\n";
 	}
 
-	cout << "\nä½¿ç”¨WASDé”®ç§»åŠ¨, ESCé€€å‡º\n";
+	cout << "\nÊ¹ÓÃWASD¼üÒÆ¶¯, ESCÍË³ö\n";
 	if (gameOver)
-		cout << "\næ¸¸æˆç»“æŸ!" << "\n ";
+		cout << "\nÓÎÏ·½áÊø!" << "\n ";
 }
 
 void GameSnake::startGame()
@@ -266,7 +266,7 @@ void GameSnake::startGame()
 			update(input);
 			display(getGrid(), 20);
 		}
-		// è‡ªæ›´æ–°
+		// ×Ô¸üĞÂ
 		else
 		{
 			update(' ');
@@ -276,9 +276,9 @@ void GameSnake::startGame()
 	}
 }
 
-// ä¸å‡†ä¹±åŠ¨çš„å‡½æ•°
+// ²»×¼ÂÒ¶¯µÄº¯Êı
 
-void GameSnake::load() // ä¸‹è½½å›¾ç‰‡
+void GameSnake::load() // ÏÂÔØÍ¼Æ¬
 {
 	loadimage(&img_snake[0], _T("./PictureResource/GameSnake/head.png"), img_size, img_size, true);
 	loadimage(&img_snake[1], _T("./PictureResource/GameSnake/body.png"), img_size, img_size, true);
@@ -290,7 +290,7 @@ void GameSnake::load() // ä¸‹è½½å›¾ç‰‡
 	MapImg[WALL] = img_snake[3];
 }
 
-vector<vector<position>> GameSnake::getMap() const // é‡ç»˜åœ°å›¾
+vector<vector<position>> GameSnake::getMap() const // ÖØ»æµØÍ¼
 {
 	vector<vector<int>> state = getGrid();
 	vector<vector<position>> GameMap;

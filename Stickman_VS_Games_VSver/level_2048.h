@@ -60,4 +60,5 @@ public:
 	int GameFrame = 10; // ÓÎÏ·Ë¢ÐÂÂÊ
 };
 
-#endif // LEVEL_2048_H
+#endif
+// LEVEL_2048_H

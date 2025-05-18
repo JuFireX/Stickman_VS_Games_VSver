@@ -49,12 +49,12 @@ public:
     virtual int getScore() const = 0;
 
     bool gameOver = false;
-    virtual void load() = 0; 
+    virtual void load() = 0;
     map<int, IMAGE> MapImg;
     virtual vector<vector<position>> getMap() const=0;
     int GameHigh = 0;
     int GridSize = 0;
-    int GameFrame = 0; 
+    int GameFrame = 0;
     virtual ~Game() {}
 };
 
@@ -66,15 +66,16 @@ private:
     int MapSizeX = 20, MapSizeY = 12;
     bool running = true;
     ExMessage msg = ExMessage();
-	inline void putimage_alpha(int x,int y,IMAGE* img);
+    inline void putimage_alpha(int x,int y,IMAGE* img);
 public:
     Engine();
-    // 娓告垙寮曟搸鏍稿績鍔熻兘鎺ュ彛
+    // 游戏引擎核心功能接口
     vector<vector<position>> GameMap;
     void runGame2048();
-	void runGameSnake();
-	void runGameSokoban();
-	void runGameTetris();
-	void runGamePacman();
+    void runGameSnake();
+    void runGameSokoban();
+    void runGameTetris();
+    void runGamePacman();
 };
-#endif // ENGINE_H
+#endif
+// ENGINE_H
