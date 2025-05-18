@@ -1,17 +1,17 @@
 #ifndef LEVEL_2048_H
 #define LEVEL_2048_H
 
-#include <conio.h>
-#include <ctime>
-#include <random>
-#include <iostream>
-#include <vector>
-#include <algorithm>
-#include <iomanip>
-#include <string>
-#include <cstring>
-#include <map>
 #include "engine.h"
+#include <algorithm>
+#include <conio.h>
+#include <cstring>
+#include <ctime>
+#include <iomanip>
+#include <iostream>
+#include <map>
+#include <random>
+#include <string>
+#include <vector>
 
 using namespace std;
 
@@ -19,7 +19,7 @@ class Game2048 : public Game
 {
 private:
 	static const int GRID_SIZE = 4;
-	int grid[GRID_SIZE][GRID_SIZE] = {0};
+	int grid[GRID_SIZE][GRID_SIZE] = { 0 };
 
 	int score = 0;
 	mt19937 rng;
@@ -36,7 +36,7 @@ private:
 	void moveAndMerge(Direction dir);
 	void generateNewTile();
 	bool isGameOver() const;
-	void display(const vector<vector<int>> &grid, int size) const; // œ‘ æ”Œœ∑æÿ’Û
+	void display(const vector<vector<int>>& grid, int size) const; // œ‘ æ”Œœ∑æÿ’Û
 	bool processInput(char key);
 
 	IMAGE img_2048[12];

@@ -1,6 +1,6 @@
-#include <windows.h>
-#include <iostream>
 #include "level_Snake.h"
+#include <iostream>
+#include <windows.h>
 
 GameSnake::GameSnake() : rng(time(nullptr)) {}
 
@@ -31,9 +31,9 @@ void GameSnake::initSnake()
 	int centerY = GRID_SIZE / 2;
 
 	// 添加蛇头和两个身体部分
-	snake.push_back({centerY, centerX});
-	snake.push_back({centerY, centerX - 1});
-	snake.push_back({centerY, centerX - 2});
+	snake.push_back({ centerY, centerX });
+	snake.push_back({ centerY, centerX - 1 });
+	snake.push_back({ centerY, centerX - 2 });
 }
 
 void GameSnake::generateFood()
@@ -47,7 +47,7 @@ void GameSnake::generateFood()
 
 		// 确保食物不会生成在蛇身上
 		bool onSnake = false;
-		for (const auto &segment : snake)
+		for (const auto& segment : snake)
 		{
 			if (segment.first == y && segment.second == x)
 			{
@@ -58,7 +58,7 @@ void GameSnake::generateFood()
 
 		if (!onSnake)
 		{
-			food = {y, x};
+			food = { y, x };
 			break;
 		}
 	}
@@ -133,7 +133,7 @@ bool GameSnake::moveSnake()
 	bool ateFood = (headY == food.first && headX == food.second);
 
 	// 移动蛇
-	snake.insert(snake.begin(), {headY, headX});
+	snake.insert(snake.begin(), { headY, headX });
 	if (!ateFood)
 	{
 		// 如果没吃到食物，移除尾部
@@ -231,7 +231,7 @@ int GameSnake::getScore() const
 }
 
 // Test methods
-void GameSnake::display(const vector<vector<int>> &grid, int size) const
+void GameSnake::display(const vector<vector<int>>& grid, int size) const
 {
 	system("cls");
 
@@ -299,7 +299,7 @@ vector<vector<position>> GameSnake::getMap() const // 重绘地图
 		vector<position> row;
 		for (int j = 0; j < 36; j++)
 		{
-			row.push_back({0, j * sizeX, i * sizeY});
+			row.push_back({ 0, j * sizeX, i * sizeY });
 		}
 		GameMap.push_back(row);
 	}

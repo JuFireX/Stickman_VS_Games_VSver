@@ -1,6 +1,6 @@
-#include <windows.h>
-#include <iostream>
 #include "level_2048.h"
+#include <iostream>
+#include <windows.h>
 
 Game2048::Game2048() : rng(time(nullptr)) {}
 
@@ -11,8 +11,8 @@ bool Game2048::canMoveHorizontal(bool left) const
 	for (int i = 0; i < GRID_SIZE; ++i)
 	{
 		for (int j = left ? 0 : GRID_SIZE - 1;
-			 left ? (j < GRID_SIZE - 1) : (j > 0);
-			 j += left ? 1 : -1)
+			left ? (j < GRID_SIZE - 1) : (j > 0);
+			j += left ? 1 : -1)
 		{
 			if ((grid[i][j] == grid[i][j + (left ? 1 : -1)] && grid[i][j] != 0) ||
 				(grid[i][j] == 0 && grid[i][j + (left ? 1 : -1)] != 0))
@@ -29,8 +29,8 @@ bool Game2048::canMoveVertical(bool up) const
 	for (int j = 0; j < GRID_SIZE; ++j)
 	{
 		for (int i = up ? 0 : GRID_SIZE - 1;
-			 up ? (i < GRID_SIZE - 1) : (i > 0);
-			 i += up ? 1 : -1)
+			up ? (i < GRID_SIZE - 1) : (i > 0);
+			i += up ? 1 : -1)
 		{
 			if ((grid[i][j] == grid[i + (up ? 1 : -1)][j] && grid[i][j] != 0) ||
 				(grid[i][j] == 0 && grid[i + (up ? 1 : -1)][j] != 0))
@@ -124,7 +124,7 @@ void Game2048::generateNewTile()
 		{
 			if (grid[i][j] == 0)
 			{
-				emptyPositions.push_back({i, j});
+				emptyPositions.push_back({ i, j });
 			}
 		}
 	}
@@ -142,9 +142,9 @@ void Game2048::generateNewTile()
 bool Game2048::isGameOver() const
 {
 	return !canMove(Direction::LEFT) &&
-		   !canMove(Direction::RIGHT) &&
-		   !canMove(Direction::UP) &&
-		   !canMove(Direction::DOWN);
+		!canMove(Direction::RIGHT) &&
+		!canMove(Direction::UP) &&
+		!canMove(Direction::DOWN);
 }
 
 bool Game2048::processInput(char key)
@@ -222,7 +222,7 @@ int Game2048::getScore() const
 
 // Test methods
 
-void Game2048::display(const vector<vector<int>> &grid, int size) const
+void Game2048::display(const vector<vector<int>>& grid, int size) const
 {
 	system("cls");
 
@@ -297,7 +297,7 @@ vector<vector<position>> Game2048::getMap() const
 		vector<position> row;
 		for (int j = 0; j < 36; j++)
 		{
-			row.push_back({-1, j * sizeX, i * sizeY});
+			row.push_back({ -1, j * sizeX, i * sizeY });
 		}
 		GameMap.push_back(row);
 	}

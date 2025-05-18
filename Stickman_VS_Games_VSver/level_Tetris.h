@@ -1,16 +1,16 @@
 #ifndef LEVEL_TETRIS_H
 #define LEVEL_TETRIS_H
 
-#include <conio.h>
-#include <ctime>
-#include <random>
-#include <iostream>
-#include <vector>
-#include <algorithm>
-#include <iomanip>
-#include <string>
-#include <cstring>
 #include "engine.h"
+#include <algorithm>
+#include <conio.h>
+#include <cstring>
+#include <ctime>
+#include <iomanip>
+#include <iostream>
+#include <random>
+#include <string>
+#include <vector>
 
 using namespace std;
 
@@ -20,7 +20,7 @@ class GameTetris : public Game
 private:
 	static const int GRID_WIDTH = 10;
 	static const int GRID_HEIGHT = 24;
-	int grid[GRID_HEIGHT][GRID_WIDTH] = {0};
+	int grid[GRID_HEIGHT][GRID_WIDTH] = { 0 };
 	int score = 0;
 	mt19937 rng;
 
@@ -41,42 +41,42 @@ private:
 			{BRICK, BRICK, BRICK, BRICK},
 			{EMPTY, EMPTY, EMPTY, EMPTY},
 			{EMPTY, EMPTY, EMPTY, EMPTY}},
-		// J
-		{
-			{BRICK, EMPTY, EMPTY, EMPTY},
-			{BRICK, BRICK, BRICK, EMPTY},
-			{EMPTY, EMPTY, EMPTY, EMPTY},
-			{EMPTY, EMPTY, EMPTY, EMPTY}},
-		// L
-		{
-			{EMPTY, EMPTY, BRICK, EMPTY},
-			{BRICK, BRICK, BRICK, EMPTY},
-			{EMPTY, EMPTY, EMPTY, EMPTY},
-			{EMPTY, EMPTY, EMPTY, EMPTY}},
-		// O
-		{
-			{EMPTY, BRICK, BRICK, EMPTY},
-			{EMPTY, BRICK, BRICK, EMPTY},
-			{EMPTY, EMPTY, EMPTY, EMPTY},
-			{EMPTY, EMPTY, EMPTY, EMPTY}},
-		// S
-		{
-			{EMPTY, BRICK, BRICK, EMPTY},
-			{BRICK, BRICK, EMPTY, EMPTY},
-			{EMPTY, EMPTY, EMPTY, EMPTY},
-			{EMPTY, EMPTY, EMPTY, EMPTY}},
-		// T
-		{
-			{EMPTY, BRICK, EMPTY, EMPTY},
-			{BRICK, BRICK, BRICK, EMPTY},
-			{EMPTY, EMPTY, EMPTY, EMPTY},
-			{EMPTY, EMPTY, EMPTY, EMPTY}},
-		// Z
-		{
-			{BRICK, BRICK, EMPTY, EMPTY},
-			{EMPTY, BRICK, BRICK, EMPTY},
-			{EMPTY, EMPTY, EMPTY, EMPTY},
-			{EMPTY, EMPTY, EMPTY, EMPTY}}};
+			// J
+			{
+				{BRICK, EMPTY, EMPTY, EMPTY},
+				{BRICK, BRICK, BRICK, EMPTY},
+				{EMPTY, EMPTY, EMPTY, EMPTY},
+				{EMPTY, EMPTY, EMPTY, EMPTY}},
+				// L
+				{
+					{EMPTY, EMPTY, BRICK, EMPTY},
+					{BRICK, BRICK, BRICK, EMPTY},
+					{EMPTY, EMPTY, EMPTY, EMPTY},
+					{EMPTY, EMPTY, EMPTY, EMPTY}},
+					// O
+					{
+						{EMPTY, BRICK, BRICK, EMPTY},
+						{EMPTY, BRICK, BRICK, EMPTY},
+						{EMPTY, EMPTY, EMPTY, EMPTY},
+						{EMPTY, EMPTY, EMPTY, EMPTY}},
+						// S
+						{
+							{EMPTY, BRICK, BRICK, EMPTY},
+							{BRICK, BRICK, EMPTY, EMPTY},
+							{EMPTY, EMPTY, EMPTY, EMPTY},
+							{EMPTY, EMPTY, EMPTY, EMPTY}},
+							// T
+							{
+								{EMPTY, BRICK, EMPTY, EMPTY},
+								{BRICK, BRICK, BRICK, EMPTY},
+								{EMPTY, EMPTY, EMPTY, EMPTY},
+								{EMPTY, EMPTY, EMPTY, EMPTY}},
+								// Z
+								{
+									{BRICK, BRICK, EMPTY, EMPTY},
+									{EMPTY, BRICK, BRICK, EMPTY},
+									{EMPTY, EMPTY, EMPTY, EMPTY},
+									{EMPTY, EMPTY, EMPTY, EMPTY}} };
 
 	// 
 	int currentTetromino;
@@ -89,7 +89,7 @@ private:
 	void rotateTetromino();
 	void mergeTetromino();
 	void clearLines();
-	void display(const vector<vector<int>> &grid, int size) const; // 显示游戏矩阵
+	void display(const vector<vector<int>>& grid, int size) const; // 显示游戏矩阵
 	bool processInput(char key);								   // 处理用户输入
 
 	int img_size = 20;
