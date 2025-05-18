@@ -263,7 +263,7 @@ void Engine::runGameSnake()
 
     // 切换到美式英文输入法
     HKL hkl = LoadKeyboardLayout(L"00000409", KLF_ACTIVATE);
-    setbkcolor(WHITE);        // ���ñ���ɫΪ��ɫ
+    //setbkcolor(WHITE);        // ���ñ���ɫΪ��ɫ
     cleardevice();
     game->load();
 
@@ -295,7 +295,6 @@ void Engine::runGameSnake()
             }
         }
 
-        // 每帧只处理最后一个方向输入
         game->update(inputKey);
         cleardevice();
 
@@ -304,7 +303,7 @@ void Engine::runGameSnake()
         {
             for (position u : GameMap[i])
             {
-                putimage(u.x, u.y, &game->MapImg[u.val]);
+                putimage_alpha(u.x, u.y, &game->MapImg[u.val]);
             }
         }
         FlushBatchDraw();
@@ -332,7 +331,7 @@ void Engine::runGameSokoban()
     // 切换到美式英文输入法
     HKL hkl = LoadKeyboardLayout(L"00000409", KLF_ACTIVATE);
     ActivateKeyboardLayout(hkl, KLF_SETFORPROCESS);
-    setbkcolor(WHITE);        // ���ñ���ɫΪ��ɫ
+    //setbkcolor(WHITE);        
     cleardevice();
     game->load();
 
@@ -370,7 +369,6 @@ void Engine::runGameSokoban()
         // 每帧只处理最后一个方向输入
         game->update(inputKey);
         cleardevice();
-
         GameMap = game->getMap();
         for (int i = 0; i < game->GameHigh; i++)
         {
@@ -406,7 +404,7 @@ void Engine::runGameTetris()
     HKL hkl = LoadKeyboardLayout(L"00000409", KLF_ACTIVATE);
     ActivateKeyboardLayout(hkl, KLF_SETFORPROCESS);
 
-    setbkcolor(WHITE);        // ���ñ���ɫΪ��ɫ
+    //setbkcolor(WHITE);        // ���ñ���ɫΪ��ɫ
     cleardevice();
     game->load();
     game->initGame();
@@ -440,8 +438,13 @@ void Engine::runGameTetris()
 
         // 每帧只处理最后一个方向输入
         game->update(inputKey);
-
         cleardevice();
+        putimage_alpha(0, 0, &game->img_Tetris[6]);
+		putimage_alpha(560, 160, &game->img_Tetris[3]);
+		putimage_alpha(42, 42, &game->img_Tetris[4]);
+		putimage_alpha(370, 60, &game->img_Tetris[5]);
+		putimage_alpha(80, 200, &game->img_Tetris[8]);
+		// 绘制游戏地图
 		GameMap = game->getMap();
         for (int i = 0; i < game->GameHigh; i++)
         {
@@ -450,6 +453,7 @@ void Engine::runGameTetris()
                 putimage_alpha(u.x, u.y, &game->MapImg[u.val]);
             }
         }
+        putimage_alpha(0,400,&game->img_Tetris[7]);
         FlushBatchDraw();
 
         Sleep(1000 / game->GameFrame);

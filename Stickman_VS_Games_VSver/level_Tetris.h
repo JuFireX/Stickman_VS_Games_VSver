@@ -92,7 +92,7 @@ private:
 	void display(const vector<vector<int>> &grid, int size) const; // ��ʾ��Ϸ����
 	bool processInput(char key);								   // ��������
 
-	IMAGE img_Tetris[12];
+	
 	int img_size = 20;
 public:
 	GameTetris();						 // ���캯��
@@ -111,6 +111,7 @@ public:
 	int GameHigh = 24;
 	int GridSize = 20;
 	int GameFrame = 6;
+	IMAGE img_Tetris[12];
 };
 
 #endif

@@ -293,7 +293,7 @@ void GameSokoban::load()
     loadimage(&img_Sokoban[1], _T("./PictureResource/GameSokoban/box.jpg"), img_size, img_size, true);
     loadimage(&img_Sokoban[2], _T("./PictureResource/GameSokoban/player.png"), img_size, img_size, true);
     loadimage(&img_Sokoban[3], _T("./PictureResource/GameSokoban/target.png"), img_size, img_size, true);
-    loadimage(&img_Sokoban[4], _T("./PictureResource/GameSokoban/target_on_boa.png"), img_size, img_size, true);
+    loadimage(&img_Sokoban[4], _T("./PictureResource/GameSokoban/target_on_boa .png"), img_size, img_size, true);
     MapImg[WALL] = img_Sokoban[0];
     MapImg[BOX] = img_Sokoban[1];
     MapImg[PLAYER] = img_Sokoban[2];
