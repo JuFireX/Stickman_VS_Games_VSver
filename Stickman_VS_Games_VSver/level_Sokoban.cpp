@@ -215,6 +215,12 @@ void GameSokoban::initGame()
 void GameSokoban::update(char key)
 {
     processInput(key);
+    if (grid[8][1] != PLAYER && grid[8][1] != BOX && grid[8][1] != BOX_ON_TARGET)
+        grid[8][1] = TARGET;
+    if (grid[8][4] != PLAYER && grid[8][4] != BOX && grid[8][4] != BOX_ON_TARGET)
+        grid[8][4] = TARGET;
+    if (grid[8][7] != PLAYER && grid[8][7] != BOX && grid[8][7] != BOX_ON_TARGET)
+        grid[8][7] = TARGET;
 }
 GameState GameSokoban::state() const
 {
@@ -228,7 +234,7 @@ vector<vector<int>> GameSokoban::getGrid() const
     {
         for (int j = 0; j < GRID_SIZE; ++j)
         {
-            gridCopy[i][j] = grid[i][j];
+            gridCopy[i][j] = grid[i][j];          
         }
     }
     return gridCopy;

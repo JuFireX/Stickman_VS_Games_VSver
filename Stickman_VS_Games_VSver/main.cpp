@@ -167,6 +167,7 @@ BEGINING:
     initGameCli(count++);
 
     // 序章报幕
+    engine->runGameSokoban();
     streamOutput("你是再临, 正在无聊地玩2048...", 50, 1);
     directOutput("(以游玩2048为目标继续行动)", 0);
 
