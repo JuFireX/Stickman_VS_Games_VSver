@@ -138,11 +138,11 @@ int choiceOutput(const string &output, const vector<string> &choices)
 
 void initGameCli(int count)
 {
-    // 使用utf-8编码
-    SetConsoleOutputCP(65001);
-    SetConsoleCP(65001);
-    system("chcp 65001");
-    // system("title 火柴人VS电子游戏");
+    //使用utf-8编码
+    //SetConsoleOutputCP(65001);
+    //SetConsoleCP(65001);
+    //system("chcp 65001");
+    system("title 火柴人VS电子游戏");
     system("mode con cols=120 lines=30");
     system("cls");
     if (count == 1)
@@ -168,6 +168,7 @@ BEGINING:
     initGameCli(count++);
 
     // 序章报幕
+
     streamOutput("你是再临, 正在无聊地玩2048...", 50, 1);
     directOutput("(以游玩2048为目标继续行动)", 0);
 
