@@ -4,7 +4,7 @@
 
 GamePacman::GamePacman() : rng(time(nullptr)) {}
 
-int GamePacman::ghost1(int g_map_x, int g_map_y, int p_map_x, int p_map_y, int* g1_track_x, int* g1_track_y)
+int GamePacman::ghostDiriction(int ghostX, int ghostY, int playerX, int playerY, int* track_x, int* track_y)
 {
     int map1[20][20] = { {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
                        {0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,1,1,1,1,0},
@@ -28,13 +28,13 @@ int GamePacman::ghost1(int g_map_x, int g_map_y, int p_map_x, int p_map_y, int* 
                        {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} };
     int trace[400][3];
     int k = 0, l = 0, derection = 2;
-    trace[k][0] = g_map_x;
-    trace[k][1] = g_map_y;
+    trace[k][0] = ghostX;
+    trace[k][1] = ghostY;
     trace[k][2] = 0;
     int dx[4] = { 1,-1,0,0 }, dy[4] = { 0,0,1,-1 };
     int pc = 0, pre = -1;
-    map1[g_map_y][g_map_x] = 2;
-    while (trace[k][0] != p_map_x || trace[k][1] != p_map_y)
+    map1[ghostY][ghostX] = 2;
+    while (trace[k][0] != playerX || trace[k][1] != playerY)
     {
         if (pc == 0)
             pre++;
@@ -48,19 +48,19 @@ int GamePacman::ghost1(int g_map_x, int g_map_y, int p_map_x, int p_map_y, int* 
         }
         pc = (pc + 1) % 4;
     }
-    *g1_track_x = trace[pre][0];
-    *g1_track_y = trace[pre][1];
+    *track_x = trace[pre][0];
+    *track_y = trace[pre][1];
     while (trace[k][2] != 0)
     {
         k = trace[k][2];
     }
-    if ((g_map_x) < trace[k][0])
+    if ((ghostX) < trace[k][0])
         derection = 0;
-    if ((g_map_x) > trace[k][0])
+    if ((ghostX) > trace[k][0])
         derection = 2;
-    if ((g_map_y) > trace[k][1])
+    if ((ghostY) > trace[k][1])
         derection = 1;
-    if ((g_map_y) < trace[k][1])
+    if ((ghostY) < trace[k][1])
         derection = 3;
     return derection;
 }
@@ -129,8 +129,6 @@ void GamePacman::initMovers()
     ghost[1].direction = Direction::LEFT;
     ghost[1].speed = 1;
     ghost[1].live = 1;
-    // ghost[2]相关代码已注释
-    /*
     ghost[2].x = 1;
     ghost[2].y = 1;
     ghost[2].old_x = 1;
@@ -139,7 +137,7 @@ void GamePacman::initMovers()
     ghost[2].speed = 1;
     ghost[2].form = 0;
     ghost[2].live = 1;
-    */
+
 }
 void GamePacman::initGame()
 {
@@ -160,13 +158,13 @@ void GamePacman::updateGrid()
     run_grid[player.old_y][player.old_x] = EMPTY;
     run_grid[ghost[0].old_y][ghost[0].old_x] = EMPTY;
     run_grid[ghost[1].old_y][ghost[1].old_x] = EMPTY;
-    // run_grid[ghost[2].old_y][ghost[2].old_x] = EMPTY;
+    run_grid[ghost[2].old_y][ghost[2].old_x] = EMPTY;
 
     // 鏇存柊鏂扮殑浣嶇疆
     run_grid[player.y][player.x] = PLAYER;
     run_grid[ghost[0].y][ghost[0].x] = GHOST1;
     run_grid[ghost[1].y][ghost[1].x] = GHOST2;
-    // run_grid[ghost[2].y][ghost[2].x] = GHOST3;
+    run_grid[ghost[2].y][ghost[2].x] = GHOST3;
 }
 
 bool GamePacman::processInput(char input)
@@ -194,7 +192,32 @@ bool GamePacman::processInput(char input)
     default:
         return false;
     }
-    player.direction = newDir;
+
+    // 检查新方向是否有墙壁，如果有墙壁则不改变方向
+    bool canChangeDirection = true;
+    switch (newDir)
+    {
+    case Direction::RIGHT:
+        if (run_grid[player.y][player.x + 1] == WALL)
+            canChangeDirection = false;
+        break;
+    case Direction::UP:
+        if (run_grid[player.y - 1][player.x] == WALL)
+            canChangeDirection = false;
+        break;
+    case Direction::LEFT:
+        if (run_grid[player.y][player.x - 1] == WALL)
+            canChangeDirection = false;
+        break;
+    case Direction::DOWN:
+        if (run_grid[player.y + 1][player.x] == WALL)
+            canChangeDirection = false;
+        break;
+    }
+
+    if (canChangeDirection)
+        player.direction = newDir;
+
     return true;
 }
 
@@ -235,16 +258,16 @@ void GamePacman::moveGhosts()
     ghost[0].old_y = ghost[0].y;
     ghost[1].old_x = ghost[1].x;
     ghost[1].old_y = ghost[1].y;
-    // ghost[2].old_x = ghost[2].x;
-    // ghost[2].old_y = ghost[2].y;
+    ghost[2].old_x = ghost[2].x;
+    ghost[2].old_y = ghost[2].y;
 
-    // 使用ghost1函数控制幽灵移动
+    // 使用ghostDiriction函数控制幽灵移动
     int track_x, track_y;
 
     // 只在计数器为0时移动幽灵（每两次调用移动一次）
     if (moveCounter == 0) {
-        // ghost1移动逻辑
-        int dir1 = ghost1(ghost[0].x, ghost[0].y, player.x, player.y, &track_x, &track_y);
+        // ghostDiriction移动逻辑
+        int dir1 = ghostDiriction(ghost[0].x, ghost[0].y, player.x, player.y, &track_x, &track_y);
 
         // 根据返回的方向移动幽灵1
         switch (dir1)
@@ -267,8 +290,8 @@ void GamePacman::moveGhosts()
             break;
         }
 
-        // ghost2也使用ghost1函数进行智能追踪
-        int dir2 = ghost1(ghost[1].x, ghost[1].y, player.x, player.y, &track_x, &track_y);
+        // ghost2也使用ghostDiriction函数进行智能追踪
+        int dir2 = ghostDiriction(ghost[1].x, ghost[1].y, player.old_x, player.old_y, &track_x, &track_y);
 
         // 根据返回的方向移动幽灵2
         switch (dir2)
@@ -288,6 +311,28 @@ void GamePacman::moveGhosts()
         case 3: // 下
             if (run_grid[ghost[1].y + 1][ghost[1].x] != WALL)
                 ghost[1].y += ghost[1].speed;
+            break;
+        }
+        int dir3 = ghostDiriction(ghost[2].x, ghost[2].y, player.old_x, player.old_y, &track_x, &track_y);
+
+        // 根据返回的方向移动幽灵3
+        switch (dir3)
+        {
+        case 0: // 右
+            if (run_grid[ghost[2].y][ghost[2].x + 1] != WALL)
+                ghost[2].x += ghost[2].speed;
+            break;
+        case 1: // 上
+            if (run_grid[ghost[2].y - 1][ghost[2].x] != WALL)
+                ghost[2].y -= ghost[2].speed;
+            break;
+        case 2: // 左
+            if (run_grid[ghost[2].y][ghost[2].x - 1] != WALL)
+                ghost[2].x -= ghost[2].speed;
+            break;
+        case 3: // 下
+            if (run_grid[ghost[2].y + 1][ghost[2].x] != WALL)
+                ghost[2].y += ghost[2].speed;
             break;
         }
     }
@@ -318,7 +363,7 @@ void GamePacman::update(char key)
     }
     judgeScore();
     // 检查玩家是否与幽灵碰撞
-    for (int i = 0; i < 2; i++) { // 修改为只检查ghost1和ghost2
+    for (int i = 0; i < 3; i++) {
         if (player.x == ghost[i].x && player.y == ghost[i].y) {
             for (int i = 0; i < GRID_SIZE; ++i)
             {
@@ -380,8 +425,8 @@ void GamePacman::display(const vector<vector<int>>& grid, int size) const
                 cout << "1 ";
             else if (grid[i][j] == GHOST2)
                 cout << "2 ";
-            // else if (grid[i][j] == GHOST3)
-            //     cout << "3 ";
+            else if (grid[i][j] == GHOST3)
+                cout << "3 ";
             else if (grid[i][j] == EMPTY)
                 cout << "  "; // 空白区域
             else
@@ -415,7 +460,7 @@ void GamePacman::startGame()
         }
         Sleep(1000 / 6);
     }
-    
+
 
 }
 //����Ϊ��Ⱦ����

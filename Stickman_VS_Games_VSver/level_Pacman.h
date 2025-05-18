@@ -68,7 +68,7 @@ private:
     void movePlayer();
     void moveGhosts();
     void judgeScore();
-    int ghost1(int g_map_x, int g_map_y, int p_map_x, int p_map_y, int* g1_track_x, int* g1_track_y);
+    int ghostDiriction(int ghostX, int ghostY, int playerX, int playerY, int* track_x, int* track_y);
     bool processInput(char key);
     void display(const vector<vector<int>>& grid, int size) const;
     void updateGrid(); // 更新游戏网格
