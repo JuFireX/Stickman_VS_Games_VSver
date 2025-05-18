@@ -83,6 +83,7 @@ int main()
 	int temp = 0;
 BEGINING:
 	Engine* engine = new Engine();
+	engine->runGame2048();
 	int choice = 0;
 	initGameCli(count++);
 
