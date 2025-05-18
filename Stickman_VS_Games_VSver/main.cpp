@@ -13,7 +13,7 @@ using namespace std;
 // 等待用户输入
 void pause(int timeout)
 {
-	if (timeout == 0)
+	if (timeout == -1)
 	{
 		system("set /p \"=>>>\" <nul");
 		system("pause >nul");
@@ -27,7 +27,7 @@ void pause(int timeout)
 }
 
 // 根据参数字符串模拟流式输出
-void streamOutput(const string& output, int speed, int timeout)
+void streamOutput(const string &output, int speed, int timeout)
 {
 	for (char c : output)
 	{
@@ -40,16 +40,16 @@ void streamOutput(const string& output, int speed, int timeout)
 }
 
 // 根据参数字符串直接输出
-void directOutput(const string& output, int timeout)
+void directOutput(const string &output, int timeout)
 {
 	cout << output << endl;
 	pause(timeout);
 }
 
 // 输出选择
-int choiceOutput(const string& output, const vector<string>& choices)
+int choiceOutput(const string &output, const vector<string> &choices)
 {
-	streamOutput(output, 10, 1);
+	streamOutput(output, 10, 0);
 	for (int i = 0; i < choices.size(); i++)
 		cout << i + 1 << " -> " << choices[i] << endl;
 	char choice = _getch();
@@ -82,14 +82,15 @@ int main()
 	int count = 1;
 	int temp = 0;
 BEGINING:
-	Engine* engine = new Engine();
+	Engine *engine = new Engine();
+	vector<string> choices;
 	int choice = 0;
 	initGameCli(count++);
 
 	// 序章报幕
 
 	streamOutput("你是再临, 正在无聊地玩2048...", 50, 1);
-	directOutput("(以游玩2048为目标继续行动)", 0);
+	directOutput("(以游玩2048为目标继续行动)", -1);
 
 	// 序章
 	streamOutput("WASD移动, Q跳过本关.", 10, 1);
@@ -105,7 +106,7 @@ BEGINING:
 	streamOutput("环顾四周, 你发现自己来到了推箱子一般的场地.", 10, 1);
 	streamOutput("墙壁非常光滑, 看不出一丝出口的痕迹.", 10, 1);
 	streamOutput("看来只能尝试完成这古老的游戏了...!", 10, 1);
-	directOutput("\n(以完成推箱子为目标继续行动)\n", 0);
+	directOutput("\n(以完成推箱子为目标继续行动)\n", -1);
 	system("cls");
 
 	// 第一关
@@ -120,7 +121,7 @@ BEGINING:
 	temp = 0;
 	do
 	{
-		choice = choiceOutput("你决定:", { "观察左侧石门", "观察右侧石门", "结束观察" });
+		choice = choiceOutput("你决定:", {"观察左侧石门", "观察右侧石门", "结束观察"});
 		switch (choice)
 		{
 		case 1:
@@ -158,26 +159,26 @@ BEGINING:
 	streamOutput("你来到了马里奥的世界...", 10, 1);
 	streamOutput("视线尽头是一座城堡. emmm设定上一般城堡都是需要钥匙才能进的...", 10, 1);
 	streamOutput("向前走去,不远处的半空漂浮着一个\"幸运方块\"...", 10, 1);
-	choice = choiceOutput("你决定:", { "上蹿下跳", "视而不见", "观察方块", "触碰方块" });
+	choice = choiceOutput("你决定:", {"上蹿下跳", "视而不见", "观察方块", "触碰方块"});
 	switch (choice)
 	{
 	case 1:
 		streamOutput("你上蹿下跳,", 10, 1);
 		streamOutput("你磕到了甲沟炎...", 100, 1);
-		streamOutput("再临 卒.", 150, 0);
+		streamOutput("再临 卒.", 150, -1);
 		system("cls");
 		delete engine;
 		goto BEGINING;
 	case 2:
 		streamOutput("鹅, 不愧是你, 毕竟自古CT不抬头.", 10, 1);
 		streamOutput("继续前进, 你发现了一个深坑.", 10, 1);
-		choice = choiceOutput("你决定:", { "视而不见继续前进", "观察坑的周围" });
+		choice = choiceOutput("你决定:", {"视而不见继续前进", "观察坑的周围"});
 		switch (choice)
 		{
 		case 1:
 			streamOutput("不愧是你.", 100, 1);
-			streamOutput("你由于走路平视前方掉入了深坑.", 60, 0);
-			streamOutput("再临 卒.", 150, 0);
+			streamOutput("你由于走路平视前方掉入了深坑.", 60, 1);
+			streamOutput("再临 卒.", 150, -1);
 			system("cls");
 			delete engine;
 			goto BEGINING;
@@ -223,10 +224,10 @@ BEGINING:
 	streamOutput("\"----此乃「阶梯魔神」的试炼! \"", 10, 1);
 	streamOutput("\"唯有精准契合天地法则之人, 方可聆听方块在凝固瞬间的----「真理共鸣」!\"", 10, 1);
 	streamOutput("\"智慧的勇士!按下命运的按钮!!走上通往城堡的阶梯吧!!!\"", 10, 1);
+	directOutput("\n(以探索\"方块的秘仪\"为目标继续行动)\n", -1);
 	system("cls");
 
-	directOutput("\n(以探索\"方块的秘仪\"为目标继续行动)\n", 0);
-	streamOutput("WASD移动, Q跳过本关, R重新开始.", 10, 1);
+	streamOutput("WASD移动和旋转方块, Q跳过本关, R重新开始.", 10, 1);
 	engine->runGameTetris();
 	system("cls");
 
@@ -235,13 +236,13 @@ BEGINING:
 	streamOutput("方块落下, 阶梯之外, 皆化作泡影...", 10, 1);
 	streamOutput("码神赞赏你的智慧, 治好了你的甲沟炎!(可以跳在台阶上了)", 10, 1);
 
-	choice = choiceOutput("你决定:", { "跳到台阶顶", "跳到半台阶腰", "跳到台阶脚" });
+	choice = choiceOutput("你决定:", {"跳到台阶顶", "跳到半台阶腰", "跳到台阶脚"});
 	switch (choice)
 	{
 	case 1:
 		streamOutput("row~~~~~~bomb!", 60, 1);
 		streamOutput("你似乎高估了自己的弹跳力, 倒在最后半个台阶上...", 10, 1);
-		streamOutput("再临 卒.", 150, 0);
+		streamOutput("再临 卒.", 150, -1);
 		system("cls");
 		delete engine;
 		goto BEGINING;
@@ -264,7 +265,7 @@ BEGINING:
 	temp = 0;
 	do
 	{
-		choice = choiceOutput("你决定:", { "钻进通道", "前往城堡", "尝试跳回去" });
+		choice = choiceOutput("你决定:", {"钻进通道", "前往城堡", "尝试跳回去"});
 		switch (choice)
 		{
 		case 1:
@@ -302,11 +303,23 @@ BEGINING:
 				streamOutput("......", 100, 1);
 				streamOutput("......", 100, 1);
 				streamOutput("要不, 你试试?", 10, 1);
+				streamOutput("(这里想做一个随机判断, 如果真判上了直接跳到boss关)", 10, 1);
+				if (false)
+				{
+					streamOutput("我去, 真给你砸开了...", 10, 1);
+					temp = 0;
+					goto BOSS;
+				}
+				else
+				{
+					streamOutput("锁纹丝不动.", 10, 1);
+					streamOutput("你还是去通道吧.", 10, 1);
+				}
 			}
 			else
 			{
 				streamOutput("放弃吧. 没用的.", 10, 1);
-				temp = 1;
+				streamOutput("你该去通道看看.", 10, 1);
 			}
 			break;
 		case 3:
@@ -324,31 +337,111 @@ BEGINING:
 	streamOutput("穿过通道, 你置身于漆黑的井底...", 10, 1);
 	streamOutput("直觉告诉你, 这里和你初来时遇见的深渊多少沾点亲戚.", 10, 1);
 	streamOutput("\n轰隆~~~~~~~~~~\n", 100, 2);
-	streamOutput("身后的通道传来沉闷的巨响.", 10, 1);
+	streamOutput("你刚踏入井底, 身后便传来沉闷的巨响.", 10, 1);
 	streamOutput("完了, 这下不得不对付这个石墙了.", 10, 1);
-
-	directOutput("\n(以解开最后一扇门为目标继续行动)\n", 0);
+	streamOutput("......", 60, 1);
+	streamOutput("你正在犹豫.", 10, 1);
+	streamOutput("耳边却再度响起码神的低语...", 10, 1);
+	streamOutput("(这里是码神的低语,但是我还没想好怎么设置游戏规则.)", 10, 1);
+	directOutput("\n(以拿到钥匙去往城堡为目标继续行动)\n", -1);
 	system("cls");
 
 	// 第三关
-	streamOutput("WASD移动和旋转方块, Q跳过本关, R重新开始.", 10, 1);
+	streamOutput("WASD控制石蛇的运动, Q跳过本关, R重新开始.", 10, 1);
 	engine->runGameSnake();
+	system("cls");
+
+	// 第四关报幕
+	streamOutput("艰难的跃进石门后, 果然...", 10, 1);
+	streamOutput("是你初次来到时那个推箱子的场地!", 10, 1);
+	streamOutput("但是...似乎和最初的布局不太一样..?", 10, 1);
+	streamOutput("你管不了这么多了! (这个时候要装傻.JPG)", 10, 1);
+	directOutput("\n(以再次开启右侧石门为目标继续行动)\n", -1);
+	system("cls");
+
+	// 第四关
+	streamOutput("WASD移动箱子, Q跳过本关, R重新开始.", 10, 1);
+	engine->runGameSokoban(); // 等待cv
+	system("cls");
+
+	// 第四关结幕
+	streamOutput("\n轰隆~~~~~~~~~~\n", 100, 2);
+	streamOutput("费了一些脑细胞, 石门终于挪动...", 10, 1);
+	streamOutput("......", 10, 1);
+	streamOutput("你再次来到马里奥的世界.", 10, 1);
+	choices = {"观察石门", "观察天空", "观察幸运方块", "观察深坑周围", "前往登神长阶"};
+	do
+	{
+		choice = choiceOutput("你决定:", choices);
+		switch (choice)
+		{
+		case 1:
+			streamOutput("你发现石门上模糊写着一行字:", 10, 1);
+			break;
+		case 2:
+			streamOutput("观察天空", 10, 1);
+			break;
+		case 3:
+			streamOutput("观察方块", 10, 1);
+			break;
+		case 4:
+			streamOutput("观察深坑周围", 10, 1);
+			break;
+		default:
+			break;
+		}
+	} while (choice != 5);
+	system("cls");
+
+	// 第五关报幕
+	streamOutput("是熟悉的阶梯.", 10, 1);
+	streamOutput("(这里我想写一个分支, 观察场景中的一些物体)", 10, 1);
+	choices = {"观察通道入口", "观察台阶", "观察手中的方盒", "观察城堡的门", "进入城堡"};
+	do
+	{
+		choice = choiceOutput("你决定:", choices);
+		switch (choice)
+		{
+		case 1:
+			streamOutput("你发现入口模糊写着一行字:", 10, 1);
+			break;
+		case 2:
+			streamOutput("观察台阶", 10, 1);
+			break;
+		case 3:
+			streamOutput("观察方盒", 10, 1);
+			break;
+		case 4:
+			streamOutput("观察城堡的门", 10, 1);
+			break;
+		default:
+			break;
+		}
+	} while (choice != 5);
 	system("cls");
 
 	// BOSS 关卡
 	streamOutput("你来到了最后一扇门前...", 10, 1);
-	streamOutput("门上挂着一张纸条:", 10, 1);
-	streamOutput("「通往下一层的钥匙!」", 10, 1);
-	streamOutput("「但你必须要先完成本关!」", 10, 1);
+BOSS:
+	streamOutput("码神对你说:", 10, 1);
+	streamOutput("智慧的勇士!", 10, 1);
+	streamOutput("(没想好)", 10, 1);
+	streamOutput("做好准备, 即将前往最后的试炼...", 10, 1);
+	directOutput("\n(按任意键开始试炼)\n", -1);
+	system("cls");
 
-	streamOutput("WASD移动和旋转方块, Q跳过本关, R重新开始.", 10, 1);
+	streamOutput("WASD移动躲避, Q跳过本关, R重新开始.", 10, 1);
 	engine->runGamePacman();
 	system("cls");
 
 	// 游戏结束
-	streamOutput("恭喜你完成所有关卡！", 10, 0);
-	streamOutput("你回到了现实世界，看着手中的遥控器，心中充满了成就感...", 10, 0);
-	directOutput("\n(按任意键退出游戏)", 0);
+	streamOutput("就在拿下最后一颗豆子的刹那!", 10, 1);
+	streamOutput("你晃了神.", 10, 1);
+	streamOutput("你坐在方盒子面前, 看着尚未合成的2048...", 10, 1);
+	system("cls");
+
+	// 最后结局
+	streamOutput("(这里我的想法是, 清屏后生成一份最后一步合成2048的残局, 合成2048结束游戏)", 10, -1);
 
 	delete engine;
 	return 0;
