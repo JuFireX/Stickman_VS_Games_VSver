@@ -52,13 +52,13 @@ private:
     } ghost[3];
 
     static const int GRID_SIZE = 20;
-    int food_grid[GRID_SIZE][GRID_SIZE] = { 0 };
-    int run_grid[GRID_SIZE][GRID_SIZE] = { 0 };
-    int run_grid_copy[GRID_SIZE][GRID_SIZE] = { 0 };
-    int grid[GRID_SIZE][GRID_SIZE] = { 0 };
-    
+    int food_grid[GRID_SIZE][GRID_SIZE] = {0};
+    int run_grid[GRID_SIZE][GRID_SIZE] = {0};
+    int run_grid_copy[GRID_SIZE][GRID_SIZE] = {0};
+    int grid[GRID_SIZE][GRID_SIZE] = {0};
+
     Direction direction = Direction::RIGHT;
-    //bool gameOver = false;
+    // bool gameOver = false;
     int score = 0;
     int target = 0;
     mt19937 rng;
@@ -68,14 +68,15 @@ private:
     void movePlayer();
     void moveGhosts();
     void judgeScore();
-    int ghostDiriction(int ghostX, int ghostY, int playerX, int playerY, int* track_x, int* track_y);
+    int ghostDiriction(int ghostX, int ghostY, int playerX, int playerY, int *track_x, int *track_y);
     bool processInput(char key);
-    void display(const vector<vector<int>>& grid, int size) const;
+    void display(const vector<vector<int>> &grid, int size) const;
     void updateGrid(); // 更新游戏网格
 
     IMAGE ghost_img[3];
     IMAGE Wall;
-	IMAGE Food;
+    IMAGE Food;
+
 public:
     GamePacman();                        // ??????
     void initGame();                     // ????????????

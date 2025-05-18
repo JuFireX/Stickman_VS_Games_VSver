@@ -258,7 +258,6 @@ void Game2048::startGame()
 	}
 }
 
-
 void Game2048::load()
 {
 	loadimage(&img_2048[0], _T("./PictureResource/Game2048/0.png"), img_size, img_size, true);

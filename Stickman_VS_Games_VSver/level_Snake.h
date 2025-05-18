@@ -46,6 +46,7 @@ private:
 
     IMAGE img_snake[4];
     int img_size = 20;
+
 public:
     GameSnake();                         // 构造函数
     void initGame();                     // 初始化游戏
@@ -55,7 +56,7 @@ public:
     vector<vector<int>> getGrid() const; // 获取游戏网格
     int getScore() const;                // 获取游戏得分
 
-	bool gameOver = false;
+    bool gameOver = false;
     void load(); // 加载游戏素材
     map<int, IMAGE> MapImg;
     vector<vector<position>> getMap() const;

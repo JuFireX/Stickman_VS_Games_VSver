@@ -4,34 +4,34 @@
 
 GamePacman::GamePacman() : rng(time(nullptr)) {}
 
-int GamePacman::ghostDiriction(int ghostX, int ghostY, int playerX, int playerY, int* track_x, int* track_y)
+int GamePacman::ghostDiriction(int ghostX, int ghostY, int playerX, int playerY, int *track_x, int *track_y)
 {
-    int map1[20][20] = { {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-                       {0,1,1,1,1,1,1,1,1,0,0,0,0,0,0,1,1,1,1,0},
-                       {0,1,0,1,0,0,0,0,1,0,0,0,0,0,0,1,0,0,1,0},
-                       {0,1,0,1,0,0,0,0,1,1,1,1,1,1,1,1,1,0,1,0},
-                       {0,1,0,1,1,1,1,1,1,0,0,1,0,0,0,0,1,1,1,0},
-                       {0,1,0,1,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,0},
-                       {0,1,1,1,0,0,0,0,1,1,1,1,1,1,1,1,1,0,0,0},
-                       {0,1,0,0,0,0,0,0,1,0,0,1,0,0,0,0,1,0,0,0},
-                       {0,1,0,0,0,0,1,1,1,0,0,1,0,0,0,0,1,0,0,0},
-                       {0,1,1,1,1,1,1,0,1,1,1,1,1,1,1,1,1,0,0,0},
-                       {0,1,0,1,0,0,1,0,0,1,0,1,0,0,0,0,1,0,0,0},
-                       {0,1,0,1,0,0,1,1,1,1,0,1,0,0,0,0,1,1,1,0},
-                       {0,1,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0},
-                       {0,1,1,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,1,0},
-                       {0,0,0,1,0,0,0,0,1,1,1,1,1,1,1,0,0,0,1,0},
-                       {0,1,1,1,0,0,0,0,1,0,0,0,0,0,1,0,0,0,1,0},
-                       {0,1,0,1,1,1,1,1,1,0,0,0,0,0,1,1,1,1,1,0},
-                       {0,1,0,0,1,0,0,0,1,0,0,0,0,0,1,0,0,0,0,0},
-                       {0,1,1,1,1,0,0,0,1,1,1,1,1,1,1,0,0,0,0,0},
-                       {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} };
+    int map1[20][20] = {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+                        {0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0},
+                        {0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0},
+                        {0, 1, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0},
+                        {0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 0},
+                        {0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0},
+                        {0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0},
+                        {0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0},
+                        {0, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0},
+                        {0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0},
+                        {0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0},
+                        {0, 1, 0, 1, 0, 0, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 1, 1, 1, 0},
+                        {0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0},
+                        {0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0},
+                        {0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0},
+                        {0, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0},
+                        {0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0},
+                        {0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0},
+                        {0, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0},
+                        {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
     int trace[400][3];
     int k = 0, l = 0, derection = 2;
     trace[k][0] = ghostX;
     trace[k][1] = ghostY;
     trace[k][2] = 0;
-    int dx[4] = { 1,-1,0,0 }, dy[4] = { 0,0,1,-1 };
+    int dx[4] = {1, -1, 0, 0}, dy[4] = {0, 0, 1, -1};
     int pc = 0, pre = -1;
     map1[ghostY][ghostX] = 2;
     while (trace[k][0] != playerX || trace[k][1] != playerY)
@@ -88,7 +88,7 @@ void GamePacman::initGrid()
         {WALL, FOOD, WALL, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, WALL, WALL, WALL, WALL, WALL, FOOD, FOOD, FOOD, FOOD, FOOD, WALL},
         {WALL, FOOD, WALL, WALL, FOOD, WALL, WALL, WALL, FOOD, WALL, WALL, WALL, WALL, WALL, FOOD, WALL, WALL, WALL, WALL, WALL},
         {WALL, FOOD, FOOD, FOOD, FOOD, WALL, WALL, WALL, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, WALL, WALL, WALL, WALL, WALL},
-        {WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL} };
+        {WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL}};
 
     for (int i = 0; i < GRID_SIZE; ++i)
     {
@@ -104,7 +104,6 @@ void GamePacman::initGrid()
             run_grid_copy[i][j] = run_grid[i][j];
         }
     }
-
 }
 
 void GamePacman::initMovers()
@@ -137,7 +136,6 @@ void GamePacman::initMovers()
     ghost[2].speed = 1;
     ghost[2].form = 0;
     ghost[2].live = 1;
-
 }
 void GamePacman::initGame()
 {
@@ -247,7 +245,6 @@ void GamePacman::movePlayer()
     updateGrid();
 }
 
-
 void GamePacman::moveGhosts()
 {
     // 添加静态计数器，用于控制幽灵移动频率（减半速度）
@@ -265,7 +262,8 @@ void GamePacman::moveGhosts()
     int track_x, track_y;
 
     // 只在计数器为0时移动幽灵（每两次调用移动一次）
-    if (moveCounter == 0) {
+    if (moveCounter == 0)
+    {
         // ghostDiriction移动逻辑
         int dir1 = ghostDiriction(ghost[0].x, ghost[0].y, player.x, player.y, &track_x, &track_y);
 
@@ -363,8 +361,10 @@ void GamePacman::update(char key)
     }
     judgeScore();
     // 检查玩家是否与幽灵碰撞
-    for (int i = 0; i < 3; i++) {
-        if (player.x == ghost[i].x && player.y == ghost[i].y) {
+    for (int i = 0; i < 3; i++)
+    {
+        if (player.x == ghost[i].x && player.y == ghost[i].y)
+        {
             for (int i = 0; i < GRID_SIZE; ++i)
             {
                 for (int j = 0; j < GRID_SIZE; ++j)
@@ -390,7 +390,7 @@ vector<vector<int>> GamePacman::getGrid() const
     }
     return gridCopy;
 }
-//已修改
+// 已修改
 void GamePacman::judgeScore()
 {
     // 检查是否达到目标分数，并更新游戏阶段
@@ -408,7 +408,7 @@ GameState GamePacman::state() const
     return GameState::Running;
 }
 // Test methods
-void GamePacman::display(const vector<vector<int>>& grid, int size) const
+void GamePacman::display(const vector<vector<int>> &grid, int size) const
 {
     system("cls");
     for (int i = 0; i < size; ++i)
@@ -436,7 +436,6 @@ void GamePacman::display(const vector<vector<int>>& grid, int size) const
     }
 }
 
-
 void GamePacman::startGame()
 {
     initGame();
@@ -460,28 +459,25 @@ void GamePacman::startGame()
         }
         Sleep(1000 / 6);
     }
-
-
 }
-
 
 void GamePacman::load()
 {
-   loadimage(&player_img[0], _T("./PictureResource/GamePacman/RIGHT.png"), img_size, img_size, true);  
-   loadimage(&player_img[1], _T("./PictureResource/GamePacman/LEFT.png"), img_size, img_size, true);
-   loadimage(&player_img[2], _T("./PictureResource/GamePacman/UP.png"), img_size, img_size, true);
-   loadimage(&player_img[3], _T("./PictureResource/GamePacman/DOWN.png"), img_size, img_size, true);
-   loadimage(&player_img[4], _T("./PictureResource/GamePacman/close.png"), img_size, img_size, true);
-   loadimage(&ghost_img[0], _T("./PictureResource/GamePacman/3.png"), img_size, img_size, true);
-   loadimage(&ghost_img[1], _T("./PictureResource/GamePacman/4.png"), img_size, img_size, true);
-   loadimage(&ghost_img[2], _T("./PictureResource/GamePacman/5.png"), img_size, img_size, true);
-   loadimage(&Wall, _T("./PictureResource/GamePacman/wall.png"), img_size, img_size, true);
-   loadimage(&Food, _T("./PictureResource/GamePacman/food.png"), 20, 20, true);
-   MapImg[WALL] = Wall;
-   MapImg[FOOD] = Food;
-   MapImg[GHOST1] = ghost_img[0];
-   MapImg[GHOST2] = ghost_img[1];
-   MapImg[GHOST3] = ghost_img[2];
+    loadimage(&player_img[0], _T("./PictureResource/GamePacman/RIGHT.png"), img_size, img_size, true);
+    loadimage(&player_img[1], _T("./PictureResource/GamePacman/LEFT.png"), img_size, img_size, true);
+    loadimage(&player_img[2], _T("./PictureResource/GamePacman/UP.png"), img_size, img_size, true);
+    loadimage(&player_img[3], _T("./PictureResource/GamePacman/DOWN.png"), img_size, img_size, true);
+    loadimage(&player_img[4], _T("./PictureResource/GamePacman/close.png"), img_size, img_size, true);
+    loadimage(&ghost_img[0], _T("./PictureResource/GamePacman/3.png"), img_size, img_size, true);
+    loadimage(&ghost_img[1], _T("./PictureResource/GamePacman/4.png"), img_size, img_size, true);
+    loadimage(&ghost_img[2], _T("./PictureResource/GamePacman/5.png"), img_size, img_size, true);
+    loadimage(&Wall, _T("./PictureResource/GamePacman/wall.png"), img_size, img_size, true);
+    loadimage(&Food, _T("./PictureResource/GamePacman/food.png"), 20, 20, true);
+    MapImg[WALL] = Wall;
+    MapImg[FOOD] = Food;
+    MapImg[GHOST1] = ghost_img[0];
+    MapImg[GHOST2] = ghost_img[1];
+    MapImg[GHOST3] = ghost_img[2];
 }
 
 vector<vector<position>> GamePacman::getMap() const // ?????
@@ -495,7 +491,7 @@ vector<vector<position>> GamePacman::getMap() const // ?????
         vector<position> row;
         for (int j = 0; j < 36; j++)
         {
-            row.push_back({ 0, j * sizeX, i * sizeY });
+            row.push_back({0, j * sizeX, i * sizeY});
         }
         GameMap.push_back(row);
     }
@@ -505,7 +501,7 @@ vector<vector<position>> GamePacman::getMap() const // ?????
         {
             if (state[i][j] != EMPTY)
             {
-                GameMap[2+i][8+j].val = state[i][j];
+                GameMap[2 + i][8 + j].val = state[i][j];
             }
         }
     }

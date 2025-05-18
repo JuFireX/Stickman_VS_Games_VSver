@@ -234,7 +234,7 @@ vector<vector<int>> GameSokoban::getGrid() const
     {
         for (int j = 0; j < GRID_SIZE; ++j)
         {
-            gridCopy[i][j] = grid[i][j];          
+            gridCopy[i][j] = grid[i][j];
         }
     }
     return gridCopy;
@@ -246,7 +246,7 @@ int GameSokoban::getScore() const
 }
 
 // Test methods
-void GameSokoban::display(const vector<vector<int>>& grid, int size) const
+void GameSokoban::display(const vector<vector<int>> &grid, int size) const
 {
     system("cls");
 
@@ -292,8 +292,7 @@ void GameSokoban::startGame()
     }
 }
 
-
-//目测要加三个函数（以下部分与主逻辑无关）
+// 目测要加三个函数（以下部分与主逻辑无关）
 void GameSokoban::load()
 {
     loadimage(&img_Sokoban[0], _T("./PictureResource/GameSokoban/wall.png"), img_size, img_size, true);
@@ -319,7 +318,7 @@ vector<vector<position>> GameSokoban::getMap() const // 重绘地图
         vector<position> row;
         for (int j = 0; j < 18; j++)
         {
-            row.push_back({ 0, j * sizeX, i * sizeY });
+            row.push_back({0, j * sizeX, i * sizeY});
         }
         GameMap.push_back(row);
     }
@@ -329,7 +328,7 @@ vector<vector<position>> GameSokoban::getMap() const // 重绘地图
         {
             if (state[i][j] != EMPTY)
             {
-                GameMap[1+i][4+j].val = state[i][j];
+                GameMap[1 + i][4 + j].val = state[i][j];
             }
         }
     }

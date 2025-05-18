@@ -15,7 +15,7 @@ using namespace std;
 class CustomStreambuf : public streambuf
 {
 public:
-    CustomStreambuf(streambuf* original, const string& prefix, const string& suffix)
+    CustomStreambuf(streambuf *original, const string &prefix, const string &suffix)
         : original_(original), prefix_(prefix), suffix_(suffix), new_line_(true)
     {
         // 初始状态，认为是新的一行
@@ -48,7 +48,7 @@ protected:
     }
 
 private:
-    streambuf* original_; // 原始的流缓冲区
+    streambuf *original_; // 原始的流缓冲区
     string prefix_;       // 每行前添加的内容
     string suffix_;       // 每行后添加的内容
     bool new_line_;       // 是否新的一行
@@ -60,7 +60,7 @@ public:
     CustomOutputManager() : original_cout_(cout.rdbuf()), custom_buf_(nullptr) {}
 
     // 开启自定义缓冲区
-    void startCustomOutput(const string& prefix, const string& suffix)
+    void startCustomOutput(const string &prefix, const string &suffix)
     {
         if (custom_buf_)
         {
@@ -86,7 +86,7 @@ public:
     }
 
 private:
-    streambuf* original_cout_;               // 原始的输出缓冲区
+    streambuf *original_cout_;               // 原始的输出缓冲区
     unique_ptr<CustomStreambuf> custom_buf_; // 自定义的缓冲区
 };
 
@@ -107,7 +107,7 @@ void pause(int timeout)
 }
 
 // 根据参数字符串模拟流式输出
-void streamOutput(const string& output, int speed, int timeout)
+void streamOutput(const string &output, int speed, int timeout)
 {
     for (char c : output)
     {
@@ -120,14 +120,14 @@ void streamOutput(const string& output, int speed, int timeout)
 }
 
 // 根据参数字符串直接输出
-void directOutput(const string& output, int timeout)
+void directOutput(const string &output, int timeout)
 {
     cout << output << endl;
     pause(timeout);
 }
 
 // 输出选择
-int choiceOutput(const string& output, const vector<string>& choices)
+int choiceOutput(const string &output, const vector<string> &choices)
 {
     streamOutput(output, 10, 1);
     for (int i = 0; i < choices.size(); i++)
@@ -139,9 +139,9 @@ int choiceOutput(const string& output, const vector<string>& choices)
 void initGameCli(int count)
 {
     // 使用utf-8编码
-    //SetConsoleOutputCP(65001);
-    //SetConsoleCP(65001);
-    //system("chcp 65001");
+    // SetConsoleOutputCP(65001);
+    // SetConsoleCP(65001);
+    // system("chcp 65001");
     // system("title 火柴人VS电子游戏");
     system("mode con cols=120 lines=30");
     system("cls");
@@ -162,7 +162,7 @@ int main()
     int count = 1;
 BEGINING:
     CustomOutputManager outputManager;
-    Engine* engine = new Engine();
+    Engine *engine = new Engine();
     int choice = 0;
     initGameCli(count++);
 
@@ -204,7 +204,7 @@ BEGINING:
     streamOutput("两侧的墙壁都缓缓移开了厚重的石门...", 10, 1);
     do
     {
-        choice = choiceOutput("你决定:", { "观察左侧石门", "观察右侧石门", "结束观察" });
+        choice = choiceOutput("你决定:", {"观察左侧石门", "观察右侧石门", "结束观察"});
         switch (choice)
         {
         case 1:
@@ -236,14 +236,14 @@ BEGINING:
     streamOutput("你来到了马里奥的世界...", 10, 1);
     streamOutput("视线尽头是一座城堡. 嗯, 一般设定上城堡需要钥匙才能进...", 10, 1);
     streamOutput("向前走去,不远处的半空漂浮着一个\"幸运方块\"...", 10, 1);
-    choice = choiceOutput("你决定:", { "视而不见", "上蹿下跳", "观察方块", "触碰方块" });
+    choice = choiceOutput("你决定:", {"视而不见", "上蹿下跳", "观察方块", "触碰方块"});
 SAVE_BOX:
     switch (choice)
     {
     case 1:
         streamOutput("鹅, 不愧是你, 毕竟自古CT不抬头.", 10, 1);
         streamOutput("继续前进, 你发现了一个深坑.", 10, 1);
-        choice = choiceOutput("你决定:", { "视而不见, 继续前进", "观察坑的周围" });
+        choice = choiceOutput("你决定:", {"视而不见, 继续前进", "观察坑的周围"});
         switch (choice)
         {
         case 1:
@@ -308,7 +308,7 @@ SAVE_BOX:
     streamOutput("解开谜题才能打开下一扇门...", 10, 1);
     do
     {
-        choice = choiceOutput("你决定稍作停留:", { "解开谜题", "观察遥控器", "结束观察" });
+        choice = choiceOutput("你决定稍作停留:", {"解开谜题", "观察遥控器", "结束观察"});
         switch (choice)
         {
         case 1:

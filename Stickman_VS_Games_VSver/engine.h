@@ -39,7 +39,6 @@ typedef struct position
     int y;
 } position;
 
-
 class Game
 {
 public:
@@ -53,7 +52,7 @@ public:
     bool gameOver = false;
     virtual void load() = 0;
     map<int, IMAGE> MapImg;
-    virtual vector<vector<position>> getMap() const=0;
+    virtual vector<vector<position>> getMap() const = 0;
     int GameHigh = 0;
     int GridSize = 0;
     int GameFrame = 0;
@@ -68,7 +67,8 @@ private:
     int MapSizeX = 20, MapSizeY = 12;
     bool running = true;
     ExMessage msg = ExMessage();
-    inline void putimage_alpha(int x,int y,IMAGE* img);
+    inline void putimage_alpha(int x, int y, IMAGE *img);
+
 public:
     Engine();
     // 游戏引擎核心功能接口

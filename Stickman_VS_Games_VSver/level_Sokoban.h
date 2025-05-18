@@ -42,7 +42,7 @@ private:
     bool processInput(char key);                                   // 处理用户输入
 
     IMAGE img_Sokoban[12];
-    int img_size = 40;                                             // 加载关卡
+    int img_size = 40; // 加载关卡
 public:
     GameSokoban();                       // 构造函数
     void initGame();                     // 初始化游戏矩阵
@@ -55,7 +55,7 @@ public:
 
     bool gameOver = false;
     map<int, IMAGE> MapImg;
-	void load(); // 加载游戏素材
+    void load(); // 加载游戏素材
     vector<vector<position>> getMap() const;
     int GameHigh = 12;
     int GridSize = 40;
