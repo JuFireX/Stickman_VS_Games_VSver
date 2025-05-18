@@ -10,7 +10,7 @@
 
 using namespace std;
 
-// ¸´Ğ´×Ô¶¨ÒåÊä³ö¹ÜÀíÆ÷
+// å¤å†™è‡ªå®šä¹‰è¾“å‡ºç®¡ç†å™¨
 
 class CustomStreambuf : public streambuf
 {
@@ -18,7 +18,7 @@ public:
     CustomStreambuf(streambuf *original, const string &prefix, const string &suffix)
         : original_(original), prefix_(prefix), suffix_(suffix), new_line_(true)
     {
-        // ³õÊ¼×´Ì¬£¬ÈÏÎªÊÇĞÂµÄÒ»ĞĞ
+        // åˆå§‹çŠ¶æ€ï¼Œè®¤ä¸ºæ˜¯æ–°çš„ä¸€è¡Œ
     }
 
 protected:
@@ -26,9 +26,9 @@ protected:
     {
         if (c == '\n')
         {
-            // Èç¹ûÊÇ»»ĞĞ·û£¬±ê¼ÇÎªĞÂµÄÒ»ĞĞ
+            // å¦‚æœæ˜¯æ¢è¡Œç¬¦ï¼Œæ ‡è®°ä¸ºæ–°çš„ä¸€è¡Œ
             new_line_ = true;
-            // ÔÚ»»ĞĞ·ûÖ®Ç°Ìí¼Óºó×º
+            // åœ¨æ¢è¡Œç¬¦ä¹‹å‰æ·»åŠ åç¼€
             if (!suffix_.empty())
             {
                 original_->sputn(suffix_.c_str(), suffix_.size());
@@ -39,7 +39,7 @@ protected:
         {
             if (new_line_)
             {
-                // Èç¹ûÊÇĞÂµÄÒ»ĞĞ£¬ÔÚÊä³öÖ®Ç°Ìí¼ÓÇ°×º
+                // å¦‚æœæ˜¯æ–°çš„ä¸€è¡Œï¼Œåœ¨è¾“å‡ºä¹‹å‰æ·»åŠ å‰ç¼€
                 original_->sputn(prefix_.c_str(), prefix_.size());
                 new_line_ = false;
             }
@@ -48,10 +48,10 @@ protected:
     }
 
 private:
-    streambuf *original_; // Ô­Ê¼µÄÁ÷»º³åÇø
-    string prefix_;       // Ã¿ĞĞÇ°Ìí¼ÓµÄÄÚÈİ
-    string suffix_;       // Ã¿ĞĞºóÌí¼ÓµÄÄÚÈİ
-    bool new_line_;       // ÊÇ·ñĞÂµÄÒ»ĞĞ
+    streambuf *original_; // åŸå§‹çš„æµç¼“å†²åŒº
+    string prefix_;       // æ¯è¡Œå‰æ·»åŠ çš„å†…å®¹
+    string suffix_;       // æ¯è¡Œåæ·»åŠ çš„å†…å®¹
+    bool new_line_;       // æ˜¯å¦æ–°çš„ä¸€è¡Œ
 };
 
 class CustomOutputManager
@@ -59,38 +59,38 @@ class CustomOutputManager
 public:
     CustomOutputManager() : original_cout_(cout.rdbuf()), custom_buf_(nullptr) {}
 
-    // ¿ªÆô×Ô¶¨Òå»º³åÇø
+    // å¼€å¯è‡ªå®šä¹‰ç¼“å†²åŒº
     void startCustomOutput(const string &prefix, const string &suffix)
     {
         if (custom_buf_)
         {
-            // Èç¹ûÒÑ¾­¿ªÆôÁË×Ô¶¨Òå»º³åÇø£¬ÏÈ¹Ø±Õ
+            // å¦‚æœå·²ç»å¼€å¯äº†è‡ªå®šä¹‰ç¼“å†²åŒºï¼Œå…ˆå…³é—­
             stopCustomOutput();
         }
-        // ´´½¨×Ô¶¨ÒåµÄ»º³åÇø
+        // åˆ›å»ºè‡ªå®šä¹‰çš„ç¼“å†²åŒº
         custom_buf_ = make_unique<CustomStreambuf>(original_cout_, prefix, suffix);
-        // ½«±ê×¼Êä³öÖØ¶¨Ïòµ½×Ô¶¨Òå»º³åÇø
+        // å°†æ ‡å‡†è¾“å‡ºé‡å®šå‘åˆ°è‡ªå®šä¹‰ç¼“å†²åŒº
         cout.rdbuf(custom_buf_.get());
     }
 
-    // »Ö¸´Ô­Ê¼»º³åÇø
+    // æ¢å¤åŸå§‹ç¼“å†²åŒº
     void stopCustomOutput()
     {
         if (custom_buf_)
         {
-            // »Ö¸´Ô­Ê¼»º³åÇø
+            // æ¢å¤åŸå§‹ç¼“å†²åŒº
             cout.rdbuf(original_cout_);
-            // ÊÍ·Å×Ô¶¨Òå»º³åÇø
+            // é‡Šæ”¾è‡ªå®šä¹‰ç¼“å†²åŒº
             custom_buf_.reset();
         }
     }
 
 private:
-    streambuf *original_cout_;               // Ô­Ê¼µÄÊä³ö»º³åÇø
-    unique_ptr<CustomStreambuf> custom_buf_; // ×Ô¶¨ÒåµÄ»º³åÇø
+    streambuf *original_cout_;               // åŸå§‹çš„è¾“å‡ºç¼“å†²åŒº
+    unique_ptr<CustomStreambuf> custom_buf_; // è‡ªå®šä¹‰çš„ç¼“å†²åŒº
 };
 
-// µÈ´ıÓÃ»§ÊäÈë
+// ç­‰å¾…ç”¨æˆ·è¾“å…¥
 void pause(int timeout)
 {
     if (timeout == 0)
@@ -106,27 +106,27 @@ void pause(int timeout)
     }
 }
 
-// ¸ù¾İ²ÎÊı×Ö·û´®Ä£ÄâÁ÷Ê½Êä³ö
+// æ ¹æ®å‚æ•°å­—ç¬¦ä¸²æ¨¡æ‹Ÿæµå¼è¾“å‡º
 void streamOutput(const string &output, int speed, int timeout)
 {
     for (char c : output)
     {
         cout << c;
-        cout.flush(); // Á¢¼´Ë¢ĞÂÊä³ö»º³åÇø
-        Sleep(speed); // Ä£ÄâÊä³öÑÓ³Ù
+        cout.flush(); // ç«‹å³åˆ·æ–°è¾“å‡ºç¼“å†²åŒº
+        Sleep(speed); // æ¨¡æ‹Ÿè¾“å‡ºå»¶è¿Ÿ
     }
     cout << endl;
     pause(timeout);
 }
 
-// ¸ù¾İ²ÎÊı×Ö·û´®Ö±½ÓÊä³ö
+// æ ¹æ®å‚æ•°å­—ç¬¦ä¸²ç›´æ¥è¾“å‡º
 void directOutput(const string &output, int timeout)
 {
     cout << output << endl;
     pause(timeout);
 }
 
-// Êä³öÑ¡Ôñ
+// è¾“å‡ºé€‰æ‹©
 int choiceOutput(const string &output, const vector<string> &choices)
 {
     streamOutput(output, 10, 1);
@@ -138,83 +138,89 @@ int choiceOutput(const string &output, const vector<string> &choices)
 
 void initGameCli(int count)
 {
-    // Ê¹ÓÃutf-8±àÂë
-    // SetConsoleOutputCP(65001);
-    // SetConsoleCP(65001);
-    // system("chcp 65001");
-    // system("title »ğ²ñÈËVSµç×ÓÓÎÏ·");
+    // ä½¿ç”¨utf-8ç¼–ç 
+    SetConsoleOutputCP(65001);
+    SetConsoleCP(65001);
+    system("chcp 65001");
+    // system("title ç«æŸ´äººVSç”µå­æ¸¸æˆ");
     system("mode con cols=120 lines=30");
     system("cls");
     if (count == 1)
-        directOutput("Ó´! ÊÇĞÂÏÊµÄÒ»ÖÜÄ¿Íæ¼Ò :P", 1);
+        directOutput("å“Ÿ! æ˜¯æ–°é²œçš„ä¸€å‘¨ç›®ç©å®¶ :P", 1);
     else if (count == 2)
-        directOutput("Å¶ºğ? hello, again? ", 1);
-    else if (count == 4)
-        directOutput("¸ò? ÄãÔÚ¸ÉÂï?? ", 1);
+        directOutput("å“¦å¼? hello, again? ", 1);
+    else if (count == 5)
+        directOutput("è›¤? ä½ åœ¨å¹²å˜›?? ", 1);
     else
-        directOutput("ßõßõßõ~~", 1);
+        directOutput("å•§å•§å•§~~", 1);
     pause(1);
 }
 
-// Ö÷Á÷³Ì
+// ä¸»æµç¨‹
 int main()
 {
     int count = 1;
+    int temp = 0;
 BEGINING:
     CustomOutputManager outputManager;
     Engine *engine = new Engine();
     int choice = 0;
     initGameCli(count++);
 
-    // ĞòÕÂ±¨Ä»
-    engine->runGameSokoban();
-    streamOutput("ÄãÊÇÔÙÁÙ, ÕıÔÚÎŞÁÄµØÍæ2048...", 50, 1);
-    directOutput("(ÒÔÓÎÍæ2048ÎªÄ¿±ê¼ÌĞøĞĞ¶¯)", 0);
+    // åºç« æŠ¥å¹•
+    streamOutput("ä½ æ˜¯å†ä¸´, æ­£åœ¨æ— èŠåœ°ç©2048...", 50, 1);
+    directOutput("(ä»¥æ¸¸ç©2048ä¸ºç›®æ ‡ç»§ç»­è¡ŒåŠ¨)", 0);
 
-    // ĞòÕÂ
-    streamOutput("WASDÒÆ¶¯, QÌø¹ı±¾¹Ø.", 10, 1);
+    // åºç« 
+    streamOutput("WASDç§»åŠ¨, Qè·³è¿‡æœ¬å…³.", 10, 1);
     outputManager.startCustomOutput("", "");
     engine->runGame2048();
     outputManager.stopCustomOutput();
     system("cls");
 
-    // µÚÒ»¹Ø±¨Ä»
-    directOutput("\nÍ»È»!\n", 1);
-    streamOutput("ÄãµÄÆÁÄ»¿ªÊ¼ÉÁË¸!!!", 10, 1);
-    streamOutput("Ìì±ÀµØÁÑ...", 30, 1);
-    streamOutput("×¹Âä......", 60, 2);
-    directOutput("\nÅ¾ßó!!!\n", 1);
-    streamOutput("ÄãµôÔÚÁËÒ»´¦Éî²»¼ûµ×µÄÆ½Ì¨...", 10, 1);
-    streamOutput("»·¹ËËÄÖÜ, Äã·¢ÏÖ×Ô¼ºÀ´µ½ÁËÍÆÏä×ÓµÄ³¡µØ.", 10, 1);
-    streamOutput("Ç½±Ú·Ç³£¹â»¬, ¿´²»³öÒ»Ë¿³ö¿ÚµÄºÛ¼£.", 10, 1);
-    streamOutput("¿´À´Ö»ÄÜ³¢ÊÔÍê³ÉÕâ¹ÅÀÏµÄÓÎÏ·ÁË...!", 10, 1);
-    directOutput("\n(ÒÔÍê³ÉÍÆÏä×ÓÎªÄ¿±ê¼ÌĞøĞĞ¶¯)\n", 0);
+    // ç¬¬ä¸€å…³æŠ¥å¹•
+    directOutput("\nçªç„¶!\n", 1);
+    streamOutput("ä½ çš„å±å¹•å¼€å§‹é—ªçƒ!!! (ä½ è¦ç›¸ä¿¡å®ƒé—ªäº†)", 10, 1);
+    streamOutput("å¤©å´©..åœ°è£‚...å è½......", 50, 2);
+    directOutput("\nå•ªå”§!!!\n", 1);
+    streamOutput("ä½ æ‰åœ¨äº†ä¸€å¤„æ·±ä¸è§åº•çš„å¹³å°...(æ²¡ç£•åˆ°ç”²æ²Ÿç‚)", 10, 1);
+    streamOutput("ç¯é¡¾å››å‘¨, ä½ å‘ç°è‡ªå·±æ¥åˆ°äº†æ¨ç®±å­ä¸€èˆ¬çš„åœºåœ°.", 10, 1);
+    streamOutput("å¢™å£éå¸¸å…‰æ»‘, çœ‹ä¸å‡ºä¸€ä¸å‡ºå£çš„ç—•è¿¹.", 10, 1);
+    streamOutput("çœ‹æ¥åªèƒ½å°è¯•å®Œæˆè¿™å¤è€çš„æ¸¸æˆäº†...!", 10, 1);
+    directOutput("\n(ä»¥å®Œæˆæ¨ç®±å­ä¸ºç›®æ ‡ç»§ç»­è¡ŒåŠ¨)\n", 0);
     system("cls");
 
-    // µÚÒ»¹Ø
-    streamOutput("WASDÒÆ¶¯, QÌø¹ı±¾¹Ø, RÖØĞÂ¿ªÊ¼.", 10, 1);
+    // ç¬¬ä¸€å…³
+    streamOutput("WASDç§»åŠ¨, Qè·³è¿‡æœ¬å…³, Ré‡æ–°å¼€å§‹.", 10, 1);
     outputManager.startCustomOutput("", "");
     engine->runGameSokoban();
     outputManager.stopCustomOutput();
     system("cls");
 
-    // µÚÒ»¹Ø·ÖÖ§
-    streamOutput("\nºäÂ¡~~~~~~~~~~\n", 100, 2);
-    streamOutput("µ±Èı¸öÏä×Ó·ÅÖÃµ½ÕıÈ·µÄÎ»ÖÃºó,", 10, 1);
-    streamOutput("Á½²àµÄÇ½±Ú¶¼»º»ºÒÆ¿ªÁËºñÖØµÄÊ¯ÃÅ...", 10, 1);
+    // ç¬¬ä¸€å…³åˆ†æ”¯
+    streamOutput("\nè½°éš†~~~~~~~~~~\n", 100, 2);
+    streamOutput("å½“ä¸‰ä¸ªç®±å­æ”¾ç½®åˆ°æ­£ç¡®çš„ä½ç½®å,", 10, 1);
+    streamOutput("ä¸¤ä¾§çš„å¢™å£éƒ½ç¼“ç¼“ç§»å¼€äº†åšé‡çš„çŸ³é—¨...", 10, 1);
+    temp = 0;
     do
     {
-        choice = choiceOutput("Äã¾ö¶¨:", {"¹Û²ì×ó²àÊ¯ÃÅ", "¹Û²ìÓÒ²àÊ¯ÃÅ", "½áÊø¹Û²ì"});
+        choice = choiceOutput("ä½ å†³å®š:", {"è§‚å¯Ÿå·¦ä¾§çŸ³é—¨", "è§‚å¯Ÿå³ä¾§çŸ³é—¨", "ç»“æŸè§‚å¯Ÿ"});
         switch (choice)
         {
         case 1:
-            streamOutput("×ó²àÊ¯ÃÅµÄÇ½±Ú¿ªÊ¼»º»ºÒÆ¿ª, ÃÅÍâÊÇÉî²»¼ûµ×µÄÉî¿Ó.", 10, 1);
-            streamOutput("ÔÚ²»Ô¶´¦µÄ°ë¿Õ, Æ¯¸¡×Å½ğÉ«µÄÔ¿³×...", 10, 1);
+            if (temp)
+            {
+                streamOutput("å·¦è¾¹æ˜¯å‘.", 10, 1);
+                break;
+            }
+            streamOutput("å·¦ä¾§çŸ³é—¨çš„å¢™å£å¼€å§‹ç¼“ç¼“ç§»å¼€, é—¨å¤–æ˜¯æ·±ä¸è§åº•çš„æ·±å‘.", 10, 1);
+            streamOutput("åœ¨ä¸è¿œå¤„çš„åŠç©º, æ¼‚æµ®ç€é‡‘è‰²çš„é’¥åŒ™...", 10, 1);
+            temp = 1;
             break;
 
         case 2:
-            streamOutput("ÓÒ²àÊ¯ÃÅµÄÇ½±Ú¿ªÊ¼»º»ºÒÆ¿ª, Î¢¹â´ÓÃÅ·ìÖĞÕÕ½øÀ´...", 10, 1);
-            streamOutput("ÃÅÍâÊÇÂíÀï°ÂÒ»ÑùµÄÆ½Ì¨.", 10, 1);
+            streamOutput("å³ä¾§çŸ³é—¨çš„å¢™å£å¼€å§‹ç¼“ç¼“ç§»å¼€, å¾®å…‰ä»é—¨ç¼ä¸­ç…§è¿›æ¥...", 10, 1);
+            streamOutput("é—¨å¤–æ˜¯é©¬é‡Œå¥¥ä¸€æ ·çš„å¹³å°.", 10, 1);
             break;
 
         default:
@@ -223,129 +229,216 @@ BEGINING:
     } while (choice != 3);
     system("cls");
 
-    // µÚ¶ş¹Ø±¨Ä»
-    streamOutput("¿´ÆğÀ´ÄãÖ»ÄÜÇ°ÍùÂíÀï°ÂÆ½Ì¨ÁË..?", 10, 1);
-    streamOutput("Èç¹ûËû²»´òËãÍù¿ÓÀïÌøµÄ»°.", 10, 1);
-    streamOutput("ÓÚÊÇÄã×ªÉíÏòÃÅÍâ×ßÈ¥......", 10, 1);
+    // ç¬¬äºŒå…³æŠ¥å¹•
+    streamOutput("çœ‹èµ·æ¥åªèƒ½å‰å¾€é©¬é‡Œå¥¥å¹³å°äº†..?", 10, 1);
+    streamOutput("å¦‚æœä½ ä¸æ‰“ç®—å¾€å‘é‡Œè·³çš„è¯.(ä½ ä¸æ‰“ç®—)", 10, 1);
+    streamOutput("äºæ˜¯ä½ è½¬èº«å‘é—¨å¤–èµ°å»......", 10, 1);
     streamOutput("......", 60, 1);
     streamOutput("......", 60, 1);
-    streamOutput("\nºäÂ¡~~~~~~~~~~\n", 100, 2);
-    streamOutput("Ê¯ÃÅÔÚ¾ŞÏìÖĞ¹Ø±Õ.", 10, 1);
+    streamOutput("\nè½°éš†~~~~~~~~~~\n", 100, 2);
+    streamOutput("çŸ³é—¨åœ¨å·¨å“ä¸­å…³é—­.", 10, 1);
     system("cls");
 
-    streamOutput("ÄãÀ´µ½ÁËÂíÀï°ÂµÄÊÀ½ç...", 10, 1);
-    streamOutput("ÊÓÏß¾¡Í·ÊÇÒ»×ù³Ç±¤. àÅ, Ò»°ãÉè¶¨ÉÏ³Ç±¤ĞèÒªÔ¿³×²ÅÄÜ½ø...", 10, 1);
-    streamOutput("ÏòÇ°×ßÈ¥,²»Ô¶´¦µÄ°ë¿ÕÆ¯¸¡×ÅÒ»¸ö\"ĞÒÔË·½¿é\"...", 10, 1);
-    choice = choiceOutput("Äã¾ö¶¨:", {"ÊÓ¶ø²»¼û", "ÉÏ´ÚÏÂÌø", "¹Û²ì·½¿é", "´¥Åö·½¿é"});
-SAVE_BOX:
+    streamOutput("ä½ æ¥åˆ°äº†é©¬é‡Œå¥¥çš„ä¸–ç•Œ...", 10, 1);
+    streamOutput("è§†çº¿å°½å¤´æ˜¯ä¸€åº§åŸå ¡. emmmè®¾å®šä¸Šä¸€èˆ¬åŸå ¡éƒ½æ˜¯éœ€è¦é’¥åŒ™æ‰èƒ½è¿›çš„...", 10, 1);
+    streamOutput("å‘å‰èµ°å»,ä¸è¿œå¤„çš„åŠç©ºæ¼‚æµ®ç€ä¸€ä¸ª\"å¹¸è¿æ–¹å—\"...", 10, 1);
+    choice = choiceOutput("ä½ å†³å®š:", {"ä¸Šè¹¿ä¸‹è·³", "è§†è€Œä¸è§", "è§‚å¯Ÿæ–¹å—", "è§¦ç¢°æ–¹å—"});
     switch (choice)
     {
     case 1:
-        streamOutput("¶ì, ²»À¢ÊÇÄã, ±Ï¾¹×Ô¹ÅCT²»Ì§Í·.", 10, 1);
-        streamOutput("¼ÌĞøÇ°½ø, Äã·¢ÏÖÁËÒ»¸öÉî¿Ó.", 10, 1);
-        choice = choiceOutput("Äã¾ö¶¨:", {"ÊÓ¶ø²»¼û, ¼ÌĞøÇ°½ø", "¹Û²ì¿ÓµÄÖÜÎ§"});
+        streamOutput("ä½ ä¸Šè¹¿ä¸‹è·³,", 10, 1);
+        streamOutput("ä½ ç£•åˆ°äº†ç”²æ²Ÿç‚...", 100, 1);
+        streamOutput("å†ä¸´ å’.", 150, 0);
+        system("cls");
+        delete engine;
+        goto BEGINING;
+    case 2:
+        streamOutput("é¹…, ä¸æ„§æ˜¯ä½ , æ¯•ç«Ÿè‡ªå¤CTä¸æŠ¬å¤´.", 10, 1);
+        streamOutput("ç»§ç»­å‰è¿›, ä½ å‘ç°äº†ä¸€ä¸ªæ·±å‘.", 10, 1);
+        choice = choiceOutput("ä½ å†³å®š:", {"è§†è€Œä¸è§ç»§ç»­å‰è¿›", "è§‚å¯Ÿå‘çš„å‘¨å›´"});
         switch (choice)
         {
         case 1:
-            streamOutput("²»À¢ÊÇÄã.", 100, 1);
-            streamOutput("Bad End: ÄãÓÉÓÚÆ½ÊÓÇ°·½µôÈëÁËÉî¿Ó.", 10, 0);
+            streamOutput("ä¸æ„§æ˜¯ä½ .", 100, 1);
+            streamOutput("ä½ ç”±äºèµ°è·¯å¹³è§†å‰æ–¹æ‰å…¥äº†æ·±å‘.", 60, 0);
+            streamOutput("å†ä¸´ å’.", 150, 0);
             system("cls");
             delete engine;
             goto BEGINING;
         case 2:
-            streamOutput("¿Óµ×ºÃÏñÓĞÒ»¸öÍ¨µÀ?", 10, 1);
-            streamOutput("¶ì¶ì¶ì...", 10, 1);
-            streamOutput("ÄãÏÔÈ»²»Ì«ÄÜÖ±½ÓÍù¿ÓÀïÌø...", 10, 1);
-            streamOutput("ËâÁË, »ØÈ¥ÃşĞÒÔË·½¿é°É...", 10, 1);
+            streamOutput("å‘åº•å¥½åƒæœ‰ä¸€ä¸ªé€šé“?", 10, 1);
+            streamOutput("é¹…é¹…é¹…...", 10, 1);
+            streamOutput("ä½ æ˜¾ç„¶ä¸å¤ªèƒ½ç›´æ¥å¾€å‘é‡Œè·³...(ä¼šç£•åˆ°ç”²æ²Ÿç‚)", 10, 1);
+            streamOutput("è’œäº†, å›å»æ‘¸å¹¸è¿æ–¹å—å§...", 10, 1);
             system("cls");
-            choice = 3;
-            goto SAVE_BOX;
             break;
         default:
             break;
         }
-    case 2:
-        streamOutput("ÄãÉÏ´ÚÏÂÌø,", 10, 1);
-        streamOutput("Äã¿Äµ½ÁË¼×¹µÑ×...", 100, 1);
-        streamOutput("ÔÙÁÙ ×ä.", 150, 0);
-        system("cls");
-        delete engine;
-        goto BEGINING;
     case 3:
-        streamOutput("Æ½Æ½ÎŞÆæµÄ·½¿é¶ù.", 10, 1);
-        streamOutput("Äã¶¢×Å·½¿é¶ù¿´ÁËĞí¾Ã, µ«Õâ»¹ÊÇÆ½Æ½ÎŞÆæµÄ·½¿é¶ù.", 10, 1);
-        streamOutput("Äã¿ËÖÆ×¡´ò¿ªËüµÄ³å¶¯.", 10, 1);
+        streamOutput("å¹³å¹³æ— å¥‡çš„æ–¹å—å„¿.", 10, 1);
+        streamOutput("ä½ ç›¯ç€æ–¹å—å„¿çœ‹äº†è®¸ä¹…, ä½†è¿™è¿˜æ˜¯å¹³å¹³æ— å¥‡çš„æ–¹å—å„¿.", 10, 1);
+        streamOutput("ä½ å…‹åˆ¶ä½æ‰“å¼€å®ƒçš„å†²åŠ¨.", 10, 1);
         streamOutput(".......", 60, 1);
     case 4:
-        streamOutput("Äã¶¢×Å·½¿é¶ù¿´ÁËĞí¾Ã, ËüÃÇºÃÏñ±äÁË...", 10, 1);
-        streamOutput("·½¿é±ß¶ù²»ÔÙ¿Ì¼£°ß°ß£¬ÉíÉÏµÄ°¼ÏİÒ²Æ½ÕûÁËĞí¶à.", 10, 1);
-        streamOutput("´Ó¸Ç¶ùÏÂÎ¢Î¢Í¸³ö½ğÉ«µÄ¹âÃ¢----ÌğÃÛ¶øÓÕÈË.", 10, 1);
-        streamOutput("ÓĞÒ»Ë²¼ä, ÄãÉõÖÁ¾õµÃ·½¿é¶ù±ä³ÉÁË±¦Ïä.", 10, 1);
-        streamOutput("ÕâÒ»¿Ì»¹ÊÇÀ´ÁË...", 10, 1);
-        streamOutput("ÄãÉîÎüÒ»¿ÚÆø, Éì³öÊÖ, ÇÃÁËÇÃ·½¿é:", 60, 1);
-        streamOutput("µØÉÏµôÂäÁËÒ»¸öÒ£¿ØÆ÷Ò»ÑùµÄ·½ºĞ×Ó.", 10, 1);
+        streamOutput("ä½ ç›¯ç€æ–¹å—å„¿çœ‹äº†è®¸ä¹…, å®ƒä»¬å¥½åƒå˜äº†...", 10, 1);
+        streamOutput("æ–¹å—è¾¹å„¿ä¸å†åˆ»è¿¹æ–‘æ–‘ï¼Œèº«ä¸Šçš„å‡¹é™·ä¹Ÿå¹³æ•´äº†è®¸å¤š.", 10, 1);
+        streamOutput("ä»ç›–å„¿ä¸‹å¾®å¾®é€å‡ºé‡‘è‰²çš„å…‰èŠ’----ç”œèœœè€Œè¯±äºº.", 10, 1);
+        streamOutput("æœ‰ä¸€ç¬é—´, ä½ ç”šè‡³è§‰å¾—æ–¹å—å„¿å˜æˆäº†å®ç®±.", 10, 1);
+        streamOutput("è¿™ä¸€åˆ»è¿˜æ˜¯æ¥äº†...", 10, 1);
+        streamOutput("ä½ æ·±å¸ä¸€å£æ°”, ä¼¸å‡ºæ‰‹, æ•²äº†æ•²æ–¹å—:", 60, 1);
+        streamOutput("åœ°ä¸Šæ‰è½äº†ä¸€ä¸ªé¥æ§å™¨ä¸€æ ·çš„æ–¹ç›’å­.", 10, 1);
         system("cls");
         break;
     default:
         break;
     }
 
-    // µÚ¶ş¹Ø
-    streamOutput("ÓÎÏ·¹æÔò:", 10, 1);
-    streamOutput("WASDÒÆ¶¯, QÌø¹ı±¾¹Ø, RÖØĞÂ¿ªÊ¼.", 10, 1);
-    outputManager.startCustomOutput("", "");
-    engine->runGamePacman();
-    engine->runGameSnake();
+    // ç¬¬äºŒå…³
+    streamOutput("å½“ä½ æ¥è§¦åˆ°æ–¹ç›’å­çš„ä¸€ç¬é—´!", 10, 1);
+    streamOutput("ä½ çš„è„‘æµ·é‡Œå“èµ·äº†ç©ºçµè€Œç¥åœ£çš„å£°éŸ³...", 10, 1);
+    streamOutput("ç ç¥å‘Šè¯‰ä½ :", 10, 1);
+    streamOutput("\"æ–¹ç›’å­æŒç®¡ç€æ–¹å—çš„ç§˜ä»ª!\"", 10, 1);
+    streamOutput("\"å½“é‚£è¢«è™šç©ºä¹‹åŠ›é›•ç¢çš„ã€Œæ³•åˆ™æ–¹å—ã€è‡ªå¤©ç©¹å ä¸‹æ—¶,\"", 10, 1);
+    streamOutput("\"å”¯æœ‰è¸ä¸Šã€Œç¥é“¸ä¹‹é˜¶ã€,æ–¹èƒ½è·å¾—ã€Œæ°¸æ’å›ºç»“ã€çš„æƒèƒ½!\"", 10, 1);
+    streamOutput("\"è‹¥æ„šè€…ä»¤å…¶åç¦»åœ£ç—•ï¼Œè¯¯è§¦ç¦å¿Œçš„è™šä½...\"", 10, 1);
+    streamOutput("\"ã€Œæ¹®ç­ä¹‹ç³ã€ä¾¿ä¼šéª¤ç„¶çå¼€! \"", 10, 1);
+    streamOutput("\"æ–¹å—å°†åœ¨åˆ¹é‚£å´©è§£ä¸ºæ˜Ÿå°˜ï¼Œè¢«æ—¶ç©ºçš„è£‚ç¼åå™¬ï¼Œè¿æ‚²é¸£éƒ½æ— æ³•æ®‹ç•™!\"", 10, 1);
+    streamOutput("\"----æ­¤ä¹ƒã€Œé˜¶æ¢¯é­”ç¥ã€çš„è¯•ç‚¼! \"", 10, 1);
+    streamOutput("\"å”¯æœ‰ç²¾å‡†å¥‘åˆå¤©åœ°æ³•åˆ™ä¹‹äºº, æ–¹å¯è†å¬æ–¹å—åœ¨å‡å›ºç¬é—´çš„----ã€ŒçœŸç†å…±é¸£ã€!\"", 10, 1);
+    streamOutput("\"æ™ºæ…§çš„å‹‡å£«!æŒ‰ä¸‹å‘½è¿çš„æŒ‰é’®!!èµ°ä¸Šé€šå¾€åŸå ¡çš„é˜¶æ¢¯å§!!!\"", 10, 1);
+    system("cls");
+
+    directOutput("\n(ä»¥æ¢ç´¢\"æ–¹å—çš„ç§˜ä»ª\"ä¸ºç›®æ ‡ç»§ç»­è¡ŒåŠ¨)\n", 0);
+    streamOutput("WASDç§»åŠ¨, Qè·³è¿‡æœ¬å…³, Ré‡æ–°å¼€å§‹.", 10, 1);
+    outputManager.startCustomOutput(">>>", "<<<");
     engine->runGameTetris();
-    // ¼ÙÉèµÚ¶ş¹ØµÄµÚÈı¸öÓÎÏ·ÊÇÍÆÏä×Ó
-    engine->runGameSokoban();
     outputManager.stopCustomOutput();
     system("cls");
 
-    // µÚ¶ş¹Ø·ÖÖ§
-    streamOutput("\nÄã³É¹¦Íê³ÉÁËÍÆÏä×Ó£¬·¢ÏÖÒ£¿ØÆ÷·½ºĞ×Ó¿ÉÒÔ´ò¿ª!", 10, 1);
-    streamOutput("Ò£¿ØÆ÷·½ºĞ×ÓÀïÃæÓĞÒ»ÕÅÖ½Ìõ£¬ÉÏÃæĞ´×ÅÃÕÌâ...", 10, 1);
-    streamOutput("½â¿ªÃÕÌâ²ÅÄÜ´ò¿ªÏÂÒ»ÉÈÃÅ...", 10, 1);
+    // ç¬¬äºŒå…³åˆ†æ”¯
+    streamOutput("ä½ æˆåŠŸäº†!!! ", 10, 1);
+    streamOutput("æ–¹å—è½ä¸‹, é˜¶æ¢¯ä¹‹å¤–, çš†åŒ–ä½œæ³¡å½±...", 10, 1);
+    streamOutput("ç ç¥èµèµä½ çš„æ™ºæ…§, æ²»å¥½äº†ä½ çš„ç”²æ²Ÿç‚!(å¯ä»¥è·³åœ¨å°é˜¶ä¸Šäº†)", 10, 1);
+
+    choice = choiceOutput("ä½ å†³å®š:", {"è·³åˆ°å°é˜¶é¡¶", "è·³åˆ°åŠå°é˜¶è…°", "è·³åˆ°å°é˜¶è„š"});
+    switch (choice)
+    {
+    case 1:
+        streamOutput("row~~~~~~bomb!", 60, 1);
+        streamOutput("ä½ ä¼¼ä¹é«˜ä¼°äº†è‡ªå·±çš„å¼¹è·³åŠ›, å€’åœ¨æœ€ååŠä¸ªå°é˜¶ä¸Š...", 10, 1);
+        streamOutput("å†ä¸´ å’.", 150, 0);
+        system("cls");
+        delete engine;
+        goto BEGINING;
+    case 2:
+        streamOutput("ä½ è·³åˆ°äº†åŠé“å„¿. æ·±å‘å†…éƒ¨ç¡®å®æœ‰æ ¹ä¸çŸ¥æ‰€è‡³çš„é€šé“.", 10, 1);
+        break;
+    case 3:
+        streamOutput("å†¥å†¥ä¸­, ä½ ä¼¼ä¹ä½“éªŒåˆ°äº†å¤±é‡æ„Ÿ...", 10, 1);
+        streamOutput("å¤±é‡æ„Ÿå¾ˆå¼ºçƒˆ...", 10, 1);
+        streamOutput("......", 100, 1);
+        streamOutput("ä½ çš„å°è„šè¶¾ç£•åœ¨äº†ç¬¬ä¸€èŠ‚å°é˜¶ä¸Š.", 100, 1);
+        streamOutput("å†ä¸´ å’.", 150, 0);
+        system("cls");
+        delete engine;
+        goto BEGINING;
+    default:
+        break;
+    }
+
+    temp = 0;
     do
     {
-        choice = choiceOutput("Äã¾ö¶¨ÉÔ×÷Í£Áô:", {"½â¿ªÃÕÌâ", "¹Û²ìÒ£¿ØÆ÷", "½áÊø¹Û²ì"});
+        choice = choiceOutput("ä½ å†³å®š:", {"é’»è¿›é€šé“", "å‰å¾€åŸå ¡", "å°è¯•è·³å›å»"});
         switch (choice)
         {
         case 1:
-            streamOutput("Äã¿ªÊ¼½â¿ªÃÕÌâ...", 10, 1);
-            streamOutput("¾­¹ıÒ»·¬Å¬Á¦£¬ÖÕÓÚ½â¿ªÁËÃÕÌâ£¬Ò£¿ØÆ÷ÁÁÁËÆğÀ´...", 10, 1);
-            streamOutput("Ò£¿ØÆ÷·¢³ö¡°ßÇàê¡±µÄÉùÒô£¬ÏÂÒ»ÉÈÃÅ»º»º´ò¿ª...", 10, 1);
+            streamOutput("é€šé“å£æ‰è½ç€ä¸€å¼ çº¸æ¡:", 10, 1);
+            streamOutput("é’»é€šé“çš„å¥‡å†’å¦™é™©!", 10, 1);
+            streamOutput("è¿™æ¡å¹½é‚ƒçš„é€šé“, ä»¿ä½›å®‡å®™çš„è‚ å­, èœ¿èœ’æ›²æŠ˜, æš—è—ç„åªå› !", 10, 1);
+            streamOutput("ã€Œé’»è¿›å»!ã€----å‘½è¿çš„ç›´è§‰åœ¨ä½ è€³è¾¹å˜¶å¼.", 10, 1);
+            streamOutput("ã€Œä½†å°å¿ƒ!ã€", 10, 1);
+            streamOutput("è‹¥è§’åº¦ä¸å¯¹, ä½ ä¼šå¡åœ¨ä¸–ç•Œçš„å¤¹ç¼é‡Œ, å˜æˆåäººå£ä¸­çš„ã€Œé€šé“çš„æ€¨çµã€.", 10, 1);
+            streamOutput("è‹¥é€Ÿåº¦å¤ªæ…¢, ä¼šè¢«è™šç©ºè •è™«ç›¯ä¸Š, å®ƒä»¬æœ€çˆ±å•ƒé£ŸçŠ¹è±«è€…çš„è„šæŒ‡å¤´.", 10, 1);
+            streamOutput("è‹¥å§¿åŠ¿ä¸å¸…...æŠ±æ­‰, è¿™æ¡æ˜¯å®‡å®™çœŸç†, ä¸å¸…çš„äººä¸é…é’»é€šé“.", 10, 1);
+            streamOutput("ã€Œä½†è‹¥æˆåŠŸ----ã€", 10, 1);
+            streamOutput("ä½ å°†è§£é”ã€Œé’»æ´å¤§å¸ˆã€æˆå°±!", 10, 1);
+            streamOutput("ã€Œ----è¦è¯•è¯•å—? èµŒä¸Šä½ çš„å°Šä¸¥ä¸å‘å‹!ã€", 10, 1);
+            streamOutput("(åº•éƒ¨å°å­—: å¼€æ‹“è€…, æœ¬é€šé“å·²é€šè¿‡æ˜Ÿé™…å®‰å…¨è®¤è¯, é’»å¤±è´¥è€…99%éƒ½æ´»ç€å›æ¥äº†)", 10, 1);
+            streamOutput("(...å¤§æ¦‚.)", 60, 1);
             break;
-
         case 2:
-            streamOutput("Ò£¿ØÆ÷¿´ÆğÀ´·Ç³£¹ÅÀÏ£¬±íÃæÓĞºÜ¶à»Ò³¾...", 10, 1);
-            streamOutput("ÄãÎŞ·¨´ÓÒ£¿ØÆ÷ÖĞµÃµ½¸ü¶àĞÅÏ¢...", 10, 1);
+            temp++;
+            if (temp == 1)
+            {
+                streamOutput("ä½ æ¥åˆ°äº†åŸå ¡çš„å…¥å£...", 10, 1);
+                streamOutput("ä½ å‘ç°åŸå ¡çš„å…¥å£å¤„æœ‰ä¸€æ‰‡é—¨.", 10, 1);
+                streamOutput("é—¨ä¸ŠæŒ‚ç€é‡‘å…‰é—ªé—ªçš„é”.", 10, 1);
+                streamOutput("é”çš„å…‰è¾‰ä¸æ·±æ¸Šä¸­çš„é’¥åŒ™å¦‚å‡ºä¸€è¾™...", 10, 1);
+            }
+            else if (temp > 1 && temp < 6)
+            {
+                streamOutput("ä½ è¯¥å»é€šé“çœ‹çœ‹.", 10, 1);
+            }
+            else if (temp == 6)
+            {
+                streamOutput("ä½ æ€ä¹ˆè¿˜æ¥...", 10, 1);
+                streamOutput("ä½ ä¸ä¼šæƒ³ç ¸é—¨å§..?", 10, 1);
+                streamOutput("......", 100, 1);
+                streamOutput("......", 100, 1);
+                streamOutput("è¦ä¸, ä½ è¯•è¯•?", 10, 1);
+            }
+            else
+            {
+                streamOutput("æ”¾å¼ƒå§. æ²¡ç”¨çš„.", 10, 1);
+                temp = 1;
+            }
             break;
-
+        case 3:
+            streamOutput("ä½ å°è¯•è·³å›å»...", 10, 1);
+            streamOutput("......", 60, 1);
+            streamOutput("......", 60, 1);
+            streamOutput("ä½ è§‰å¾—å¯èƒ½å—...", 60, 1);
+            break;
         default:
             break;
         }
-    } while (choice != 3);
+    } while (choice != 1);
 
-    // µÚÈı¹Ø±¨Ä»
-    streamOutput("Äã·¢ÏÖÒ£¿ØÆ÷·½ºĞ×Ó´ò¿ªÁËÒ»ÉÈÍ¨ÍùÉñÃØÊÀ½çµÄÃÅ...", 10, 1);
-    streamOutput("ÃÅºóÊÇÃÔÎíçÔÈÆµÄ×ßÀÈ£¬¾¡Í·ÓĞÒ»ÉÈÃ÷ÁÁµÄ´óÃÅ...", 10, 1);
-    streamOutput("Äã×ßÁË½øÈ¥£¬·¢ÏÖÕâÊÇ¾­µäµÄ¶íÂŞË¹·½¿éÓÎÏ·...", 10, 1);
-    directOutput("\n(ÒÔ½â¿ª×îºóÒ»ÉÈÃÅÎªÄ¿±ê¼ÌĞøĞĞ¶¯)\n", 0);
+    // ç¬¬ä¸‰å…³æŠ¥å¹•
+    streamOutput("ç©¿è¿‡é€šé“, ä½ ç½®èº«äºæ¼†é»‘çš„äº•åº•...", 10, 1);
+    streamOutput("ç›´è§‰å‘Šè¯‰ä½ , è¿™é‡Œå’Œä½ åˆæ¥æ—¶é‡è§çš„æ·±æ¸Šå¤šå°‘æ²¾ç‚¹äº²æˆš.", 10, 1);
+    streamOutput("\nè½°éš†~~~~~~~~~~\n", 100, 2);
+    streamOutput("èº«åçš„é€šé“ä¼ æ¥æ²‰é—·çš„å·¨å“.", 10, 1);
+    streamOutput("å®Œäº†, è¿™ä¸‹ä¸å¾—ä¸å¯¹ä»˜è¿™ä¸ªçŸ³å¢™äº†.", 10, 1);
+
+    directOutput("\n(ä»¥è§£å¼€æœ€åä¸€æ‰‡é—¨ä¸ºç›®æ ‡ç»§ç»­è¡ŒåŠ¨)\n", 0);
     system("cls");
 
-    // µÚÈı¹Ø
-    streamOutput("ÓÎÏ·¹æÔò:", 10, 1);
-    streamOutput("WASDÒÆ¶¯ºÍĞı×ª·½¿é, QÌø¹ı±¾¹Ø, RÖØĞÂ¿ªÊ¼.", 10, 1);
+    // ç¬¬ä¸‰å…³
+    streamOutput("WASDç§»åŠ¨å’Œæ—‹è½¬æ–¹å—, Qè·³è¿‡æœ¬å…³, Ré‡æ–°å¼€å§‹.", 10, 1);
+    outputManager.startCustomOutput("", "");
+    engine->runGameSnake();
+    outputManager.stopCustomOutput();
+    system("cls");
+
+    // BOSS å…³å¡
+    streamOutput("ä½ æ¥åˆ°äº†æœ€åä¸€æ‰‡é—¨å‰...", 10, 1);
+    streamOutput("é—¨ä¸ŠæŒ‚ç€ä¸€å¼ çº¸æ¡:", 10, 1);
+    streamOutput("ã€Œé€šå¾€ä¸‹ä¸€å±‚çš„é’¥åŒ™!ã€", 10, 1);
+    streamOutput("ã€Œä½†ä½ å¿…é¡»è¦å…ˆå®Œæˆæœ¬å…³!ã€", 10, 1);
+
+    streamOutput("WASDç§»åŠ¨å’Œæ—‹è½¬æ–¹å—, Qè·³è¿‡æœ¬å…³, Ré‡æ–°å¼€å§‹.", 10, 1);
     outputManager.startCustomOutput("", "");
     engine->runGamePacman();
     outputManager.stopCustomOutput();
     system("cls");
 
-    // ÓÎÏ·½áÊø
-    streamOutput("¹§Ï²ÄãÍê³ÉËùÓĞ¹Ø¿¨£¡", 10, 0);
-    streamOutput("Äã»Øµ½ÁËÏÖÊµÊÀ½ç£¬¿´×ÅÊÖÖĞµÄÒ£¿ØÆ÷£¬ĞÄÖĞ³äÂúÁË³É¾Í¸Ğ...", 10, 0);
-    directOutput("\n(°´ÈÎÒâ¼üÍË³öÓÎÏ·)", 0);
+    // æ¸¸æˆç»“æŸ
+    streamOutput("æ­å–œä½ å®Œæˆæ‰€æœ‰å…³å¡ï¼", 10, 0);
+    streamOutput("ä½ å›åˆ°äº†ç°å®ä¸–ç•Œï¼Œçœ‹ç€æ‰‹ä¸­çš„é¥æ§å™¨ï¼Œå¿ƒä¸­å……æ»¡äº†æˆå°±æ„Ÿ...", 10, 0);
+    directOutput("\n(æŒ‰ä»»æ„é”®é€€å‡ºæ¸¸æˆ)", 0);
 
     delete engine;
     return 0;

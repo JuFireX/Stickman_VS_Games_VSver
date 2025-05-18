@@ -142,7 +142,6 @@
     <ClInclude Include="level_Snake.h" />
     <ClInclude Include="level_Sokoban.h" />
     <ClInclude Include="level_Tetris.h" />
-    <ClInclude Include="resource.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
