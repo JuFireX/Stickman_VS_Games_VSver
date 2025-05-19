@@ -40,13 +40,20 @@ void Engine::fadeout_clear_screen(int width, int height, int steps, int delay)
 {
 	IMAGE mask;
 	loadimage(&mask, _T("./PictureResource/white.png"), width, height, true);
+	int cnt = 0;
 	for (int i = 1; i <= steps; ++i)
 	{
 		int alpha = i * 255 / steps;
 		putimage_alpha(0, 0, &mask, alpha);
 		FlushBatchDraw();
 		Sleep(delay);
+		cnt += alpha;
+		if (cnt > 8000)
+		{
+			break;
+		}
 	}
+	Sleep(2000);
 }
 
 /*std::wstring gbk_to_wstring(const std::string& str)

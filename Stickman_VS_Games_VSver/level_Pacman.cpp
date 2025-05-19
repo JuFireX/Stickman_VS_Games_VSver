@@ -38,7 +38,7 @@ int GamePacman::ghostDirection(int ghostX, int ghostY, int playerX, int playerY,
 	{
 		if (pc == 0)
 			pre++;
-		if (trace[pre][1] + dy[pc]<=20 && trace[pre][0] + dx[pc] && map1[trace[pre][1] + dy[pc]][trace[pre][0] + dx[pc]] == 1)
+		if (trace[pre][1] + dy[pc]<=20 && trace[pre][0] + dx[pc]<= 20 && map1[trace[pre][1] + dy[pc]][trace[pre][0] + dx[pc]] == 1)
 		{
 			k++;
 			trace[k][0] = trace[pre][0] + dx[pc];
