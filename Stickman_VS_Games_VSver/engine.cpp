@@ -35,6 +35,7 @@ inline void Engine::putimage_alpha(int x, int y, IMAGE* img, int alpha)
 	AlphaBlend(GetImageHDC(NULL), x, y, w, h,
 		GetImageHDC(img), 0, 0, w, h, blendFunction);
 }
+
 void Engine::fadeout_clear_screen(int width, int height, int steps, int delay)
 {
 	IMAGE mask;
@@ -48,7 +49,6 @@ void Engine::fadeout_clear_screen(int width, int height, int steps, int delay)
 	}
 }
 
-
 void Engine::initGame()
 {
 	initgraph(width, height);
@@ -61,8 +61,6 @@ void Engine::initGame()
 	HKL hkl = LoadKeyboardLayout(L"00000409", KLF_ACTIVATE);
 	ActivateKeyboardLayout(hkl, KLF_SETFORPROCESS);
 }
-
-
 
 void Engine::runGame2048()
 {
@@ -166,26 +164,7 @@ void Engine::runGame2048()
 
 		Sleep(1000 / game->GameFrame);
 	}
-	//cleardevice();
 	fadeout_clear_screen(width, height, 255, 10);
-	/*t step = 255;
-	int alpha = 255;
-	int delay = 10;
-	for (int j = 0; j <= step; j++)
-	{
-		cleardevice();
-		GameMap = game->getMap();
-		for (int i = 0; i < game->GameHigh; i++)
-		{
-			for (position u : GameMap[i])
-			{
-				putimage_alpha(u.x, u.y, &game->MapImg[u.val],alpha-(255/step)*j);
-			}
-		}
-		FlushBatchDraw();
-		Sleep(delay);
-	}
-	cleardevice();*/
 	EndBatchDraw();
 	closegraph();
 	delete game;
@@ -259,6 +238,7 @@ void Engine::runGameSnake()
 
 		Sleep(1000 / game->GameFrame);
 	}
+	fadeout_clear_screen(width, height, 255, 10);
 	EndBatchDraw();
 	closegraph();
 	delete game;
@@ -337,6 +317,7 @@ void Engine::runGameSokoban()
 
 		Sleep(1000 / game->GameFrame);
 	}
+	fadeout_clear_screen(width, height, 255, 10);
 	EndBatchDraw();
 	closegraph();
 	delete game;
@@ -420,7 +401,7 @@ void Engine::runGameTetris()
 
 		Sleep(1000 / game->GameFrame);
 	}
-
+	fadeout_clear_screen(width, height, 255, 10);
 	EndBatchDraw();
 	closegraph();
 	delete game;
@@ -538,7 +519,7 @@ void Engine::runGamePacman()
 		cntframe++;
 		Sleep(1000 / game->GameFrame);
 	}
-
+	fadeout_clear_screen(width, height, 255, 10);
 	EndBatchDraw();
 	closegraph();
 	delete game;
