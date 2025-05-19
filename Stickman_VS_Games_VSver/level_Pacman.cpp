@@ -6,26 +6,26 @@ GamePacman::GamePacman() : rng(time(nullptr)) {}
 
 int GamePacman::ghostDirection(int ghostX, int ghostY, int playerX, int playerY, int* track_x, int* track_y)
 {
-	int map1[20][20] = { {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-						{0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 0},
-						{0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0},
-						{0, 1, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0},
-						{0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 0},
-						{0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0},
-						{0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0},
-						{0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0},
-						{0, 1, 0, 0, 0, 0, 1, 1, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0},
-						{0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0},
-						{0, 1, 0, 1, 0, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0},
-						{0, 1, 0, 1, 0, 0, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0, 1, 1, 1, 0},
-						{0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0},
-						{0, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0},
-						{0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 1, 0},
-						{0, 1, 1, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0},
-						{0, 1, 0, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 0},
-						{0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0},
-						{0, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0},
-						{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0} };
+	int map1[20][20] = {{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
+                    {0,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,1,0},
+                    {0,1,0,0,1,0,0,0,1,0,0,1,0,0,0,1,0,0,1,0},
+                    {0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0},
+                    {0,1,0,0,1,0,1,0,0,0,0,0,0,1,0,1,0,0,1,0},
+                    {0,1,1,0,1,0,1,1,1,0,0,1,1,1,0,1,0,1,1,0},
+                    {0,0,0,0,1,0,0,0,1,0,0,1,0,0,0,1,0,0,0,0},
+                    {0,0,0,0,1,0,1,1,1,1,1,1,1,1,0,1,0,0,0,0},
+                    {1,1,1,1,1,1,1,0,0,0,0,0,0,1,1,1,1,1,1,1},
+                    {1,1,1,1,1,1,1,0,0,0,0,0,0,1,1,1,1,1,1,1},
+                    {0,0,0,0,1,0,1,1,1,1,1,1,1,1,0,1,0,0,0,0},
+                    {0,0,0,0,1,0,1,0,0,0,0,0,0,1,0,1,0,0,0,0},
+                    {0,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,1,0},
+                    {0,1,0,0,1,0,0,0,1,0,0,1,0,0,0,1,0,0,1,0},
+                    {0,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,0},
+                    {0,0,1,0,1,0,1,0,0,0,0,0,0,1,0,1,0,1,0,0},
+                    {0,1,1,1,1,0,1,1,1,0,0,1,1,1,0,1,1,1,1,0},
+                    {0,1,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,1,0},
+                    {0,1,1,1,1,1,1,0,1,1,1,1,0,1,1,1,1,1,1,0},
+                    {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0}};
 	int trace[400][3];
 	int k = 0, l = 0, direction = 2;
 	trace[k][0] = ghostX;
@@ -67,29 +67,27 @@ int GamePacman::ghostDirection(int ghostX, int ghostY, int playerX, int playerY,
 
 void GamePacman::initGrid()
 {
-	// ?°å?
-	int map[GRID_SIZE][GRID_SIZE] = {
-		{WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL},
-		{WALL, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, WALL, WALL, WALL, WALL, WALL, WALL, FOOD, FOOD, FOOD, FOOD, WALL},
-		{WALL, FOOD, WALL, FOOD, WALL, WALL, WALL, WALL, FOOD, WALL, WALL, WALL, WALL, WALL, WALL, FOOD, WALL, WALL, FOOD, WALL},
-		{WALL, FOOD, WALL, FOOD, WALL, WALL, WALL, WALL, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, WALL, FOOD, WALL},
-		{WALL, FOOD, WALL, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, WALL, WALL, FOOD, WALL, WALL, WALL, WALL, FOOD, FOOD, FOOD, WALL},
-		{WALL, FOOD, WALL, FOOD, WALL, WALL, WALL, WALL, FOOD, WALL, WALL, FOOD, WALL, WALL, WALL, WALL, FOOD, WALL, WALL, WALL},
-		{WALL, FOOD, FOOD, FOOD, WALL, WALL, WALL, WALL, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, WALL, WALL, WALL},
-		{WALL, FOOD, WALL, WALL, WALL, WALL, WALL, WALL, FOOD, WALL, WALL, FOOD, WALL, WALL, WALL, WALL, FOOD, WALL, WALL, WALL},
-		{WALL, FOOD, WALL, WALL, WALL, WALL, FOOD, FOOD, FOOD, WALL, WALL, FOOD, WALL, WALL, WALL, WALL, FOOD, WALL, WALL, WALL},
-		{WALL, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, WALL, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, WALL, WALL, WALL},
-		{WALL, FOOD, WALL, FOOD, WALL, WALL, FOOD, WALL, WALL, FOOD, WALL, FOOD, WALL, WALL, WALL, WALL, FOOD, WALL, WALL, WALL},
-		{WALL, FOOD, WALL, FOOD, WALL, WALL, FOOD, FOOD, FOOD, FOOD, WALL, FOOD, WALL, WALL, WALL, WALL, FOOD, FOOD, FOOD, WALL},
-		{WALL, FOOD, WALL, FOOD, WALL, WALL, WALL, WALL, WALL, WALL, WALL, FOOD, WALL, WALL, WALL, WALL, WALL, WALL, FOOD, WALL},
-		{WALL, FOOD, FOOD, FOOD, WALL, WALL, WALL, WALL, WALL, WALL, WALL, FOOD, WALL, WALL, WALL, WALL, WALL, WALL, FOOD, WALL},
-		{WALL, WALL, WALL, FOOD, WALL, WALL, WALL, WALL, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, WALL, WALL, WALL, FOOD, WALL},
-		{WALL, FOOD, FOOD, FOOD, WALL, WALL, WALL, WALL, FOOD, WALL, WALL, WALL, WALL, WALL, FOOD, WALL, WALL, WALL, FOOD, WALL},
-		{WALL, FOOD, WALL, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, WALL, WALL, WALL, WALL, WALL, FOOD, FOOD, FOOD, FOOD, FOOD, WALL},
-		{WALL, FOOD, WALL, WALL, FOOD, WALL, WALL, WALL, FOOD, WALL, WALL, WALL, WALL, WALL, FOOD, WALL, WALL, WALL, WALL, WALL},
-		{WALL, FOOD, FOOD, FOOD, FOOD, WALL, WALL, WALL, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, WALL, WALL, WALL, WALL, WALL},
-		{WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL} };
-
+	// ?ï¿½ï¿½?
+	int map[GRID_SIZE][GRID_SIZE] = { {WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL},
+					{WALL,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,WALL,WALL,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,WALL},
+					{WALL,FOOD,WALL,WALL,FOOD,WALL,WALL,WALL,FOOD,WALL,WALL,FOOD,WALL,WALL,WALL,FOOD,WALL,WALL,FOOD,WALL},
+					{WALL,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,WALL},
+					{WALL,FOOD,WALL,WALL,FOOD,WALL,FOOD,WALL,WALL,WALL,WALL,WALL,WALL,FOOD,WALL,FOOD,WALL,WALL,FOOD,WALL},
+					{WALL,FOOD,FOOD,WALL,FOOD,WALL,FOOD,FOOD,FOOD,WALL,WALL,FOOD,FOOD,FOOD,WALL,FOOD,WALL,FOOD,FOOD,WALL},
+					{WALL,WALL,WALL,WALL,FOOD,WALL,WALL,WALL,FOOD,WALL,WALL,FOOD,WALL,WALL,WALL,FOOD,WALL,WALL,WALL,WALL},
+					{WALL,WALL,WALL,WALL,FOOD,WALL,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,WALL,FOOD,WALL,WALL,WALL,WALL},
+					{FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,WALL,WALL,WALL,WALL,WALL,WALL,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD},
+					{FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,WALL,WALL,WALL,WALL,WALL,WALL,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD},
+					{WALL,WALL,WALL,WALL,FOOD,WALL,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,WALL,FOOD,WALL,WALL,WALL,WALL},
+					{WALL,WALL,WALL,WALL,FOOD,WALL,FOOD,WALL,WALL,WALL,WALL,WALL,WALL,FOOD,WALL,FOOD,WALL,WALL,WALL,WALL},
+					{WALL,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,WALL,WALL,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,WALL},
+					{WALL,FOOD,WALL,WALL,FOOD,WALL,WALL,WALL,FOOD,WALL,WALL,FOOD,WALL,WALL,WALL,FOOD,WALL,WALL,FOOD,WALL},
+					{WALL,FOOD,FOOD,WALL,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,WALL,FOOD,FOOD,WALL},
+					{WALL,WALL,FOOD,WALL,FOOD,WALL,FOOD,WALL,WALL,WALL,WALL,WALL,WALL,FOOD,WALL,FOOD,WALL,FOOD,WALL,WALL},
+					{WALL,FOOD,FOOD,FOOD,FOOD,WALL,FOOD,FOOD,FOOD,WALL,WALL,FOOD,FOOD,FOOD,WALL,FOOD,FOOD,FOOD,FOOD,WALL},
+					{WALL,FOOD,WALL,WALL,WALL,WALL,WALL,WALL,FOOD,WALL,WALL,FOOD,WALL,WALL,WALL,WALL,WALL,WALL,FOOD,WALL},
+					{WALL,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,WALL,FOOD,FOOD,FOOD,FOOD,WALL,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,WALL},
+					{WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL} };
 	for (int i = 0; i < GRID_SIZE; ++i)
 	{
 		for (int j = 0; j < GRID_SIZE; ++j)
@@ -108,30 +106,30 @@ void GamePacman::initGrid()
 
 void GamePacman::initMovers()
 {
-	player.x = 1;
+	player.x = 6;
 	player.y = 18;
-	player.old_x = 1;
+	player.old_x = 6;
 	player.old_y = 18;
 	player.direction = Direction::RIGHT;
 	player.speed = 1;
-	ghost[0].x = 18;
-	ghost[0].y = 1;
-	ghost[0].old_x = 18;
-	ghost[0].old_y = 1;
+	ghost[0].x = 13;
+	ghost[0].y = 18;
+	ghost[0].old_x = 13;
+	ghost[0].old_y = 18;
 	ghost[0].direction = Direction::LEFT;
 	ghost[0].speed = 1;
 	ghost[0].live = 1;
-	ghost[1].x = 18;
-	ghost[1].y = 16;
-	ghost[1].old_x = 18;
-	ghost[1].old_y = 16;
+	ghost[1].x = 2;
+	ghost[1].y = 5;
+	ghost[1].old_x = 2;
+	ghost[1].old_y = 5;
 	ghost[1].direction = Direction::LEFT;
 	ghost[1].speed = 1;
 	ghost[1].live = 1;
-	ghost[2].x = 1;
-	ghost[2].y = 1;
-	ghost[2].old_x = 1;
-	ghost[2].old_y = 1;
+	ghost[2].x = 17;
+	ghost[2].y = 5;
+	ghost[2].old_x = 17;
+	ghost[2].old_y = 5;
 	ghost[2].direction = Direction::RIGHT;
 	ghost[2].speed = 1;
 	ghost[2].form = 0;
@@ -192,7 +190,7 @@ bool GamePacman::processInput(char input)
 		return false;
 	}
 
-	// ¼ì²éÐÂ·½ÏòÊÇ·ñÓÐÇ½±Ú£¬Èç¹ûÓÐÇ½±ÚÔò²»¸Ä±ä·½Ïò
+	// ï¿½ï¿½ï¿½ï¿½Â·ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½Ç½ï¿½Ú£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç½ï¿½ï¿½ï¿½ò²»¸Ä±ä·½ï¿½ï¿½
 	bool canChangeDirection = true;
 	switch (newDir)
 	{
@@ -248,10 +246,10 @@ void GamePacman::movePlayer()
 
 void GamePacman::moveGhosts()
 {
-	// Ìí¼Ó¾²Ì¬¼ÆÊýÆ÷£¬ÓÃÓÚ¿ØÖÆÓÄÁéÒÆ¶¯ÆµÂÊ£¨¼õ°ëËÙ¶È£©
+	// ï¿½ï¿½ï¿½Ó¾ï¿½Ì¬ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ú¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ¶ï¿½Æµï¿½Ê£ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ù¶È£ï¿½
 	static int moveCounter = 0;
 
-	// ±£´æÓÄÁéµÄ¾ÉÎ»ÖÃ
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¾ï¿½Î»ï¿½ï¿½
 	ghost[0].old_x = ghost[0].x;
 	ghost[0].old_y = ghost[0].y;
 	ghost[1].old_x = ghost[1].x;
@@ -259,84 +257,84 @@ void GamePacman::moveGhosts()
 	ghost[2].old_x = ghost[2].x;
 	ghost[2].old_y = ghost[2].y;
 
-	// Ê¹ÓÃ ghostDirection º¯Êý¿ØÖÆÓÄÁéÒÆ¶¯
+	// Ê¹ï¿½ï¿½ ghostDirection ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Æ¶ï¿½
 	int track_x, track_y;
 
-	// Ö»ÔÚ¼ÆÊýÆ÷Îª0Ê±ÒÆ¶¯ÓÄÁé£¨Ã¿Á½´Îµ÷ÓÃÒÆ¶¯Ò»´Î£©
+	// Ö»ï¿½Ú¼ï¿½ï¿½ï¿½ï¿½ï¿½Îª0Ê±ï¿½Æ¶ï¿½ï¿½ï¿½ï¿½é£¨Ã¿ï¿½ï¿½ï¿½Îµï¿½ï¿½ï¿½ï¿½Æ¶ï¿½Ò»ï¿½Î£ï¿½
 	if (moveCounter == 0)
 	{
-		// ghostDirectionÒÆ¶¯Âß¼­
+		// ghostDirectionï¿½Æ¶ï¿½ï¿½ß¼ï¿½
 		int dir1 = ghostDirection(ghost[0].x, ghost[0].y, player.x, player.y, &track_x, &track_y);
 
-		// ¸ù¾Ý·µ»ØµÄ·½ÏòÒÆ¶¯ÓÄÁé1
+		// ï¿½ï¿½ï¿½Ý·ï¿½ï¿½ØµÄ·ï¿½ï¿½ï¿½ï¿½Æ¶ï¿½ï¿½ï¿½ï¿½ï¿½1
 		switch (dir1)
 		{
-		case 0: // ÓÒ
+		case 0: // ï¿½ï¿½
 			if (run_grid[ghost[0].y][ghost[0].x + 1] != WALL)
 				ghost[0].x += ghost[0].speed;
 			break;
-		case 1: // ÉÏ
+		case 1: // ï¿½ï¿½
 			if (run_grid[ghost[0].y - 1][ghost[0].x] != WALL)
 				ghost[0].y -= ghost[0].speed;
 			break;
-		case 2: // ×ó
+		case 2: // ï¿½ï¿½
 			if (run_grid[ghost[0].y][ghost[0].x - 1] != WALL)
 				ghost[0].x -= ghost[0].speed;
 			break;
-		case 3: // ÏÂ
+		case 3: // ï¿½ï¿½
 			if (run_grid[ghost[0].y + 1][ghost[0].x] != WALL)
 				ghost[0].y += ghost[0].speed;
 			break;
 		}
 
-		// ghost2Ò²Ê¹ÓÃ ghostDirection º¯Êý½øÐÐÖÇÄÜ×·×Ù
+		// ghost2Ò²Ê¹ï¿½ï¿½ ghostDirection ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×·ï¿½ï¿½
 		int dir2 = ghostDirection(ghost[1].x, ghost[1].y, player.old_x, player.old_y, &track_x, &track_y);
 
-		// ¸ù¾Ý·µ»ØµÄ·½ÏòÒÆ¶¯ÓÄÁé2
+		// ï¿½ï¿½ï¿½Ý·ï¿½ï¿½ØµÄ·ï¿½ï¿½ï¿½ï¿½Æ¶ï¿½ï¿½ï¿½ï¿½ï¿½2
 		switch (dir2)
 		{
-		case 0: // ÓÒ
+		case 0: // ï¿½ï¿½
 			if (run_grid[ghost[1].y][ghost[1].x + 1] != WALL)
 				ghost[1].x += ghost[1].speed;
 			break;
-		case 1: // ÉÏ
+		case 1: // ï¿½ï¿½
 			if (run_grid[ghost[1].y - 1][ghost[1].x] != WALL)
 				ghost[1].y -= ghost[1].speed;
 			break;
-		case 2: // ×ó
+		case 2: // ï¿½ï¿½
 			if (run_grid[ghost[1].y][ghost[1].x - 1] != WALL)
 				ghost[1].x -= ghost[1].speed;
 			break;
-		case 3: // ÏÂ
+		case 3: // ï¿½ï¿½
 			if (run_grid[ghost[1].y + 1][ghost[1].x] != WALL)
 				ghost[1].y += ghost[1].speed;
 			break;
 		}
 		int dir3 = ghostDirection(ghost[2].x, ghost[2].y, player.old_x, player.old_y, &track_x, &track_y);
 
-		// ¸ù¾Ý·µ»ØµÄ·½ÏòÒÆ¶¯ÓÄÁé3
+		// ï¿½ï¿½ï¿½Ý·ï¿½ï¿½ØµÄ·ï¿½ï¿½ï¿½ï¿½Æ¶ï¿½ï¿½ï¿½ï¿½ï¿½3
 		switch (dir3)
 		{
-		case 0: // ÓÒ
+		case 0: // ï¿½ï¿½
 			if (run_grid[ghost[2].y][ghost[2].x + 1] != WALL)
 				ghost[2].x += ghost[2].speed;
 			break;
-		case 1: // ÉÏ
+		case 1: // ï¿½ï¿½
 			if (run_grid[ghost[2].y - 1][ghost[2].x] != WALL)
 				ghost[2].y -= ghost[2].speed;
 			break;
-		case 2: // ×ó
+		case 2: // ï¿½ï¿½
 			if (run_grid[ghost[2].y][ghost[2].x - 1] != WALL)
 				ghost[2].x -= ghost[2].speed;
 			break;
-		case 3: // ÏÂ
+		case 3: // ï¿½ï¿½
 			if (run_grid[ghost[2].y + 1][ghost[2].x] != WALL)
 				ghost[2].y += ghost[2].speed;
 			break;
 		}
 	}
 
-	// ¸üÐÂ¼ÆÊýÆ÷£¬ÔÚ0ºÍ1Ö®¼äÇÐ»»
+	// ï¿½ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½0ï¿½ï¿½1Ö®ï¿½ï¿½ï¿½Ð»ï¿½
 	moveCounter = (moveCounter + 1) % 2;
 }
 
@@ -345,10 +343,10 @@ void GamePacman::update(char key)
 	if (processInput(key))
 		movePlayer();
 
-	// ÒÆ¶¯ÓÄÁé
+	// ï¿½Æ¶ï¿½ï¿½ï¿½ï¿½ï¿½
 	moveGhosts();
 
-	// ¸üÐÂ grid Êý×é£¬È·±£ÓÄÁéÏÔÊ¾
+	// ï¿½ï¿½ï¿½ï¿½ grid ï¿½ï¿½ï¿½é£¬È·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê¾
 	for (int i = 0; i < GRID_SIZE; ++i)
 	{
 		for (int j = 0; j < GRID_SIZE; ++j)
@@ -361,7 +359,7 @@ void GamePacman::update(char key)
 		}
 	}
 	judgeScore();
-	// ¼ì²éÍæ¼ÒÊÇ·ñÓëÓÄÁéÅö×²
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½×²
 	for (int i = 0; i < 3; i++)
 	{
 		if (player.x == ghost[i].x && player.y == ghost[i].y)
@@ -391,10 +389,10 @@ vector<vector<int>> GamePacman::getGrid() const
 	}
 	return gridCopy;
 }
-// ÒÑÐÞ¸Ä
+// ï¿½ï¿½ï¿½Þ¸ï¿½
 void GamePacman::judgeScore()
 {
-	// ¼ì²éÊÇ·ñ´ïµ½Ä¿±ê·ÖÊý£¬²¢¸üÐÂÓÎÏ·½×¶Î
+	// ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ïµ½Ä¿ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï·ï¿½×¶ï¿½
 	if (score >= target)
 		gameOver = true;
 }
@@ -419,7 +417,7 @@ void GamePacman::display(const vector<vector<int>>& grid, int size) const
 		for (int j = 0; j < size; ++j)
 		{
 			if (grid[i][j] == WALL)
-				cout << "# "; // Ç½±Ú
+				cout << "# "; // Ç½ï¿½ï¿½
 			else if (grid[i][j] == FOOD)
 				cout << "* ";
 			else if (grid[i][j] == PLAYER)
@@ -431,7 +429,7 @@ void GamePacman::display(const vector<vector<int>>& grid, int size) const
 			else if (grid[i][j] == GHOST3)
 				cout << "3 ";
 			else if (grid[i][j] == EMPTY)
-				cout << "  "; // ¿Õ°×ÇøÓò
+				cout << "  "; // ï¿½Õ°ï¿½ï¿½ï¿½ï¿½ï¿½
 			else
 				cout << "  ";
 		}
@@ -454,7 +452,7 @@ void GamePacman::startGame()
 			update(input);
 			display(getGrid(), 20);
 		}
-		// ×Ô¸üÐÂ
+		// ï¿½Ô¸ï¿½ï¿½ï¿½
 		else
 		{
 			update(' ');
