@@ -124,7 +124,7 @@ void directOutput(const string text, int choice)
 
 	if (y >= 450)
 	{
-		y = 0;
+		y = 10;
 		cleardevice();
 	}
 
