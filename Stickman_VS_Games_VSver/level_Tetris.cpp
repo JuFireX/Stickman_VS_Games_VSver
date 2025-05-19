@@ -133,61 +133,34 @@ void GameTetris::mergeTetromino()
 
 void GameTetris::clearLines()
 {
-	int linesCleared = 0;
 
 	for (int i = GRID_HEIGHT - 1; i >= 0; --i)
 	{
-		bool lineFull = true;
-
-		// 检查当前行是否已满
-		for (int j = 0; j < GRID_WIDTH; ++j)
+		if (i <= GRID_HEIGHT - GRID_WIDTH + 1)
 		{
-			if (grid[i][j] == EMPTY)
-			{
-				lineFull = false;
-				break;
-			}
-		}
-
-		if (lineFull)
-		{
-			linesCleared++;
-
-			// 将上面的行向下移动
-			for (int k = i; k > 0; --k)
-			{
-				for (int j = 0; j < GRID_WIDTH; ++j)
-				{
-					grid[k][j] = grid[k - 1][j];
-				}
-			}
-
-			// 清空顶部行
 			for (int j = 0; j < GRID_WIDTH; ++j)
 			{
-				grid[0][j] = EMPTY;
+				grid[i][j] = EMPTY;
 			}
-
-			// 由于行已下移，需要重新检查当前行
-			i++;
 		}
-	}
-
-	// 根据消除的行数计算得分
-	switch (linesCleared)
-	{
-	case 1:
-		score += 100;
-		break;
-	case 2:
-		score += 300;
-		break;
-	case 3:
-		score += 500;
-		break;
-	case 4:
-		score += 800; // Tetris!
-		break;
+		else
+		{
+			for (int j = 0; j < GRID_WIDTH; ++j)
+			{
+				if (i + j > GRID_HEIGHT - 1)
+				{
+					if (i + j == GRID_HEIGHT)
+					{
+						score++;
+					}
+					continue;
+				}
+				else
+				{
+					grid[i][j] = EMPTY;
+				}
+			}
+		}
 	}
 }
 
@@ -299,6 +272,9 @@ void GameTetris::update(char key)
 			clearLines();
 			generateNewTetromino();
 		}
+	}
+	if (score >= 8) {
+		gameOver = true;
 	}
 }
 
