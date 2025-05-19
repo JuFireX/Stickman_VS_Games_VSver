@@ -13,6 +13,12 @@
 using namespace std;
 static int x = 10, y = 5;
 // 等待用户输入
+void clean()
+{
+	cleardevice;
+	y = 10;
+}
+
 void pause(int timeout)
 {
 	/*if (timeout == -1)
@@ -145,11 +151,64 @@ void directOutput(const string text, int choice)
 // 输出选择
 int choiceOutput(const string &output, const vector<string> &choices)
 {
-	streamOutput(output, 10, 0);
+	/*streamOutput(output, 10, 0);
 	for (int i = 0; i < choices.size(); i++)
 		cout << i + 1 << " -> " << choices[i] << endl;
 	char choice = _getch();
-	return choice - '0';
+	return choice - '0';*/
+	// 输出提示
+	int base_x = 5, base_y = y, line_h = 20;
+	int select = 0;
+	int n = (int)choices.size();
+
+	// 清屏并输出主提示
+	//cleardevice();
+	streamOutput(output, 10, 0);
+
+	// 主循环
+	while (true)
+	{
+		// 绘制所有选项
+		for (int i = 0; i < n; ++i)
+		{
+			std::wstring wstr = gbk_to_wstring(std::to_string(i + 1) + " -> " + choices[i]);
+			int y_chioce = base_y + i * line_h;
+			if (i == select)
+			{
+				settextcolor(RED);
+				outtextxy(base_x, y_chioce, wstr.c_str());
+			}
+			else
+			{
+				settextcolor(BLACK);
+				outtextxy(base_x, y, wstr.c_str());
+			}
+		}
+		FlushBatchDraw();
+
+		// 事件处理
+		ExMessage msg;
+		while (peekmessage(&msg, EX_MOUSE | EX_KEY))
+		{
+			if (msg.message == WM_MOUSEWHEEL)
+			{
+				if (msg.wheel > 0)
+					select = (select - 1 + n) % n;
+				else
+					select = (select + 1) % n;
+				cleardevice();
+				streamOutput(output, 10, 0);
+			}
+			else if (msg.message == WM_KEYDOWN)
+			{
+				if (msg.vkcode == 'F') // F键
+				{
+					return select + 1;
+				}
+			}
+		}
+		Sleep(10);
+	}
 }
 
 void initGameCli(int count)
@@ -193,7 +252,8 @@ BEGINING:
 	// 序章
 	streamOutput("WASD移动, Q跳过本关.", 10, 1);
 	engine->runGame2048();
-	system("cls");
+	//system("cls");
+	clean();
 
 	// 第一关报幕
 	directOutput("\n突然!\n", 1);
@@ -206,11 +266,13 @@ BEGINING:
 	streamOutput("看来只能尝试完成这古老的游戏了...!", 10, 1);
 	directOutput("\n(以完成推箱子为目标继续行动)\n", -1);
 	system("cls");
+	clean();
 
 	// 第一关
 	streamOutput("WASD移动, Q跳过本关, R重新开始.", 10, 1);
+	Sleep(1000);
 	engine->runGameSokoban();
-	y = 10;
+	clean();
 
 	// 第一关分支
 	streamOutput("\n轰隆~~~~~~~~~~\n", 100, 2);
@@ -242,7 +304,8 @@ BEGINING:
 			break;
 		}
 	} while (choice != 3);
-	system("cls");
+	//system("cls");
+	clean();
 
 	// 第二关报幕
 	streamOutput("看起来只能前往马里奥平台了..?", 10, 1);
