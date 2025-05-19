@@ -374,7 +374,7 @@ void Engine::runGameTetris()
 		{
 			if (msg.message == WM_KEYDOWN)
 			{
-				if (msg.vkcode == VK_ESCAPE)
+				if (msg.vkcode == VK_ESCAPE || msg.vkcode == 'Q')
 				{
 					game->gameOver = true;
 					break;

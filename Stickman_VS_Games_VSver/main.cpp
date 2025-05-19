@@ -1,5 +1,7 @@
 #include "engine.h"
 #include <conio.h>
+#include <cstdlib>
+#include <ctime>
 #include <iostream>
 #include <memory>
 #include <sstream>
@@ -88,6 +90,7 @@ BEGINING:
 	initGameCli(count++);
 
 	// 序章报幕
+	engine->runGameTetris();
 
 	streamOutput("你是再临, 正在无聊地玩2048...", 50, 1);
 	directOutput("(以游玩2048为目标继续行动)", -1);
@@ -196,7 +199,7 @@ BEGINING:
 		streamOutput("平平无奇的方块儿.", 10, 1);
 		streamOutput("你盯着方块儿看了许久, 但这还是平平无奇的方块儿.", 10, 1);
 		streamOutput("你克制住打开它的冲动.", 10, 1);
-		streamOutput(".......", 60, 1);
+		streamOutput(".......", 100, 3);
 	case 4:
 		streamOutput("你盯着方块儿看了许久, 它们好像变了...", 10, 1);
 		streamOutput("方块边儿不再刻迹斑斑，身上的凹陷也平整了许多.", 10, 1);
@@ -280,7 +283,8 @@ BEGINING:
 			streamOutput("「但若成功----」", 10, 1);
 			streamOutput("你将解锁「钻洞大师」成就!", 10, 1);
 			streamOutput("「----要试试吗? 赌上你的尊严与发型!」", 10, 1);
-			streamOutput("(底部小字: 开拓者, 本通道已通过星际安全认证, 钻失败者99%都活着回来了)", 10, 1);
+			streamOutput("(底部小字: 开拓者, 本通道已通过星际安全认证,)", 10, 1);
+			streamOutput("(失败的钻洞者99%都活着回来了...)", 10, 1);
 			streamOutput("(...大概.)", 60, 1);
 			break;
 		case 2:
@@ -303,8 +307,9 @@ BEGINING:
 				streamOutput("......", 100, 1);
 				streamOutput("......", 100, 1);
 				streamOutput("要不, 你试试?", 10, 1);
-				streamOutput("(这里想做一个随机判断, 如果真判上了直接跳到boss关)", 10, 1);
-				if (false)
+				srand(static_cast<unsigned int>(time(nullptr)));
+				int seed = rand() % 5;
+				if (seed == 0)
 				{
 					streamOutput("我去, 真给你砸开了...", 10, 1);
 					temp = 0;
@@ -342,7 +347,7 @@ BEGINING:
 	streamOutput("......", 60, 1);
 	streamOutput("你正在犹豫.", 10, 1);
 	streamOutput("耳边却再度响起码神的低语...", 10, 1);
-	streamOutput("(这里是码神的低语,但是我还没想好怎么设置游戏规则.)", 10, 1);
+	streamOutput("(这里是码神的低语,但是我还没想好怎么设置游戏规则.. 至于程序要不要修改,有待商榷)", 10, 1);
 	directOutput("\n(以拿到钥匙去往城堡为目标继续行动)\n", -1);
 	system("cls");
 
@@ -366,8 +371,8 @@ BEGINING:
 
 	// 第四关结幕
 	streamOutput("\n轰隆~~~~~~~~~~\n", 100, 2);
-	streamOutput("费了一些脑细胞, 石门终于挪动...", 10, 1);
-	streamOutput("......", 10, 1);
+	streamOutput("费了一些脑细胞, 石门终于开始挪动.", 10, 1);
+	streamOutput("......", 60, 1);
 	streamOutput("你再次来到马里奥的世界.", 10, 1);
 	choices = { "观察石门", "观察天空", "观察幸运方块", "观察深坑周围", "前往登神长阶" };
 	do
@@ -376,16 +381,26 @@ BEGINING:
 		switch (choice)
 		{
 		case 1:
-			streamOutput("你发现石门上模糊写着一行字:", 10, 1);
+			streamOutput("石门上模糊地刻着一行字:", 10, 1);
+			streamOutput("JuFireStudio", 10, 1);
+			streamOutput("啊...难道是防伪标识吗...", 10, 1);
 			break;
 		case 2:
-			streamOutput("观察天空", 10, 1);
+			streamOutput("天空是蔚蓝色, 窗外有千纸鹤...(bushi)", 10, 1);
 			break;
 		case 3:
-			streamOutput("观察方块", 10, 1);
+			streamOutput("平平无奇的方块儿...", 10, 1);
+			streamOutput("你曾经注视过良久.可是它依然是平平无奇的方块儿...", 10, 1);
+			streamOutput("......", 60, 1);
+			streamOutput("它变了吗...", 10, 1);
+			streamOutput("像是历经几十年的风霜, 从任天堂时代走来的方块儿吗...", 10, 1);
+			streamOutput("它一直没变, 却好像变了很多.", 10, 1);
+			streamOutput("是时代变了吧. 从电子游戏刚刚诞生, 到如今的繁荣盛世.", 10, 1);
 			break;
 		case 4:
-			streamOutput("观察深坑周围", 10, 1);
+			streamOutput("坑其实不深. 泥土有Minecraft的质感.", 10, 1);
+			streamOutput("你的脑海里似乎浮现出黄昏, 木船, 大海...", 10, 1);
+			streamOutput("那是你的童年吗...", 10, 1);
 			break;
 		default:
 			break;
@@ -394,8 +409,7 @@ BEGINING:
 	system("cls");
 
 	// 第五关报幕
-	streamOutput("是熟悉的阶梯.", 10, 1);
-	streamOutput("(这里我想写一个分支, 观察场景中的一些物体)", 10, 1);
+	streamOutput("是熟悉的阶梯...", 10, 1);
 	choices = { "观察通道入口", "观察台阶", "观察手中的方盒", "观察城堡的门", "进入城堡" };
 	do
 	{
@@ -403,16 +417,20 @@ BEGINING:
 		switch (choice)
 		{
 		case 1:
-			streamOutput("你发现入口模糊写着一行字:", 10, 1);
+			streamOutput("JuFireStudio...", 10, 1);
+			streamOutput("(爝火工作室)", 10, 1);
 			break;
 		case 2:
-			streamOutput("观察台阶", 10, 1);
+			streamOutput("和当年任天堂同款的像素风方块.", 10, 1);
+			streamOutput("就是他把电子游戏从生死的转折点救了回来.", 10, 1);
 			break;
 		case 3:
-			streamOutput("观察方盒", 10, 1);
+			streamOutput("方盒子有点分量, 一部分像是坚硬的金属材质.", 10, 1);
+			streamOutput("上面有一些黑色的按键, 排列整齐.", 10, 1);
 			break;
 		case 4:
-			streamOutput("观察城堡的门", 10, 1);
+			streamOutput("石制的大门.", 10, 1);
+			streamOutput("门上挂着金光闪闪的锁. 光芒与手中的钥匙如出一辙.", 10, 1);
 			break;
 		default:
 			break;
@@ -424,8 +442,9 @@ BEGINING:
 	streamOutput("你来到了最后一扇门前...", 10, 1);
 BOSS:
 	streamOutput("码神对你说:", 10, 1);
-	streamOutput("智慧的勇士!", 10, 1);
-	streamOutput("(没想好)", 10, 1);
+	streamOutput("\"智慧的勇士!码神恭候你的到来.\"", 10, 1);
+	streamOutput("\"城堡内是最后的试炼.\"", 10, 1);
+	streamOutput("\"完成试炼, 你就可以带着码神的祝福回到现实!\"", 10, 1);
 	streamOutput("做好准备, 即将前往最后的试炼...", 10, 1);
 	directOutput("\n(按任意键开始试炼)\n", -1);
 	system("cls");
