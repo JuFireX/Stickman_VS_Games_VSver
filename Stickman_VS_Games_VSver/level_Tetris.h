@@ -40,43 +40,51 @@ private:
 			{EMPTY, EMPTY, EMPTY, EMPTY},
 			{BRICK, BRICK, BRICK, BRICK},
 			{EMPTY, EMPTY, EMPTY, EMPTY},
-			{EMPTY, EMPTY, EMPTY, EMPTY}},
-			// J
-			{
-				{BRICK, EMPTY, EMPTY, EMPTY},
-				{BRICK, BRICK, BRICK, EMPTY},
-				{EMPTY, EMPTY, EMPTY, EMPTY},
-				{EMPTY, EMPTY, EMPTY, EMPTY}},
-				// L
-				{
-					{EMPTY, EMPTY, BRICK, EMPTY},
-					{BRICK, BRICK, BRICK, EMPTY},
-					{EMPTY, EMPTY, EMPTY, EMPTY},
-					{EMPTY, EMPTY, EMPTY, EMPTY}},
-					// O
-					{
-						{EMPTY, BRICK, BRICK, EMPTY},
-						{EMPTY, BRICK, BRICK, EMPTY},
-						{EMPTY, EMPTY, EMPTY, EMPTY},
-						{EMPTY, EMPTY, EMPTY, EMPTY}},
-						// S
-						{
-							{EMPTY, BRICK, BRICK, EMPTY},
-							{BRICK, BRICK, EMPTY, EMPTY},
-							{EMPTY, EMPTY, EMPTY, EMPTY},
-							{EMPTY, EMPTY, EMPTY, EMPTY}},
-							// T
-							{
-								{EMPTY, BRICK, EMPTY, EMPTY},
-								{BRICK, BRICK, BRICK, EMPTY},
-								{EMPTY, EMPTY, EMPTY, EMPTY},
-								{EMPTY, EMPTY, EMPTY, EMPTY}},
-								// Z
-								{
-									{BRICK, BRICK, EMPTY, EMPTY},
-									{EMPTY, BRICK, BRICK, EMPTY},
-									{EMPTY, EMPTY, EMPTY, EMPTY},
-									{EMPTY, EMPTY, EMPTY, EMPTY}} };
+			{EMPTY, EMPTY, EMPTY, EMPTY}
+		},
+		// J
+		{
+			{BRICK, EMPTY, EMPTY, EMPTY},
+			{BRICK, BRICK, BRICK, EMPTY},
+			{EMPTY, EMPTY, EMPTY, EMPTY},
+			{EMPTY, EMPTY, EMPTY, EMPTY}
+		},
+		// L
+		{
+			{EMPTY, EMPTY, BRICK, EMPTY},
+			{BRICK, BRICK, BRICK, EMPTY},
+			{EMPTY, EMPTY, EMPTY, EMPTY},
+			{EMPTY, EMPTY, EMPTY, EMPTY}
+		},
+		// O
+		{
+			{EMPTY, BRICK, BRICK, EMPTY},
+			{EMPTY, BRICK, BRICK, EMPTY},
+			{EMPTY, EMPTY, EMPTY, EMPTY},
+			{EMPTY, EMPTY, EMPTY, EMPTY}
+		},
+		// S
+		{
+			{EMPTY, BRICK, BRICK, EMPTY},
+			{BRICK, BRICK, EMPTY, EMPTY},
+			{EMPTY, EMPTY, EMPTY, EMPTY},
+			{EMPTY, EMPTY, EMPTY, EMPTY}
+		},
+		// T
+		{
+			{EMPTY, BRICK, EMPTY, EMPTY},
+			{BRICK, BRICK, BRICK, EMPTY},
+			{EMPTY, EMPTY, EMPTY, EMPTY},
+			{EMPTY, EMPTY, EMPTY, EMPTY}
+		},
+		// Z
+		{
+			{BRICK, BRICK, EMPTY, EMPTY},
+			{EMPTY, BRICK, BRICK, EMPTY},
+			{EMPTY, EMPTY, EMPTY, EMPTY},
+			{EMPTY, EMPTY, EMPTY, EMPTY}
+		}
+	};
 
 	// 
 	int currentTetromino;

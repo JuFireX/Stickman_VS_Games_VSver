@@ -131,7 +131,7 @@ void Game2048::generateNewTile()
 
 	if (!emptyPositions.empty())
 	{
-		uniform_int_distribution<int> positionDist(0, emptyPositions.size() - 1);
+		uniform_int_distribution<int> positionDist(0, (int)emptyPositions.size() - 1);
 		uniform_int_distribution<int> valueDist(0, 9);
 
 		Position pos = emptyPositions[positionDist(rng)];
