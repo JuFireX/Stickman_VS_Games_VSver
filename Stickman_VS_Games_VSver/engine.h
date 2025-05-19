@@ -5,7 +5,7 @@
 #include <graphics.h>
 #include <map>
 #include <vector>
-
+#include <string>
 using namespace std;
 
 enum Level
@@ -80,6 +80,7 @@ public:
 	void runGamePacman();
 	void initGame();
 	void fadeout_clear_screen(int wide, int height, int step, int delay);
+	//void _streamOutPut(const string str, int speed, COLORREF color);
 };
 #endif
 // ENGINE_H
