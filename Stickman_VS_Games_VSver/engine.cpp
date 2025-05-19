@@ -49,6 +49,53 @@ void Engine::fadeout_clear_screen(int width, int height, int steps, int delay)
 	}
 }
 
+/*std::wstring gbk_to_wstring(const std::string& str)
+{
+	int len = MultiByteToWideChar(936, 0, str.c_str(), -1, NULL, 0); // 936=GBK
+	std::wstring wstr(len, L'\0');
+	MultiByteToWideChar(936, 0, str.c_str(), -1, &wstr[0], len);
+	// 去掉末尾的\0
+	if (!wstr.empty() && wstr.back() == L'\0') wstr.pop_back();
+	return wstr;
+}
+
+void Engine::_streamOutPut(const string text, int speed, COLORREF color)
+{
+	LOGFONT f;
+	gettextstyle(&f);
+	f.lfHeight = 20;
+	f.lfOutPrecision = OUT_TT_PRECIS;
+	_tcscpy_s(f.lfFaceName, _T("微软雅黑Bold"));
+	f.lfPitchAndFamily = FF_ROMAN;
+	settextstyle(&f);
+	setbkmode(TRANSPARENT);
+	settextcolor(color);
+	setaspectratio(1, 1);
+
+	// 正确转换为宽字符串（GBK/GB2312编码）
+	std::wstring wtext = gbk_to_wstring(text);
+	std::wstring out;
+	static int x = 10,y=5;
+	if (y >= 450)
+	{
+		y = 0;
+		cleardevice();
+	}
+	for (wchar_t wc : wtext)
+	{
+		out += wc;
+		//cleardevice();
+		outtextxy(x, y, out.c_str());
+		FlushBatchDraw();
+		Sleep(speed);
+	}
+	y += 20;
+	
+}*/
+
+
+
+
 void Engine::initGame()
 {
 	initgraph(width, height);
@@ -69,15 +116,15 @@ void Engine::runGame2048()
 
 	Game2048* game = new Game2048();
 
-	initgraph(width, height);
-	HWND hwnd = GetHWnd();
-	SetForegroundWindow(hwnd);
-	SetActiveWindow(hwnd);
-	SetFocus(hwnd);
+	//initgraph(width, height);
+	//HWND hwnd = GetHWnd();
+	//SetForegroundWindow(hwnd);
+	//SetActiveWindow(hwnd);
+	//SetFocus(hwnd);
 
-	// 切换到美式英文输入法
-	HKL hkl = LoadKeyboardLayout(L"00000409", KLF_ACTIVATE);
-	ActivateKeyboardLayout(hkl, KLF_SETFORPROCESS);
+	//// 切换到美式英文输入法
+	//HKL hkl = LoadKeyboardLayout(L"00000409", KLF_ACTIVATE);
+	//ActivateKeyboardLayout(hkl, KLF_SETFORPROCESS);
 	setbkcolor(WHITE);   // 设置背景色
 	cleardevice();
 	game->load();
@@ -166,7 +213,7 @@ void Engine::runGame2048()
 	}
 	fadeout_clear_screen(width, height, 255, 10);
 	EndBatchDraw();
-	closegraph();
+	//closegraph();
 	delete game;
 }
 
@@ -176,15 +223,15 @@ void Engine::runGameSnake()
 
 	GameSnake* game = new GameSnake();
 
-	initgraph(width, height); // 初始化窗口
-	HWND hwnd = GetHWnd();
-	SetForegroundWindow(hwnd);
-	SetActiveWindow(hwnd);
-	SetFocus(hwnd);
+	//initgraph(width, height); // 初始化窗口
+	//HWND hwnd = GetHWnd();
+	//SetForegroundWindow(hwnd);
+	//SetActiveWindow(hwnd);
+	//SetFocus(hwnd);
 
-	// 切换到美式英文输入法
-	HKL hkl = LoadKeyboardLayout(L"00000409", KLF_ACTIVATE);
-	// setbkcolor(WHITE);        // 设置背景色
+	//// 切换到美式英文输入法
+	//HKL hkl = LoadKeyboardLayout(L"00000409", KLF_ACTIVATE);
+	//// setbkcolor(WHITE);        // 设置背景色
 	cleardevice();
 	game->load();
 
@@ -240,7 +287,7 @@ void Engine::runGameSnake()
 	}
 	fadeout_clear_screen(width, height, 255, 10);
 	EndBatchDraw();
-	closegraph();
+	//closegraph();
 	delete game;
 }
 
@@ -250,16 +297,16 @@ void Engine::runGameSokoban()
 
 	GameSokoban* game = new GameSokoban();
 
-	initgraph(width, height);
-	HWND hwnd = GetHWnd();
-	SetForegroundWindow(hwnd);
-	SetActiveWindow(hwnd);
-	SetFocus(hwnd);
+	//initgraph(width, height);
+	//HWND hwnd = GetHWnd();
+	//SetForegroundWindow(hwnd);
+	//SetActiveWindow(hwnd);
+	//SetFocus(hwnd);
 
-	// 切换到美式英文输入法
-	HKL hkl = LoadKeyboardLayout(L"00000409", KLF_ACTIVATE);
-	ActivateKeyboardLayout(hkl, KLF_SETFORPROCESS);
-	// setbkcolor(WHITE);   // 设置背景色
+	//// 切换到美式英文输入法
+	//HKL hkl = LoadKeyboardLayout(L"00000409", KLF_ACTIVATE);
+	//ActivateKeyboardLayout(hkl, KLF_SETFORPROCESS);
+	//// setbkcolor(WHITE);   // 设置背景色
 	cleardevice();
 	game->load();
 
@@ -319,7 +366,7 @@ void Engine::runGameSokoban()
 	}
 	fadeout_clear_screen(width, height, 255, 10);
 	EndBatchDraw();
-	closegraph();
+	//closegraph();
 	delete game;
 }
 
@@ -329,16 +376,16 @@ void Engine::runGameTetris()
 
 	GameTetris* game = new GameTetris();
 
-	initgraph(width, height);
-	HWND hwnd = GetHWnd();
-	SetForegroundWindow(hwnd);
-	SetActiveWindow(hwnd);
-	SetFocus(hwnd);
+	//initgraph(width, height);
+	//HWND hwnd = GetHWnd();
+	//SetForegroundWindow(hwnd);
+	//SetActiveWindow(hwnd);
+	//SetFocus(hwnd);
 
-	// 切换到美式英文输入法
-	// 切换到美式英文输入法（"00000409"）
-	HKL hkl = LoadKeyboardLayout(L"00000409", KLF_ACTIVATE);
-	ActivateKeyboardLayout(hkl, KLF_SETFORPROCESS);
+	//// 切换到美式英文输入法
+	//// 切换到美式英文输入法（"00000409"）
+	//HKL hkl = LoadKeyboardLayout(L"00000409", KLF_ACTIVATE);
+	//ActivateKeyboardLayout(hkl, KLF_SETFORPROCESS);
 
 	// setbkcolor(WHITE);        // 设置背景色
 	cleardevice();
@@ -403,7 +450,7 @@ void Engine::runGameTetris()
 	}
 	fadeout_clear_screen(width, height, 255, 10);
 	EndBatchDraw();
-	closegraph();
+	//closegraph();
 	delete game;
 }
 
@@ -413,16 +460,16 @@ void Engine::runGamePacman()
 
 	GamePacman* game = new GamePacman();
 
-	initgraph(width, height);
-	HWND hwnd = GetHWnd();
-	SetForegroundWindow(hwnd);
-	SetActiveWindow(hwnd);
-	SetFocus(hwnd);
-	// 切换到美式英文输入法
-	HKL hkl = LoadKeyboardLayout(L"00000409", KLF_ACTIVATE);
-	ActivateKeyboardLayout(hkl, KLF_SETFORPROCESS);
+	//initgraph(width, height);
+	//HWND hwnd = GetHWnd();
+	//SetForegroundWindow(hwnd);
+	//SetActiveWindow(hwnd);
+	//SetFocus(hwnd);
+	//// 切换到美式英文输入法
+	//HKL hkl = LoadKeyboardLayout(L"00000409", KLF_ACTIVATE);
+	//ActivateKeyboardLayout(hkl, KLF_SETFORPROCESS);
 
-	// setbkcolor(WHITE);        // 设置背景色
+	//// setbkcolor(WHITE);        // 设置背景色
 	cleardevice();
 	game->load();
 	game->initGame();
@@ -521,6 +568,6 @@ void Engine::runGamePacman()
 	}
 	fadeout_clear_screen(width, height, 255, 10);
 	EndBatchDraw();
-	closegraph();
+	//closegraph();
 	delete game;
 }

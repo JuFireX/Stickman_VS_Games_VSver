@@ -9,11 +9,11 @@
 #include <Windows.h>
 
 using namespace std;
-
+static int x = 10, y = 5;
 // 等待用户输入
 void pause(int timeout)
 {
-	if (timeout == -1)
+	/*if (timeout == -1)
 	{
 		system("set /p \"=>>>\" <nul");
 		system("pause >nul");
@@ -23,11 +23,32 @@ void pause(int timeout)
 	{
 		string command = "choice /C:Y /N /D:Y /T:" + to_string(timeout) + " >nul";
 		system(command.c_str());
+	}*/
+	if (timeout == -1)
+	{
+		// 等待用户按任意键
+		y += 20;
+		if (y >= 450)
+		{
+			y = 10;
+			cleardevice();
+		}
+		outtextxy(10, y, _T(">>> 按任意键继续..."));
+		
+
+		FlushBatchDraw();
+		ExMessage getmessage(BYTE filter = EX_KEY);
+		getmessage();
+	}
+	else
+	{
+		// 等待指定秒数（timeout 单位为秒，和原实现一致）
+		Sleep(timeout * 1000); // EasyX 的 Sleep，单位为毫秒
 	}
 }
 
 // 根据参数字符串模拟流式输出
-void streamOutput(const string& output, int speed, int timeout)
+/*void streamOutput(const string& output, int speed, int timeout)
 {
 	for (char c : output)
 	{
@@ -37,13 +58,87 @@ void streamOutput(const string& output, int speed, int timeout)
 	}
 	cout << endl;
 	pause(timeout);
+
+}*/
+std::wstring gbk_to_wstring(const std::string& str)
+{
+	int len = MultiByteToWideChar(936, 0, str.c_str(), -1, NULL, 0); // 936=GBK
+	std::wstring wstr(len, L'\0');
+	MultiByteToWideChar(936, 0, str.c_str(), -1, &wstr[0], len);
+	// 去掉末尾的\0
+	if (!wstr.empty() && wstr.back() == L'\0') wstr.pop_back();
+	return wstr;
 }
 
-// 根据参数字符串直接输出
-void directOutput(const string& output, int timeout)
+void streamOutput(const string text, int speed, COLORREF color)
 {
-	cout << output << endl;
-	pause(timeout);
+	LOGFONT f;
+	gettextstyle(&f);
+	f.lfHeight = 20;
+	f.lfOutPrecision = OUT_TT_PRECIS;
+	_tcscpy_s(f.lfFaceName, _T("微软雅黑Bold"));
+	f.lfPitchAndFamily = FF_ROMAN;
+	settextstyle(&f);
+	setbkmode(TRANSPARENT);
+	settextcolor(color);
+	setaspectratio(1, 1);
+
+	// 正确转换为宽字符串（GBK/GB2312编码）
+	std::wstring wtext = gbk_to_wstring(text);
+	std::wstring out;
+	
+	if (y >= 450)
+	{
+		y = 0;
+		cleardevice();
+	}
+	for (wchar_t wc : wtext)
+	{
+		out += wc;
+		//cleardevice();
+		outtextxy(x, y, out.c_str());
+		FlushBatchDraw();
+		Sleep(speed);
+	}
+	y += 20;
+
+}
+// 根据参数字符串直接输出
+void directOutput(const string text, int choice)
+{
+	/*cout << output << endl;
+	pause(timeout);*/
+	LOGFONT f;
+	gettextstyle(&f);
+	f.lfHeight = 20;
+	f.lfOutPrecision = OUT_TT_PRECIS;
+	_tcscpy_s(f.lfFaceName, _T("微软雅黑Bold"));
+	f.lfPitchAndFamily = FF_ROMAN;
+	settextstyle(&f);
+	setbkmode(TRANSPARENT);
+	settextcolor(BLACK);
+	setaspectratio(1, 1);
+
+	// 正确转换为宽字符串（GBK/GB2312编码）
+	std::wstring wtext = gbk_to_wstring(text);
+
+	if (y >= 450)
+	{
+		y = 0;
+		cleardevice();
+	}
+
+	// 直接输出整行
+	outtextxy(x, y, wtext.c_str());
+	FlushBatchDraw();
+
+	if (choice == -1)
+	{
+		pause(-1); // 等待用户按任意键
+	}
+	// choice == 1 时直接输出，不等待
+
+	y += 20;
 }
 
 // 输出选择
@@ -85,10 +180,11 @@ BEGINING:
 	Engine* engine = new Engine();
 	vector<string> choices;
 	int choice = 0;
-	initGameCli(count++);
-
+	engine->initGame();
+	setbkcolor(WHITE); // 设置背景色
+	cleardevice();
 	// 序章报幕
-
+	initGameCli(count++);
 	streamOutput("你是再临, 正在无聊地玩2048...", 50, 1);
 	directOutput("(以游玩2048为目标继续行动)", -1);
 
@@ -112,7 +208,7 @@ BEGINING:
 	// 第一关
 	streamOutput("WASD移动, Q跳过本关, R重新开始.", 10, 1);
 	engine->runGameSokoban();
-	system("cls");
+	y = 10;
 
 	// 第一关分支
 	streamOutput("\n轰隆~~~~~~~~~~\n", 100, 2);
@@ -154,7 +250,8 @@ BEGINING:
 	streamOutput("......", 60, 1);
 	streamOutput("\n轰隆~~~~~~~~~~\n", 100, 2);
 	streamOutput("石门在巨响中关闭.", 10, 1);
-	system("cls");
+	cleardevice();
+	y = 10;
 
 	streamOutput("你来到了马里奥的世界...", 10, 1);
 	streamOutput("视线尽头是一座城堡. emmm设定上一般城堡都是需要钥匙才能进的...", 10, 1);
