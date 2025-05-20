@@ -11,7 +11,9 @@
 #include <Windows.h>
 
 using namespace std;
+
 static int x = 10, y = 5;
+
 // 等待用户输入
 void clean()
 {
@@ -41,7 +43,7 @@ void pause(int timeout)
 			y = 10;
 			cleardevice();
 		}
-		outtextxy(10, y, _T(">>> 按任意键继续..."));
+		outtextxy(10, y, _T(">>>"));
 
 		FlushBatchDraw();
 		ExMessage getmessage(BYTE filter = EX_KEY);
@@ -67,10 +69,10 @@ void pause(int timeout)
 	pause(timeout);
 
 }*/
-std::wstring gbk_to_wstring(const std::string &str)
+wstring gbk_to_wstring(const string& str)
 {
 	int len = MultiByteToWideChar(936, 0, str.c_str(), -1, NULL, 0); // 936=GBK
-	std::wstring wstr(len, L'\0');
+	wstring wstr(len, L'\0');
 	MultiByteToWideChar(936, 0, str.c_str(), -1, &wstr[0], len);
 	// 去掉末尾的\0
 	if (!wstr.empty() && wstr.back() == L'\0')
@@ -91,15 +93,16 @@ void streamOutput(const string text, int speed, int timeout)
 	settextcolor(BLACK);
 	setaspectratio(1, 1);
 
-	// 正确转换为宽字符串（GBK/GB2312编码）
-	std::wstring wtext = gbk_to_wstring(text);
-	std::wstring out;
+	// 转换为宽字符串（GBK/GB2312编码）
+	wstring wtext = gbk_to_wstring(text);
+	wstring out;
 
 	if (y >= 450)
 	{
 		y = 0;
 		cleardevice();
 	}
+
 	for (wchar_t wc : wtext)
 	{
 		out += wc;
@@ -108,9 +111,11 @@ void streamOutput(const string text, int speed, int timeout)
 		FlushBatchDraw();
 		Sleep(speed);
 	}
+
 	y += 20;
 	pause(timeout);
 }
+
 // 根据参数字符串直接输出
 void directOutput(const string text, int timeout)
 {
@@ -144,7 +149,7 @@ void directOutput(const string text, int timeout)
 }
 
 // 输出选择
-int choiceOutput(const string &output, const vector<string> &choices)
+int choiceOutput(const string& output, const vector<string>& choices)
 {
 	// 输出提示
 	int base_x = 5, base_y = y, line_h = 20;
@@ -160,7 +165,7 @@ int choiceOutput(const string &output, const vector<string> &choices)
 	{
 		for (int i = 1; i <= n; ++i)
 		{
-			std::wstring wstr = gbk_to_wstring(std::to_string(i) + " -> " + choices[i-1]);
+			std::wstring wstr = gbk_to_wstring(std::to_string(i) + " -> " + choices[i - 1]);
 			int y_chioce = base_y + i * line_h;
 			if (i == select)
 			{
@@ -181,16 +186,16 @@ int choiceOutput(const string &output, const vector<string> &choices)
 			if (msg.message == WM_MOUSEWHEEL)
 			{
 				if (msg.wheel > 0)
-					select = (select - 1 + n) %(n+1);
+					select = (select - 1 + n) % (n + 1);
 				else
 				{
-					select = (select + 1) % (n+1);
+					select = (select + 1) % (n + 1);
 				}
 				//cleardevice();
 			}
 			else if (msg.message == WM_KEYDOWN)
 			{
-				if (msg.vkcode == 'F') 
+				if (msg.vkcode == 'F')
 				{
 					return select;
 				}
@@ -202,10 +207,6 @@ int choiceOutput(const string &output, const vector<string> &choices)
 
 void initGameCli(int count)
 {
-	// 使用utf-8编码
-	// SetConsoleOutputCP(65001);
-	// SetConsoleCP(65001);
-	// system("chcp 65001");
 	system("title 火柴人VS电子游戏");
 	system("mode con cols=120 lines=30");
 	system("cls");
@@ -226,7 +227,7 @@ int main()
 	int count = 1;
 	int temp = 0;
 BEGINING:
-	Engine *engine = new Engine();
+	Engine* engine = new Engine();
 	vector<string> choices;
 	int choice = 0;
 	engine->initGame();
@@ -271,7 +272,7 @@ BEGINING:
 	temp = 0;
 	do
 	{
-		choice = choiceOutput("你决定:", {"观察左侧石门", "观察右侧石门", "结束观察"});
+		choice = choiceOutput("你决定:", { "观察左侧石门", "观察右侧石门", "结束观察" });
 		switch (choice)
 		{
 		case 1:
@@ -311,7 +312,7 @@ BEGINING:
 	streamOutput("你来到了马里奥的世界...", 10, 1);
 	streamOutput("视线尽头是一座城堡. emmm设定上一般城堡都是需要钥匙才能进的...", 10, 1);
 	streamOutput("向前走去,不远处的半空漂浮着一个\"幸运方块\"...", 10, 1);
-	choice = choiceOutput("你决定:", {"上蹿下跳", "视而不见", "观察方块", "触碰方块"});
+	choice = choiceOutput("你决定:", { "上蹿下跳", "视而不见", "观察方块", "触碰方块" });
 	clean();
 	switch (choice)
 	{
@@ -326,7 +327,7 @@ BEGINING:
 	case 2:
 		streamOutput("鹅, 不愧是你, 毕竟自古CT不抬头.", 10, 1);
 		streamOutput("继续前进, 你发现了一个深坑.", 10, 1);
-		choice = choiceOutput("你决定:", {"视而不见继续前进", "观察坑的周围"});
+		choice = choiceOutput("你决定:", { "视而不见继续前进", "观察坑的周围" });
 		switch (choice)
 		{
 		case 1:
@@ -395,7 +396,7 @@ BEGINING:
 	streamOutput("方块落下, 阶梯之外, 皆化作泡影...", 10, 1);
 	streamOutput("码神赞赏你的智慧, 治好了你的甲沟炎!(可以跳在台阶上了)", 10, 1);
 
-	choice = choiceOutput("你决定:", {"跳到台阶顶", "跳到半台阶腰", "跳到台阶脚"});
+	choice = choiceOutput("你决定:", { "跳到台阶顶", "跳到半台阶腰", "跳到台阶脚" });
 	clean();
 	switch (choice)
 	{
@@ -427,7 +428,7 @@ BEGINING:
 	temp = 0;
 	do
 	{
-		choice = choiceOutput("你决定:", {"钻进通道", "前往城堡", "尝试跳回去"});
+		choice = choiceOutput("你决定:", { "钻进通道", "前往城堡", "尝试跳回去" });
 		clean();
 		switch (choice)
 		{
@@ -538,7 +539,7 @@ BEGINING:
 	streamOutput("费了一些脑细胞, 石门终于开始挪动.", 10, 1);
 	streamOutput("......", 60, 1);
 	streamOutput("你再次来到马里奥的世界.", 10, 1);
-	choices = {"观察石门", "观察天空", "观察幸运方块", "观察深坑周围", "前往登神长阶"};
+	choices = { "观察石门", "观察天空", "观察幸运方块", "观察深坑周围", "前往登神长阶" };
 	clean();
 	do
 	{
@@ -579,7 +580,7 @@ BEGINING:
 
 	// 第五关报幕
 	streamOutput("是熟悉的阶梯...", 10, 1);
-	choices = {"观察通道入口", "观察台阶", "观察手中的方盒", "观察城堡的门", "进入城堡"};
+	choices = { "观察通道入口", "观察台阶", "观察手中的方盒", "观察城堡的门", "进入城堡" };
 	do
 	{
 		choice = choiceOutput("你决定:", choices);

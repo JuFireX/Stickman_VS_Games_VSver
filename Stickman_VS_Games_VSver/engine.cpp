@@ -97,7 +97,7 @@ void Engine::_streamOutPut(const string text, int speed, COLORREF color)
 		Sleep(speed);
 	}
 	y += 20;
-	
+
 }*/
 
 
