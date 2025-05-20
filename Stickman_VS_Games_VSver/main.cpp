@@ -2,7 +2,6 @@
 #include <conio.h>
 #include <cstdlib>
 #include <ctime>
-#include <gdiplus.h>
 #include <iostream>
 #include <memory>
 #include <sstream>
@@ -10,7 +9,6 @@
 #include <string>
 #include <vector>
 #include <Windows.h>
-#pragma comment(lib, "gdiplus.lib")
 
 using namespace std;
 
