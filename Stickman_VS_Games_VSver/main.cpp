@@ -243,7 +243,6 @@ BEGINING:
 	streamOutput("WASD移动, Q跳过本关.", 10, 1);
 	Sleep(1000);
 	engine->runGame2048();
-	//system("cls");
 	clean();
 
 	// 第一关报幕

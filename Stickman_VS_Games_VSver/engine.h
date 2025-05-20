@@ -80,6 +80,8 @@ public:
 	void runGamePacman();
 	void initGame();
 	void fadeout_clear_screen(int wide, int height, int step, int delay);
+	void FadeInWHITE(int wide, int height, int step, int delay);
+	void FadeInBLACK(int wide, int height, int step, int delay);
 	//void _streamOutPut(const string str, int speed, COLORREF color);
 };
 #endif

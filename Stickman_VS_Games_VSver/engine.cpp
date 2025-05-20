@@ -56,52 +56,53 @@ void Engine::fadeout_clear_screen(int width, int height, int steps, int delay)
 	Sleep(2000);
 }
 
-/*std::wstring gbk_to_wstring(const std::string& str)
+void Engine::FadeInWHITE(int width, int height, int steps, int delay)
 {
-	int len = MultiByteToWideChar(936, 0, str.c_str(), -1, NULL, 0); // 936=GBK
-	std::wstring wstr(len, L'\0');
-	MultiByteToWideChar(936, 0, str.c_str(), -1, &wstr[0], len);
-	// 去掉末尾的\0
-	if (!wstr.empty() && wstr.back() == L'\0') wstr.pop_back();
-	return wstr;
+	// 先截取当前屏幕内容
+	IMAGE screen;
+	getimage(&screen, 0, 0, width, height);
+
+	// 创建一张白色遮罩
+	IMAGE mask;
+	loadimage(&mask, _T("./PictureResource/white.png"), width, height, true);
+
+	for (int i = steps; i >= 0; --i)
+	{
+		// 先画游戏内容
+		putimage(0, 0, &screen);
+
+		// 叠加白色遮罩，alpha从255->0
+		int alpha = i * 255 / steps;
+		putimage_alpha(0, 0, &mask, alpha);
+
+		FlushBatchDraw();
+		Sleep(delay);
+	}
 }
 
-void Engine::_streamOutPut(const string text, int speed, COLORREF color)
+void Engine::FadeInBLACK(int width, int height, int steps, int delay)
 {
-	LOGFONT f;
-	gettextstyle(&f);
-	f.lfHeight = 20;
-	f.lfOutPrecision = OUT_TT_PRECIS;
-	_tcscpy_s(f.lfFaceName, _T("微软雅黑Bold"));
-	f.lfPitchAndFamily = FF_ROMAN;
-	settextstyle(&f);
-	setbkmode(TRANSPARENT);
-	settextcolor(color);
-	setaspectratio(1, 1);
+	// 先截取当前屏幕内容
+	IMAGE screen;
+	getimage(&screen, 0, 0, width, height);
 
-	// 正确转换为宽字符串（GBK/GB2312编码）
-	std::wstring wtext = gbk_to_wstring(text);
-	std::wstring out;
-	static int x = 10,y=5;
-	if (y >= 450)
+	// 创建一张白色遮罩
+	IMAGE mask;
+	loadimage(&mask, _T("./PictureResource/white.png"), width, height, true);
+
+	for (int i = steps; i >= 0; --i)
 	{
-		y = 0;
-		cleardevice();
-	}
-	for (wchar_t wc : wtext)
-	{
-		out += wc;
-		//cleardevice();
-		outtextxy(x, y, out.c_str());
+		// 先画游戏内容
+		putimage(0, 0, &screen);
+
+		// 叠加白色遮罩，alpha从255->0
+		int alpha = i * 255 / steps;
+		putimage_alpha(0, 0, &mask, alpha);
+
 		FlushBatchDraw();
-		Sleep(speed);
+		Sleep(delay);
 	}
-	y += 20;
-
-}*/
-
-
-
+}
 
 void Engine::initGame()
 {
@@ -123,21 +124,21 @@ void Engine::runGame2048()
 
 	Game2048* game = new Game2048();
 
-	//initgraph(width, height);
-	//HWND hwnd = GetHWnd();
-	//SetForegroundWindow(hwnd);
-	//SetActiveWindow(hwnd);
-	//SetFocus(hwnd);
-
-	//// 切换到美式英文输入法
-	//HKL hkl = LoadKeyboardLayout(L"00000409", KLF_ACTIVATE);
-	//ActivateKeyboardLayout(hkl, KLF_SETFORPROCESS);
 	setbkcolor(WHITE);   // 设置背景色
 	cleardevice();
 	game->load();
-
 	game->initGame();
 	BeginBatchDraw();
+	GameMap = game->getMap();
+	for (int i = 0; i < game->GameHigh; i++)
+	{
+		for (position u : GameMap[i])
+		{
+			putimage(u.x, u.y, &game->MapImg[u.val]);
+		}
+	}
+	FadeInWHITE(720, 480, 255, 10);
+	FlushBatchDraw();
 	while (!game->gameOver)
 	{
 		bool moveRight = false;
@@ -229,21 +230,24 @@ void Engine::runGameSnake()
 	bool fuck = true;
 
 	GameSnake* game = new GameSnake();
-
-	//initgraph(width, height); // 初始化窗口
-	//HWND hwnd = GetHWnd();
-	//SetForegroundWindow(hwnd);
-	//SetActiveWindow(hwnd);
-	//SetFocus(hwnd);
-
-	//// 切换到美式英文输入法
-	//HKL hkl = LoadKeyboardLayout(L"00000409", KLF_ACTIVATE);
-	//// setbkcolor(WHITE);        // 设置背景色
+	setbkcolor(BLACK);
 	cleardevice();
 	game->load();
 
 	game->initGame();
 	BeginBatchDraw();
+
+	GameMap = game->getMap();
+	for (int i = 0; i < game->GameHigh; i++)
+	{
+		for (position u : GameMap[i])
+		{
+			putimage_alpha(u.x, u.y, &game->MapImg[u.val], 255);
+		}
+	}
+	FadeInWHITE(720, 480, 255, 10);
+	FlushBatchDraw();
+
 	while (!game->gameOver)
 	{
 		char inputKey = ' ';
@@ -295,6 +299,8 @@ void Engine::runGameSnake()
 	fadeout_clear_screen(width, height, 255, 10);
 	EndBatchDraw();
 	//closegraph();
+	setbkcolor(WHITE);
+	cleardevice();
 	delete game;
 }
 
@@ -304,21 +310,24 @@ void Engine::runGameSokoban()
 
 	GameSokoban* game = new GameSokoban();
 
-	//initgraph(width, height);
-	//HWND hwnd = GetHWnd();
-	//SetForegroundWindow(hwnd);
-	//SetActiveWindow(hwnd);
-	//SetFocus(hwnd);
-
-	//// 切换到美式英文输入法
-	//HKL hkl = LoadKeyboardLayout(L"00000409", KLF_ACTIVATE);
-	//ActivateKeyboardLayout(hkl, KLF_SETFORPROCESS);
-	//// setbkcolor(WHITE);   // 设置背景色
+	setbkcolor(BLACK);
 	cleardevice();
 	game->load();
 
 	game->initGame();
 	BeginBatchDraw();
+
+	GameMap = game->getMap();
+	for (int i = 0; i < game->GameHigh; i++)
+	{
+		for (position u : GameMap[i])
+		{
+			putimage_alpha(u.x, u.y, &game->MapImg[u.val], 255);
+		}
+	}
+	FadeInWHITE(720, 480, 255, 10);
+	FlushBatchDraw();
+
 	while (!game->gameOver)
 	{
 		char inputKey = ' ';
@@ -374,6 +383,8 @@ void Engine::runGameSokoban()
 	fadeout_clear_screen(width, height, 255, 10);
 	EndBatchDraw();
 	//closegraph();
+	setbkcolor(WHITE);
+	cleardevice();
 	delete game;
 }
 
@@ -383,22 +394,28 @@ void Engine::runGameTetris()
 
 	GameTetris* game = new GameTetris();
 
-	//initgraph(width, height);
-	//HWND hwnd = GetHWnd();
-	//SetForegroundWindow(hwnd);
-	//SetActiveWindow(hwnd);
-	//SetFocus(hwnd);
-
-	//// 切换到美式英文输入法
-	//// 切换到美式英文输入法（"00000409"）
-	//HKL hkl = LoadKeyboardLayout(L"00000409", KLF_ACTIVATE);
-	//ActivateKeyboardLayout(hkl, KLF_SETFORPROCESS);
-
-	// setbkcolor(WHITE);        // 设置背景色
 	cleardevice();
 	game->load();
 	game->initGame();
 	BeginBatchDraw();
+	putimage_alpha(0, 0, &game->img_Tetris[6], 255);
+	putimage_alpha(560, 160, &game->img_Tetris[3], 255);
+	putimage_alpha(42, 42, &game->img_Tetris[4], 255);
+	putimage_alpha(370, 60, &game->img_Tetris[5], 255);
+	putimage_alpha(80, 200, &game->img_Tetris[8], 255);
+	// 绘制游戏地图
+	GameMap = game->getMap();
+	for (int i = 0; i < game->GameHigh; i++)
+	{
+		for (position u : GameMap[i])
+		{
+			if(u.val!=2)
+				putimage_alpha(u.x, u.y, &game->MapImg[u.val], 255);
+		}
+	}
+	putimage_alpha(0, 400, &game->img_Tetris[7], 255);
+	FadeInWHITE(720, 480, 255, 10);
+	FlushBatchDraw();
 	while (!game->gameOver)
 	{
 
@@ -457,6 +474,8 @@ void Engine::runGameTetris()
 	}
 	fadeout_clear_screen(width, height, 255, 10);
 	EndBatchDraw();
+	setbkcolor(WHITE);
+	cleardevice();
 	//closegraph();
 	delete game;
 }
@@ -467,16 +486,7 @@ void Engine::runGamePacman()
 
 	GamePacman* game = new GamePacman();
 
-	//initgraph(width, height);
-	//HWND hwnd = GetHWnd();
-	//SetForegroundWindow(hwnd);
-	//SetActiveWindow(hwnd);
-	//SetFocus(hwnd);
-	//// 切换到美式英文输入法
-	//HKL hkl = LoadKeyboardLayout(L"00000409", KLF_ACTIVATE);
-	//ActivateKeyboardLayout(hkl, KLF_SETFORPROCESS);
-
-	//// setbkcolor(WHITE);        // 设置背景色
+	setbkcolor(BLACK);        // 设置背景色
 	cleardevice();
 	game->load();
 	game->initGame();
@@ -484,6 +494,34 @@ void Engine::runGamePacman()
 	int cntframe = 0;
 	int cnt_ad = 0;
 	IMAGE* img = &game->player_img[0];
+	game->update(' ');
+	GameMap = game->getMap();
+	for (int i = 0; i < game->GameHigh; i++)
+	{
+		for (position u : GameMap[i])
+		{
+			if (u.val == 2)
+			{
+				if (cntframe % 2 == 0)
+					cnt_ad++;
+				if (cnt_ad % 2 == 0)
+				{
+					putimage_alpha(u.x, u.y, &game->player_img[4], 255);
+				}
+				else
+				{
+					putimage_alpha(u.x, u.y, img, 255);
+				}
+			}
+			else
+			{
+				putimage_alpha(u.x, u.y, &game->MapImg[u.val], 255);
+			}
+		}
+	}
+
+	FadeInWHITE(720, 480, 255, 10);
+	FlushBatchDraw();
 	while (!game->gameOver)
 	{
 
@@ -527,23 +565,24 @@ void Engine::runGamePacman()
 
 		cleardevice();
 		GameMap = game->getMap();
-		switch (inputKey)
-		{
-		case 'w':
-			img = &game->player_img[2];
-			break; // 上
-		case 's':
-			img = &game->player_img[3];
-			break; // 下
-		case 'a':
-			img = &game->player_img[1];
-			break; // 左
-		case 'd':
-			img = &game->player_img[0];
-			break; // 右
-		default:
-			break;
-		}
+		if(game->canChangeDirection)
+			switch (inputKey)
+			{
+			case 'w':
+				img = &game->player_img[2];
+				break; // 上
+			case 's':
+				img = &game->player_img[3];
+				break; // 下
+			case 'a':
+				img = &game->player_img[1];
+				break; // 左
+			case 'd':
+				img = &game->player_img[0];
+				break; // 右
+			default:
+				break;
+			}
 
 		for (int i = 0; i < game->GameHigh; i++)
 		{

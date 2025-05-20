@@ -192,7 +192,7 @@ bool GamePacman::processInput(char input)
 	}
 
 	// ����·����Ƿ���ǽ�ڣ������ǽ���򲻸ı䷽��
-	bool canChangeDirection = true;
+	canChangeDirection = true;
 	switch (newDir)
 	{
 	case Direction::RIGHT:
