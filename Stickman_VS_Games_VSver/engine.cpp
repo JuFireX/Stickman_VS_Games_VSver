@@ -67,15 +67,14 @@ void Engine::initGame()
 	SetFocus(hwnd);
 
 	// 切换到美式英文输入法
-	HKL hkl = LoadKeyboardLayout(L"00000409", KLF_ACTIVATE);
-	ActivateKeyboardLayout(hkl, KLF_SETFORPROCESS);
+	//HKL hkl = LoadKeyboardLayout(L"00000409", KLF_ACTIVATE);
+	//ActivateKeyboardLayout(hkl, KLF_SETFORPROCESS);
 }
 
 void Engine::runGame2048()
 {
 	bool fuck = true;
 	Game2048* game = new Game2048();
-	setbkcolor(WHITE);
 	cleardevice();
 	game->load();
 	game->initGame();
@@ -161,7 +160,6 @@ void Engine::runGameSnake()
 {
 	bool fuck = true;
 	GameSnake* game = new GameSnake();
-	setbkcolor(BLACK);
 	cleardevice();
 	game->load();
 	game->initGame();
@@ -224,7 +222,6 @@ void Engine::runGameSokoban()
 {
 	bool fuck = true;
 	GameSokoban* game = new GameSokoban();
-	setbkcolor(BLACK);
 	cleardevice();
 	game->load();
 	game->initGame();
@@ -292,7 +289,6 @@ void Engine::runGameTetris()
 {
 	bool fuck = true;
 	GameTetris* game = new GameTetris();
-	setbkcolor(WHITE);
 	cleardevice();
 	game->load();
 	game->initGame();
@@ -365,7 +361,6 @@ void Engine::runGamePacman()
 {
 	bool fuck = true;
 	GamePacman* game = new GamePacman();
-	setbkcolor(BLACK);
 	cleardevice();
 	game->load();
 	game->initGame();

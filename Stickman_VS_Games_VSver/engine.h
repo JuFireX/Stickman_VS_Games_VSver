@@ -4,8 +4,8 @@
 
 #include <graphics.h>
 #include <map>
-#include <vector>
 #include <string>
+#include <vector>
 using namespace std;
 
 enum Level
@@ -73,14 +73,13 @@ public:
 	Engine();
 	// 游戏引擎核心功能接口
 	vector<vector<position>> GameMap;
+	void initGame();
 	void runGame2048();
 	void runGameSnake();
 	void runGameSokoban();
 	void runGameTetris();
 	void runGamePacman();
-	void initGame();
 	void fadeout_clear_screen(int wide, int height, int step, int delay);
-	//void _streamOutPut(const string str, int speed, COLORREF color);
 };
 #endif
 // ENGINE_H
