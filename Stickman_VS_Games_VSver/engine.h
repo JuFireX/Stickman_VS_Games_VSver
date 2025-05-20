@@ -71,7 +71,7 @@ private:
 
 public:
 	Engine();
-	// ÓÎÏ·ÒýÇæºËÐÄ¹¦ÄÜ½Ó¿Ú
+	// ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ä¹ï¿½ï¿½Ü½Ó¿ï¿½
 	vector<vector<position>> GameMap;
 	void initGame();
 	void runGame2048();
@@ -80,6 +80,9 @@ public:
 	void runGameTetris();
 	void runGamePacman();
 	void fadeout_clear_screen(int wide, int height, int step, int delay);
+	void FadeInWHITE(int wide, int height, int step, int delay);
+	void FadeInBLACK(int wide, int height, int step, int delay);
+	//void _streamOutPut(const string str, int speed, COLORREF color);
 };
 #endif
 // ENGINE_H

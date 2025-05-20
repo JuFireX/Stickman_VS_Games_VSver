@@ -4,34 +4,34 @@
 
 GamePacman::GamePacman() : rng((int)time(nullptr)) {}
 
-int GamePacman::ghostDirection(int ghostX, int ghostY, int playerX, int playerY, int* track_x, int* track_y)
+int GamePacman::ghostDirection(int ghostX, int ghostY, int playerX, int playerY, int *track_x, int *track_y)
 {
-	int map1[20][20] = { {0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0},
-					{0,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,1,0},
-					{0,1,0,0,1,0,0,0,1,0,0,1,0,0,0,1,0,0,1,0},
-					{0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0},
-					{0,1,0,0,1,0,1,0,0,0,0,0,0,1,0,1,0,0,1,0},
-					{0,1,1,0,1,0,1,1,1,0,0,1,1,1,0,1,0,1,1,0},
-					{0,0,0,0,1,0,0,0,1,0,0,1,0,0,0,1,0,0,0,0},
-					{0,0,0,0,1,0,1,1,1,1,1,1,1,1,0,1,0,0,0,0},
-					{1,1,1,1,1,1,1,0,0,0,0,0,0,1,1,1,1,1,1,1},
-					{1,1,1,1,1,1,1,0,0,0,0,0,0,1,1,1,1,1,1,1},
-					{0,0,0,0,1,0,1,1,1,1,1,1,1,1,0,1,0,0,0,0},
-					{0,0,0,0,1,0,1,0,0,0,0,0,0,1,0,1,0,0,0,0},
-					{0,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1,1,1,0},
-					{0,1,0,0,1,0,0,0,1,0,0,1,0,0,0,1,0,0,1,0},
-					{0,1,1,0,1,1,1,1,1,1,1,1,1,1,1,1,0,1,1,0},
-					{0,0,1,0,1,0,1,0,0,0,0,0,0,1,0,1,0,1,0,0},
-					{0,1,1,1,1,0,1,1,1,0,0,1,1,1,0,1,1,1,1,0},
-					{0,1,0,0,0,0,0,0,1,0,0,1,0,0,0,0,0,0,1,0},
-					{0,1,1,1,1,1,1,0,1,1,1,1,0,1,1,1,1,1,1,0},
-					{0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0} };
+	int map1[20][20] = {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+						{0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0},
+						{0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0},
+						{0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
+						{0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0},
+						{0, 1, 1, 0, 1, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 1, 0, 1, 1, 0},
+						{0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0},
+						{0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0},
+						{1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1},
+						{1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1},
+						{0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0},
+						{0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0},
+						{0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0},
+						{0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0},
+						{0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0},
+						{0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0},
+						{0, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0},
+						{0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0},
+						{0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0},
+						{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
 	int trace[400][3];
 	int k = 0, l = 0, direction = 2;
 	trace[k][0] = ghostX;
 	trace[k][1] = ghostY;
 	trace[k][2] = 0;
-	int dx[4] = { 1, -1, 0, 0 }, dy[4] = { 0, 0, 1, -1 };
+	int dx[4] = {1, -1, 0, 0}, dy[4] = {0, 0, 1, -1};
 	int pc = 0, pre = -1;
 	map1[ghostY][ghostX] = 2;
 	while (trace[k][0] != playerX || trace[k][1] != playerY)
@@ -47,7 +47,6 @@ int GamePacman::ghostDirection(int ghostX, int ghostY, int playerX, int playerY,
 			map1[trace[pre][1] + dy[pc]][trace[pre][0] + dx[pc]] = 2;
 		}
 		pc = (pc + 1) % 4;
-
 	}
 	*track_x = trace[pre][0];
 	*track_y = trace[pre][1];
@@ -68,26 +67,26 @@ int GamePacman::ghostDirection(int ghostX, int ghostY, int playerX, int playerY,
 
 void GamePacman::initGrid()
 {
-	int map[GRID_SIZE][GRID_SIZE] = { {WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL},
-					{WALL,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,WALL,WALL,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,WALL},
-					{WALL,FOOD,WALL,WALL,FOOD,WALL,WALL,WALL,FOOD,WALL,WALL,FOOD,WALL,WALL,WALL,FOOD,WALL,WALL,FOOD,WALL},
-					{WALL,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,WALL},
-					{WALL,FOOD,WALL,WALL,FOOD,WALL,FOOD,WALL,WALL,WALL,WALL,WALL,WALL,FOOD,WALL,FOOD,WALL,WALL,FOOD,WALL},
-					{WALL,FOOD,FOOD,WALL,FOOD,WALL,FOOD,FOOD,FOOD,WALL,WALL,FOOD,FOOD,FOOD,WALL,FOOD,WALL,FOOD,FOOD,WALL},
-					{WALL,WALL,WALL,WALL,FOOD,WALL,WALL,WALL,FOOD,WALL,WALL,FOOD,WALL,WALL,WALL,FOOD,WALL,WALL,WALL,WALL},
-					{WALL,WALL,WALL,WALL,FOOD,WALL,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,WALL,FOOD,WALL,WALL,WALL,WALL},
-					{FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,WALL,WALL,WALL,WALL,WALL,WALL,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD},
-					{FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,WALL,WALL,WALL,WALL,WALL,WALL,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD},
-					{WALL,WALL,WALL,WALL,FOOD,WALL,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,WALL,FOOD,WALL,WALL,WALL,WALL},
-					{WALL,WALL,WALL,WALL,FOOD,WALL,FOOD,WALL,WALL,WALL,WALL,WALL,WALL,FOOD,WALL,FOOD,WALL,WALL,WALL,WALL},
-					{WALL,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,WALL,WALL,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,WALL},
-					{WALL,FOOD,WALL,WALL,FOOD,WALL,WALL,WALL,FOOD,WALL,WALL,FOOD,WALL,WALL,WALL,FOOD,WALL,WALL,FOOD,WALL},
-					{WALL,FOOD,FOOD,WALL,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,WALL,FOOD,FOOD,WALL},
-					{WALL,WALL,FOOD,WALL,FOOD,WALL,FOOD,WALL,WALL,WALL,WALL,WALL,WALL,FOOD,WALL,FOOD,WALL,FOOD,WALL,WALL},
-					{WALL,FOOD,FOOD,FOOD,FOOD,WALL,FOOD,FOOD,FOOD,WALL,WALL,FOOD,FOOD,FOOD,WALL,FOOD,FOOD,FOOD,FOOD,WALL},
-					{WALL,FOOD,WALL,WALL,WALL,WALL,WALL,WALL,FOOD,WALL,WALL,FOOD,WALL,WALL,WALL,WALL,WALL,WALL,FOOD,WALL},
-					{WALL,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,WALL,FOOD,FOOD,FOOD,FOOD,WALL,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,WALL},
-					{WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL} };
+	int map[GRID_SIZE][GRID_SIZE] = {{WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL},
+									 {WALL, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, WALL, WALL, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, WALL},
+									 {WALL, FOOD, WALL, WALL, FOOD, WALL, WALL, WALL, FOOD, WALL, WALL, FOOD, WALL, WALL, WALL, FOOD, WALL, WALL, FOOD, WALL},
+									 {WALL, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, WALL},
+									 {WALL, FOOD, WALL, WALL, FOOD, WALL, FOOD, WALL, WALL, WALL, WALL, WALL, WALL, FOOD, WALL, FOOD, WALL, WALL, FOOD, WALL},
+									 {WALL, FOOD, FOOD, WALL, FOOD, WALL, FOOD, FOOD, FOOD, WALL, WALL, FOOD, FOOD, FOOD, WALL, FOOD, WALL, FOOD, FOOD, WALL},
+									 {WALL, WALL, WALL, WALL, FOOD, WALL, WALL, WALL, FOOD, WALL, WALL, FOOD, WALL, WALL, WALL, FOOD, WALL, WALL, WALL, WALL},
+									 {WALL, WALL, WALL, WALL, FOOD, WALL, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, WALL, FOOD, WALL, WALL, WALL, WALL},
+									 {FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, WALL, WALL, WALL, WALL, WALL, WALL, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD},
+									 {FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, WALL, WALL, WALL, WALL, WALL, WALL, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD},
+									 {WALL, WALL, WALL, WALL, FOOD, WALL, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, WALL, FOOD, WALL, WALL, WALL, WALL},
+									 {WALL, WALL, WALL, WALL, FOOD, WALL, FOOD, WALL, WALL, WALL, WALL, WALL, WALL, FOOD, WALL, FOOD, WALL, WALL, WALL, WALL},
+									 {WALL, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, WALL, WALL, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, WALL},
+									 {WALL, FOOD, WALL, WALL, FOOD, WALL, WALL, WALL, FOOD, WALL, WALL, FOOD, WALL, WALL, WALL, FOOD, WALL, WALL, FOOD, WALL},
+									 {WALL, FOOD, FOOD, WALL, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, WALL, FOOD, FOOD, WALL},
+									 {WALL, WALL, FOOD, WALL, FOOD, WALL, FOOD, WALL, WALL, WALL, WALL, WALL, WALL, FOOD, WALL, FOOD, WALL, FOOD, WALL, WALL},
+									 {WALL, FOOD, FOOD, FOOD, FOOD, WALL, FOOD, FOOD, FOOD, WALL, WALL, FOOD, FOOD, FOOD, WALL, FOOD, FOOD, FOOD, FOOD, WALL},
+									 {WALL, FOOD, WALL, WALL, WALL, WALL, WALL, WALL, FOOD, WALL, WALL, FOOD, WALL, WALL, WALL, WALL, WALL, WALL, FOOD, WALL},
+									 {WALL, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, WALL, FOOD, FOOD, FOOD, FOOD, WALL, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, WALL},
+									 {WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL}};
 	for (int i = 0; i < GRID_SIZE; ++i)
 	{
 		for (int j = 0; j < GRID_SIZE; ++j)
@@ -151,13 +150,13 @@ void GamePacman::updateGrid()
 		score += 1;
 	}
 
-	// 
+	//
 	run_grid[player.old_y][player.old_x] = EMPTY;
 	run_grid[ghost[0].old_y][ghost[0].old_x] = EMPTY;
 	run_grid[ghost[1].old_y][ghost[1].old_x] = EMPTY;
 	run_grid[ghost[2].old_y][ghost[2].old_x] = EMPTY;
 
-	// 
+	//
 	run_grid[player.y][player.x] = PLAYER;
 	run_grid[ghost[0].y][ghost[0].x] = GHOST1;
 	run_grid[ghost[1].y][ghost[1].x] = GHOST2;
@@ -280,9 +279,7 @@ void GamePacman::moveGhosts()
 			break;
 		}
 
-
 		int dir2 = ghostDirection(ghost[1].x, ghost[1].y, player.old_x, player.old_y, &track_x, &track_y);
-
 
 		switch (dir2)
 		{
@@ -395,9 +392,8 @@ GameState GamePacman::state() const
 	return GameState::Running;
 }
 
-
 // Test methods
-void GamePacman::display(const vector<vector<int>>& grid, int size) const
+void GamePacman::display(const vector<vector<int>> &grid, int size) const
 {
 	system("cls");
 	for (int i = 0; i < size; ++i)
@@ -480,7 +476,7 @@ vector<vector<position>> GamePacman::getMap() const
 		vector<position> row;
 		for (int j = 0; j < 36; j++)
 		{
-			row.push_back({ 0, j * sizeX, i * sizeY });
+			row.push_back({0, j * sizeX, i * sizeY});
 		}
 		GameMap.push_back(row);
 	}

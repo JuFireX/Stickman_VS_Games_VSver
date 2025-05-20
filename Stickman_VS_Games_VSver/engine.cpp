@@ -24,14 +24,14 @@ inline void Engine::putimage_alpha(int x, int y, IMAGE* img, int alpha)
 	int w = img->getwidth();
 	int h = img->getheight();
 
-	// ¶¨Òå BLENDFUNCTION ½á¹¹
+	// ï¿½ï¿½ï¿½ï¿½ BLENDFUNCTION ï¿½á¹¹
 	BLENDFUNCTION blendFunction;
-	blendFunction.BlendOp = AC_SRC_OVER;      // Ö¸¶¨Ô´Í¼Ïñ¸²¸ÇÄ¿±êÍ¼Ïñ
-	blendFunction.BlendFlags = 0;             // ±ØÐëÎª 0
-	blendFunction.SourceConstantAlpha = alpha;// È«²»Í¸Ã÷ (0-255)
-	blendFunction.AlphaFormat = AC_SRC_ALPHA; // Ê¹ÓÃÔ´Í¼ÏñµÄ alpha Í¨µÀ
+	blendFunction.BlendOp = AC_SRC_OVER;      // Ö¸ï¿½ï¿½Ô´Í¼ï¿½ñ¸²¸ï¿½Ä¿ï¿½ï¿½Í¼ï¿½ï¿½
+	blendFunction.BlendFlags = 0;             // ï¿½ï¿½ï¿½ï¿½Îª 0
+	blendFunction.SourceConstantAlpha = alpha;// È«ï¿½ï¿½Í¸ï¿½ï¿½ (0-255)
+	blendFunction.AlphaFormat = AC_SRC_ALPHA; // Ê¹ï¿½ï¿½Ô´Í¼ï¿½ï¿½ï¿½ alpha Í¨ï¿½ï¿½
 
-	// µ÷ÓÃ AlphaBlend º¯Êý
+	// ï¿½ï¿½ï¿½ï¿½ AlphaBlend ï¿½ï¿½ï¿½ï¿½
 	AlphaBlend(GetImageHDC(NULL), x, y, w, h,
 		GetImageHDC(img), 0, 0, w, h, blendFunction);
 }
@@ -56,8 +56,54 @@ void Engine::fadeout_clear_screen(int width, int height, int steps, int delay)
 	Sleep(2000);
 }
 
+void Engine::FadeInWHITE(int width, int height, int steps, int delay)
+{
+	// ï¿½È½ï¿½È¡ï¿½ï¿½Ç°ï¿½ï¿½Ä»ï¿½ï¿½ï¿½ï¿½
+	IMAGE screen;
+	getimage(&screen, 0, 0, width, height);
 
-// ¼ÓÔØÓÎÏ·
+	// ï¿½ï¿½ï¿½ï¿½Ò»ï¿½Å°ï¿½É«ï¿½ï¿½ï¿½ï¿½
+	IMAGE mask;
+	loadimage(&mask, _T("./PictureResource/white.png"), width, height, true);
+
+	for (int i = steps; i >= 0; --i)
+	{
+		// ï¿½È»ï¿½ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½
+		putimage(0, 0, &screen);
+
+		// ï¿½ï¿½ï¿½Ó°ï¿½É«ï¿½ï¿½ï¿½Ö£ï¿½alphaï¿½ï¿½255->0
+		int alpha = i * 255 / steps;
+		putimage_alpha(0, 0, &mask, alpha);
+
+		FlushBatchDraw();
+		Sleep(delay);
+	}
+}
+
+void Engine::FadeInBLACK(int width, int height, int steps, int delay)
+{
+	// ï¿½È½ï¿½È¡ï¿½ï¿½Ç°ï¿½ï¿½Ä»ï¿½ï¿½ï¿½ï¿½
+	IMAGE screen;
+	getimage(&screen, 0, 0, width, height);
+
+	// ï¿½ï¿½ï¿½ï¿½Ò»ï¿½Å°ï¿½É«ï¿½ï¿½ï¿½ï¿½
+	IMAGE mask;
+	loadimage(&mask, _T("./PictureResource/white.png"), width, height, true);
+
+	for (int i = steps; i >= 0; --i)
+	{
+		// ï¿½È»ï¿½ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½
+		putimage(0, 0, &screen);
+
+		// ï¿½ï¿½ï¿½Ó°ï¿½É«ï¿½ï¿½ï¿½Ö£ï¿½alphaï¿½ï¿½255->0
+		int alpha = i * 255 / steps;
+		putimage_alpha(0, 0, &mask, alpha);
+
+		FlushBatchDraw();
+		Sleep(delay);
+	}
+}
+
 void Engine::initGame()
 {
 	initgraph(width, height);
@@ -66,7 +112,7 @@ void Engine::initGame()
 	SetActiveWindow(hwnd);
 	SetFocus(hwnd);
 
-	// ÇÐ»»µ½ÃÀÊ½Ó¢ÎÄÊäÈë·¨
+	// ï¿½Ð»ï¿½ï¿½ï¿½ï¿½ï¿½Ê½Ó¢ï¿½ï¿½ï¿½ï¿½ï¿½ë·¨
 	//HKL hkl = LoadKeyboardLayout(L"00000409", KLF_ACTIVATE);
 	//ActivateKeyboardLayout(hkl, KLF_SETFORPROCESS);
 }
@@ -75,11 +121,22 @@ void Engine::runGame2048()
 {
 	bool fuck = true;
 	Game2048* game = new Game2048();
+
+	setbkcolor(WHITE);   // ï¿½ï¿½ï¿½Ã±ï¿½ï¿½ï¿½É«
 	cleardevice();
 	game->load();
 	game->initGame();
 	BeginBatchDraw();
-
+	GameMap = game->getMap();
+	for (int i = 0; i < game->GameHigh; i++)
+	{
+		for (position u : GameMap[i])
+		{
+			putimage(u.x, u.y, &game->MapImg[u.val]);
+		}
+	}
+	FadeInWHITE(720, 480, 255, 10);
+	FlushBatchDraw();
 	while (!game->gameOver)
 	{
 		bool moveRight = false;
@@ -160,16 +217,28 @@ void Engine::runGameSnake()
 {
 	bool fuck = true;
 	GameSnake* game = new GameSnake();
+	setbkcolor(BLACK);
 	cleardevice();
 	game->load();
 	game->initGame();
 	BeginBatchDraw();
 
+	GameMap = game->getMap();
+	for (int i = 0; i < game->GameHigh; i++)
+	{
+		for (position u : GameMap[i])
+		{
+			putimage_alpha(u.x, u.y, &game->MapImg[u.val], 255);
+		}
+	}
+	FadeInWHITE(720, 480, 255, 10);
+	FlushBatchDraw();
+
 	while (!game->gameOver)
 	{
 		char inputKey = ' ';
 
-		// Ö»±£Áô×îºóÒ»¸ö·½Ïò¼üÏûÏ¢
+		// Ö»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
 		while (peekmessage(&msg))
 		{
 			if (msg.message == WM_KEYDOWN)
@@ -215,6 +284,9 @@ void Engine::runGameSnake()
 
 	fadeout_clear_screen(width, height, 255, 10);
 	EndBatchDraw();
+	//closegraph();
+	setbkcolor(WHITE);
+	cleardevice();
 	delete game;
 }
 
@@ -222,16 +294,29 @@ void Engine::runGameSokoban()
 {
 	bool fuck = true;
 	GameSokoban* game = new GameSokoban();
+
+	setbkcolor(BLACK);
 	cleardevice();
 	game->load();
 	game->initGame();
 	BeginBatchDraw();
 
+	GameMap = game->getMap();
+	for (int i = 0; i < game->GameHigh; i++)
+	{
+		for (position u : GameMap[i])
+		{
+			putimage_alpha(u.x, u.y, &game->MapImg[u.val], 255);
+		}
+	}
+	FadeInWHITE(720, 480, 255, 10);
+	FlushBatchDraw();
+
 	while (!game->gameOver)
 	{
 		char inputKey = ' ';
 
-		// Ö»±£Áô×îºóÒ»¸ö·½Ïò¼üÏûÏ¢
+		// Ö»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
 		while (peekmessage(&msg))
 		{
 			if (msg.message == WM_KEYDOWN)
@@ -264,7 +349,7 @@ void Engine::runGameSokoban()
 			}
 		}
 
-		// Ã¿Ö¡Ö»´¦Àí×îºóÒ»¸ö·½ÏòÊäÈë
+		// Ã¿Ö¡Ö»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		game->update(inputKey);
 		cleardevice();
 
@@ -282,6 +367,9 @@ void Engine::runGameSokoban()
 
 	fadeout_clear_screen(width, height, 255, 10);
 	EndBatchDraw();
+	//closegraph();
+	setbkcolor(WHITE);
+	cleardevice();
 	delete game;
 }
 
@@ -289,17 +377,35 @@ void Engine::runGameTetris()
 {
 	bool fuck = true;
 	GameTetris* game = new GameTetris();
+
 	cleardevice();
 	game->load();
 	game->initGame();
 	BeginBatchDraw();
-
+	putimage_alpha(0, 0, &game->img_Tetris[6], 255);
+	putimage_alpha(560, 160, &game->img_Tetris[3], 255);
+	putimage_alpha(42, 42, &game->img_Tetris[4], 255);
+	putimage_alpha(370, 60, &game->img_Tetris[5], 255);
+	putimage_alpha(80, 200, &game->img_Tetris[8], 255);
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï·ï¿½ï¿½Í¼
+	GameMap = game->getMap();
+	for (int i = 0; i < game->GameHigh; i++)
+	{
+		for (position u : GameMap[i])
+		{
+			if(u.val!=2)
+				putimage_alpha(u.x, u.y, &game->MapImg[u.val], 255);
+		}
+	}
+	putimage_alpha(0, 400, &game->img_Tetris[7], 255);
+	FadeInWHITE(720, 480, 255, 10);
+	FlushBatchDraw();
 	while (!game->gameOver)
 	{
 
 		char inputKey = ' ';
 
-		// Ö»±£Áô×îºóÒ»¸ö·½Ïò¼üÏûÏ¢
+		// Ö»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
 		while (peekmessage(&msg))
 		{
 			if (msg.message == WM_KEYDOWN)
@@ -328,7 +434,7 @@ void Engine::runGameTetris()
 			}
 		}
 
-		// Ã¿Ö¡Ö»´¦Àí×îºóÒ»¸ö·½ÏòÊäÈë
+		// Ã¿Ö¡Ö»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		game->update(inputKey);
 		cleardevice();
 
@@ -338,7 +444,7 @@ void Engine::runGameTetris()
 		putimage_alpha(370, 60, &game->img_Tetris[5], 255);
 		putimage_alpha(80, 200, &game->img_Tetris[8], 255);
 
-		// »æÖÆÓÎÏ·µØÍ¼
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï·ï¿½ï¿½Í¼
 		GameMap = game->getMap();
 		for (int i = 0; i < game->GameHigh; i++)
 		{
@@ -354,6 +460,9 @@ void Engine::runGameTetris()
 
 	fadeout_clear_screen(width, height, 255, 10);
 	EndBatchDraw();
+	setbkcolor(WHITE);
+	cleardevice();
+	//closegraph();
 	delete game;
 }
 
@@ -361,6 +470,8 @@ void Engine::runGamePacman()
 {
 	bool fuck = true;
 	GamePacman* game = new GamePacman();
+
+	setbkcolor(BLACK);        // ï¿½ï¿½ï¿½Ã±ï¿½ï¿½ï¿½É«
 	cleardevice();
 	game->load();
 	game->initGame();
@@ -369,12 +480,39 @@ void Engine::runGamePacman()
 	int cntframe = 0;
 	int cnt_ad = 0;
 	IMAGE* img = &game->player_img[0];
+	game->update(' ');
+	GameMap = game->getMap();
+	for (int i = 0; i < game->GameHigh; i++)
+	{
+		for (position u : GameMap[i])
+		{
+			if (u.val == 2)
+			{
+				if (cntframe % 2 == 0)
+					cnt_ad++;
+				if (cnt_ad % 2 == 0)
+				{
+					putimage_alpha(u.x, u.y, &game->player_img[4], 255);
+				}
+				else
+				{
+					putimage_alpha(u.x, u.y, img, 255);
+				}
+			}
+			else
+			{
+				putimage_alpha(u.x, u.y, &game->MapImg[u.val], 255);
+			}
+		}
+	}
 
+	FadeInWHITE(720, 480, 255, 10);
+	FlushBatchDraw();
 	while (!game->gameOver)
 	{
 		char inputKey = ' ';
 
-		// Ö»±£Áô×îºóÒ»¸ö·½Ïò¼üÏûÏ¢
+		// Ö»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
 		while (peekmessage(&msg))
 		{
 			if (msg.message == WM_KEYDOWN)
@@ -407,29 +545,29 @@ void Engine::runGamePacman()
 			}
 		}
 
-		// Ã¿Ö¡Ö»´¦Àí×îºóÒ»¸ö·½ÏòÊäÈë
+		// Ã¿Ö¡Ö»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		game->update(inputKey);
 
 		cleardevice();
 		GameMap = game->getMap();
-
-		switch (inputKey)
-		{
-		case 'w':
-			img = &game->player_img[2];
-			break; // ÉÏ
-		case 's':
-			img = &game->player_img[3];
-			break; // ÏÂ
-		case 'a':
-			img = &game->player_img[1];
-			break; // ×ó
-		case 'd':
-			img = &game->player_img[0];
-			break; // ÓÒ
-		default:
-			break;
-		}
+		if(game->canChangeDirection)
+			switch (inputKey)
+			{
+			case 'w':
+				img = &game->player_img[2];
+				break; // ï¿½ï¿½
+			case 's':
+				img = &game->player_img[3];
+				break; // ï¿½ï¿½
+			case 'a':
+				img = &game->player_img[1];
+				break; // ï¿½ï¿½
+			case 'd':
+				img = &game->player_img[0];
+				break; // ï¿½ï¿½
+			default:
+				break;
+			}
 
 		for (int i = 0; i < game->GameHigh; i++)
 		{

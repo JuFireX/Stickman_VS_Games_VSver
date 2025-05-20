@@ -320,8 +320,8 @@ int GameTetris::getScore() const
 // 以下为渲染部分
 void GameTetris::load()
 {
-	loadimage(&img_Tetris[0], _T("./PictureResource/GameTetris/wall.png"), 40, 40, true);
-	loadimage(&img_Tetris[1], _T("./PictureResource/GameTetris/brick.png"), img_size, img_size, true);
+	loadimage(&img_Tetris[0], _T("./PictureResource/GameTetris/wall.png"), 20, 20, true);
+	loadimage(&img_Tetris[1], _T("./PictureResource/GameTetris/brick2.png"), img_size, img_size, true);
 	loadimage(&img_Tetris[2], _T("./PictureResource/GameTetris/brick2.png"), 40, 40, true);
 	loadimage(&img_Tetris[3], _T("./PictureResource/GameTetris/castle.png"), 160, 160, true);
 	loadimage(&img_Tetris[4], _T("./PictureResource/GameTetris/cloud1.png"), 108, 84, true);
@@ -361,7 +361,6 @@ vector<vector<position>> GameTetris::getMap() const // 重绘地图
 	{
 		for (int j = 16; j < 24; j++)
 		{
-			if (j % 2 == 0 && i % 2 == 0)
 				GameMap[j][i].val = WALL;
 		}
 	}
@@ -370,7 +369,6 @@ vector<vector<position>> GameTetris::getMap() const // 重绘地图
 	{
 		for (int j = 16; j < 24; j++)
 		{
-			if (j % 2 == 0 && i % 2 == 0)
 				GameMap[j][i].val = WALL;
 		}
 	}

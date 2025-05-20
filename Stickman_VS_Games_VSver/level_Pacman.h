@@ -96,6 +96,7 @@ public:
 	int img_size = 20;
 	IMAGE player_img[5];
 	int phase = 0;
+	bool canChangeDirection = true;
 };
 
 #endif
