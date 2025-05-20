@@ -24,14 +24,14 @@ inline void Engine::putimage_alpha(int x, int y, IMAGE* img, int alpha)
 	int w = img->getwidth();
 	int h = img->getheight();
 
-	// ¶¨Òå BLENDFUNCTION ½á¹¹
+	// ï¿½ï¿½ï¿½ï¿½ BLENDFUNCTION ï¿½á¹¹
 	BLENDFUNCTION blendFunction;
-	blendFunction.BlendOp = AC_SRC_OVER;      // Ö¸¶¨Ô´Í¼Ïñ¸²¸ÇÄ¿±êÍ¼Ïñ
-	blendFunction.BlendFlags = 0;             // ±ØÐëÎª 0
-	blendFunction.SourceConstantAlpha = alpha;  // È«²»Í¸Ã÷ (0-255)
-	blendFunction.AlphaFormat = AC_SRC_ALPHA; // Ê¹ÓÃÔ´Í¼ÏñµÄ alpha Í¨µÀ
+	blendFunction.BlendOp = AC_SRC_OVER;      // Ö¸ï¿½ï¿½Ô´Í¼ï¿½ñ¸²¸ï¿½Ä¿ï¿½ï¿½Í¼ï¿½ï¿½
+	blendFunction.BlendFlags = 0;             // ï¿½ï¿½ï¿½ï¿½Îª 0
+	blendFunction.SourceConstantAlpha = alpha;// È«ï¿½ï¿½Í¸ï¿½ï¿½ (0-255)
+	blendFunction.AlphaFormat = AC_SRC_ALPHA; // Ê¹ï¿½ï¿½Ô´Í¼ï¿½ï¿½ï¿½ alpha Í¨ï¿½ï¿½
 
-	// µ÷ÓÃ AlphaBlend º¯Êý
+	// ï¿½ï¿½ï¿½ï¿½ AlphaBlend ï¿½ï¿½ï¿½ï¿½
 	AlphaBlend(GetImageHDC(NULL), x, y, w, h,
 		GetImageHDC(img), 0, 0, w, h, blendFunction);
 }
@@ -58,20 +58,20 @@ void Engine::fadeout_clear_screen(int width, int height, int steps, int delay)
 
 void Engine::FadeInWHITE(int width, int height, int steps, int delay)
 {
-	// ÏÈ½ØÈ¡µ±Ç°ÆÁÄ»ÄÚÈÝ
+	// ï¿½È½ï¿½È¡ï¿½ï¿½Ç°ï¿½ï¿½Ä»ï¿½ï¿½ï¿½ï¿½
 	IMAGE screen;
 	getimage(&screen, 0, 0, width, height);
 
-	// ´´½¨Ò»ÕÅ°×É«ÕÚÕÖ
+	// ï¿½ï¿½ï¿½ï¿½Ò»ï¿½Å°ï¿½É«ï¿½ï¿½ï¿½ï¿½
 	IMAGE mask;
 	loadimage(&mask, _T("./PictureResource/white.png"), width, height, true);
 
 	for (int i = steps; i >= 0; --i)
 	{
-		// ÏÈ»­ÓÎÏ·ÄÚÈÝ
+		// ï¿½È»ï¿½ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½
 		putimage(0, 0, &screen);
 
-		// µþ¼Ó°×É«ÕÚÕÖ£¬alpha´Ó255->0
+		// ï¿½ï¿½ï¿½Ó°ï¿½É«ï¿½ï¿½ï¿½Ö£ï¿½alphaï¿½ï¿½255->0
 		int alpha = i * 255 / steps;
 		putimage_alpha(0, 0, &mask, alpha);
 
@@ -82,20 +82,20 @@ void Engine::FadeInWHITE(int width, int height, int steps, int delay)
 
 void Engine::FadeInBLACK(int width, int height, int steps, int delay)
 {
-	// ÏÈ½ØÈ¡µ±Ç°ÆÁÄ»ÄÚÈÝ
+	// ï¿½È½ï¿½È¡ï¿½ï¿½Ç°ï¿½ï¿½Ä»ï¿½ï¿½ï¿½ï¿½
 	IMAGE screen;
 	getimage(&screen, 0, 0, width, height);
 
-	// ´´½¨Ò»ÕÅ°×É«ÕÚÕÖ
+	// ï¿½ï¿½ï¿½ï¿½Ò»ï¿½Å°ï¿½É«ï¿½ï¿½ï¿½ï¿½
 	IMAGE mask;
 	loadimage(&mask, _T("./PictureResource/white.png"), width, height, true);
 
 	for (int i = steps; i >= 0; --i)
 	{
-		// ÏÈ»­ÓÎÏ·ÄÚÈÝ
+		// ï¿½È»ï¿½ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½
 		putimage(0, 0, &screen);
 
-		// µþ¼Ó°×É«ÕÚÕÖ£¬alpha´Ó255->0
+		// ï¿½ï¿½ï¿½Ó°ï¿½É«ï¿½ï¿½ï¿½Ö£ï¿½alphaï¿½ï¿½255->0
 		int alpha = i * 255 / steps;
 		putimage_alpha(0, 0, &mask, alpha);
 
@@ -112,19 +112,17 @@ void Engine::initGame()
 	SetActiveWindow(hwnd);
 	SetFocus(hwnd);
 
-	// ÇÐ»»µ½ÃÀÊ½Ó¢ÎÄÊäÈë·¨
-	HKL hkl = LoadKeyboardLayout(L"00000409", KLF_ACTIVATE);
-	ActivateKeyboardLayout(hkl, KLF_SETFORPROCESS);
+	// ï¿½Ð»ï¿½ï¿½ï¿½ï¿½ï¿½Ê½Ó¢ï¿½ï¿½ï¿½ï¿½ï¿½ë·¨
+	//HKL hkl = LoadKeyboardLayout(L"00000409", KLF_ACTIVATE);
+	//ActivateKeyboardLayout(hkl, KLF_SETFORPROCESS);
 }
 
 void Engine::runGame2048()
 {
-
 	bool fuck = true;
-
 	Game2048* game = new Game2048();
 
-	setbkcolor(WHITE);   // ÉèÖÃ±³¾°É«
+	setbkcolor(WHITE);   // ï¿½ï¿½ï¿½Ã±ï¿½ï¿½ï¿½É«
 	cleardevice();
 	game->load();
 	game->initGame();
@@ -151,7 +149,7 @@ void Engine::runGame2048()
 		{
 			if (msg.message == WM_KEYDOWN)
 			{
-				if (msg.vkcode == VK_ESCAPE)
+				if (msg.vkcode == VK_ESCAPE || msg.vkcode == 'Q')
 				{
 					running = false;
 					break;
@@ -172,13 +170,9 @@ void Engine::runGame2048()
 				{
 					moveRight = true;
 				}
-				else if (msg.vkcode == VK_ESCAPE || msg.vkcode == 'Q')
-				{
-					if_quit = true;
-					break;
-				}
 			}
 		}
+
 		if (moveUp)
 		{
 			game->update('w');
@@ -199,11 +193,6 @@ void Engine::runGame2048()
 		{
 			game->update(' ');
 		}
-		if (if_quit)
-		{
-			running = false;
-			break;
-		}
 
 		cleardevice();
 
@@ -216,24 +205,21 @@ void Engine::runGame2048()
 			}
 		}
 		FlushBatchDraw();
-
 		Sleep(1000 / game->GameFrame);
 	}
+
 	fadeout_clear_screen(width, height, 255, 10);
 	EndBatchDraw();
-	//closegraph();
 	delete game;
 }
 
 void Engine::runGameSnake()
 {
 	bool fuck = true;
-
 	GameSnake* game = new GameSnake();
 	setbkcolor(BLACK);
 	cleardevice();
 	game->load();
-
 	game->initGame();
 	BeginBatchDraw();
 
@@ -252,12 +238,12 @@ void Engine::runGameSnake()
 	{
 		char inputKey = ' ';
 
-		// Ö»±£Áô×îºóÒ»¸ö·½Ïò¼üÏûÏ¢
+		// Ö»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
 		while (peekmessage(&msg))
 		{
 			if (msg.message == WM_KEYDOWN)
 			{
-				if (msg.vkcode == VK_ESCAPE)
+				if (msg.vkcode == VK_ESCAPE || msg.vkcode == 'Q')
 				{
 					running = false;
 					break;
@@ -293,9 +279,9 @@ void Engine::runGameSnake()
 			}
 		}
 		FlushBatchDraw();
-
 		Sleep(1000 / game->GameFrame);
 	}
+
 	fadeout_clear_screen(width, height, 255, 10);
 	EndBatchDraw();
 	//closegraph();
@@ -307,13 +293,11 @@ void Engine::runGameSnake()
 void Engine::runGameSokoban()
 {
 	bool fuck = true;
-
 	GameSokoban* game = new GameSokoban();
 
 	setbkcolor(BLACK);
 	cleardevice();
 	game->load();
-
 	game->initGame();
 	BeginBatchDraw();
 
@@ -332,7 +316,7 @@ void Engine::runGameSokoban()
 	{
 		char inputKey = ' ';
 
-		// Ö»±£Áô×îºóÒ»¸ö·½Ïò¼üÏûÏ¢
+		// Ö»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
 		while (peekmessage(&msg))
 		{
 			if (msg.message == WM_KEYDOWN)
@@ -365,9 +349,10 @@ void Engine::runGameSokoban()
 			}
 		}
 
-		// Ã¿Ö¡Ö»´¦Àí×îºóÒ»¸ö·½ÏòÊäÈë
+		// Ã¿Ö¡Ö»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		game->update(inputKey);
 		cleardevice();
+
 		GameMap = game->getMap();
 		for (int i = 0; i < game->GameHigh; i++)
 		{
@@ -377,9 +362,9 @@ void Engine::runGameSokoban()
 			}
 		}
 		FlushBatchDraw();
-
 		Sleep(1000 / game->GameFrame);
 	}
+
 	fadeout_clear_screen(width, height, 255, 10);
 	EndBatchDraw();
 	//closegraph();
@@ -391,7 +376,6 @@ void Engine::runGameSokoban()
 void Engine::runGameTetris()
 {
 	bool fuck = true;
-
 	GameTetris* game = new GameTetris();
 
 	cleardevice();
@@ -403,7 +387,7 @@ void Engine::runGameTetris()
 	putimage_alpha(42, 42, &game->img_Tetris[4], 255);
 	putimage_alpha(370, 60, &game->img_Tetris[5], 255);
 	putimage_alpha(80, 200, &game->img_Tetris[8], 255);
-	// »æÖÆÓÎÏ·µØÍ¼
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï·ï¿½ï¿½Í¼
 	GameMap = game->getMap();
 	for (int i = 0; i < game->GameHigh; i++)
 	{
@@ -421,7 +405,7 @@ void Engine::runGameTetris()
 
 		char inputKey = ' ';
 
-		// Ö»±£Áô×îºóÒ»¸ö·½Ïò¼üÏûÏ¢
+		// Ö»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
 		while (peekmessage(&msg))
 		{
 			if (msg.message == WM_KEYDOWN)
@@ -450,15 +434,17 @@ void Engine::runGameTetris()
 			}
 		}
 
-		// Ã¿Ö¡Ö»´¦Àí×îºóÒ»¸ö·½ÏòÊäÈë
+		// Ã¿Ö¡Ö»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		game->update(inputKey);
 		cleardevice();
+
 		putimage_alpha(0, 0, &game->img_Tetris[6], 255);
 		putimage_alpha(560, 160, &game->img_Tetris[3], 255);
 		putimage_alpha(42, 42, &game->img_Tetris[4], 255);
 		putimage_alpha(370, 60, &game->img_Tetris[5], 255);
 		putimage_alpha(80, 200, &game->img_Tetris[8], 255);
-		// »æÖÆÓÎÏ·µØÍ¼
+
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï·ï¿½ï¿½Í¼
 		GameMap = game->getMap();
 		for (int i = 0; i < game->GameHigh; i++)
 		{
@@ -469,9 +455,9 @@ void Engine::runGameTetris()
 		}
 		putimage_alpha(0, 400, &game->img_Tetris[7], 255);
 		FlushBatchDraw();
-
 		Sleep(1000 / game->GameFrame);
 	}
+
 	fadeout_clear_screen(width, height, 255, 10);
 	EndBatchDraw();
 	setbkcolor(WHITE);
@@ -483,14 +469,14 @@ void Engine::runGameTetris()
 void Engine::runGamePacman()
 {
 	bool fuck = true;
-
 	GamePacman* game = new GamePacman();
 
-	setbkcolor(BLACK);        // ÉèÖÃ±³¾°É«
+	setbkcolor(BLACK);        // ï¿½ï¿½ï¿½Ã±ï¿½ï¿½ï¿½É«
 	cleardevice();
 	game->load();
 	game->initGame();
 	BeginBatchDraw();
+
 	int cntframe = 0;
 	int cnt_ad = 0;
 	IMAGE* img = &game->player_img[0];
@@ -524,10 +510,9 @@ void Engine::runGamePacman()
 	FlushBatchDraw();
 	while (!game->gameOver)
 	{
-
 		char inputKey = ' ';
 
-		// Ö»±£Áô×îºóÒ»¸ö·½Ïò¼üÏûÏ¢
+		// Ö»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ï¢
 		while (peekmessage(&msg))
 		{
 			if (msg.message == WM_KEYDOWN)
@@ -560,7 +545,7 @@ void Engine::runGamePacman()
 			}
 		}
 
-		// Ã¿Ö¡Ö»´¦Àí×îºóÒ»¸ö·½ÏòÊäÈë
+		// Ã¿Ö¡Ö»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
 		game->update(inputKey);
 
 		cleardevice();
@@ -570,16 +555,16 @@ void Engine::runGamePacman()
 			{
 			case 'w':
 				img = &game->player_img[2];
-				break; // ÉÏ
+				break; // ï¿½ï¿½
 			case 's':
 				img = &game->player_img[3];
-				break; // ÏÂ
+				break; // ï¿½ï¿½
 			case 'a':
 				img = &game->player_img[1];
-				break; // ×ó
+				break; // ï¿½ï¿½
 			case 'd':
 				img = &game->player_img[0];
-				break; // ÓÒ
+				break; // ï¿½ï¿½
 			default:
 				break;
 			}
@@ -607,13 +592,12 @@ void Engine::runGamePacman()
 				}
 			}
 		}
-
 		FlushBatchDraw();
 		cntframe++;
 		Sleep(1000 / game->GameFrame);
 	}
+
 	fadeout_clear_screen(width, height, 255, 10);
 	EndBatchDraw();
-	//closegraph();
 	delete game;
 }

@@ -141,6 +141,16 @@ void Game2048::generateNewTile()
 
 bool Game2048::isGameOver() const
 {
+	for (int i = 0; i < GRID_SIZE; ++i)
+	{
+		for (int j = 0; j < GRID_SIZE; ++j)
+		{
+			if (grid[i][j] == 32)
+			{
+				return true;
+			}
+		}
+	}
 	return !canMove(Direction::LEFT) &&
 		!canMove(Direction::RIGHT) &&
 		!canMove(Direction::UP) &&

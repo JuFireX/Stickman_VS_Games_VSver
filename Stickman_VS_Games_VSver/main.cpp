@@ -12,31 +12,32 @@
 
 using namespace std;
 
-static int x = 10, y = 5;
+static int x = 100, y = 5;
 
-// 等待用户输入
+// 转换GBK编码为宽字符串
+wstring gbk_to_wstring(const string& str)
+{
+	int len = MultiByteToWideChar(936, 0, str.c_str(), -1, NULL, 0); // 936=GBK
+	wstring wstr(len, L'\0');
+	MultiByteToWideChar(936, 0, str.c_str(), -1, &wstr[0], len);
+	// 去掉末尾的\0
+	if (!wstr.empty() && wstr.back() == L'\0')
+		wstr.pop_back();
+	return wstr;
+}
+
+// 清屏 cls
 void clean()
 {
 	cleardevice();
 	y = 10;
 }
 
+// 等待用户输入 pause
 void pause(int timeout)
 {
-	/*if (timeout == -1)
-	{
-		system("set /p \"=>>>\" <nul");
-		system("pause >nul");
-		cout << endl;
-	}
-	else
-	{
-		string command = "choice /C:Y /N /D:Y /T:" + to_string(timeout) + " >nul";
-		system(command.c_str());
-	}*/
 	if (timeout == -1)
 	{
-		// 等待用户按任意键
 		y += 20;
 		if (y >= 450)
 		{
@@ -51,49 +52,25 @@ void pause(int timeout)
 	}
 	else
 	{
-		// 等待指定秒数（timeout 单位为秒，和原实现一致）
-		Sleep(timeout * 1000); // EasyX 的 Sleep，单位为毫秒
+		Sleep(timeout * 1000); // 这里玩家无法跳过等待,需要修改逻辑
 	}
 }
 
-// 根据参数字符串模拟流式输出
-/*void streamOutput(const string& output, int speed, int timeout)
-{
-	for (char c : output)
-	{
-		cout << c;
-		cout.flush(); // 立即刷新输出缓冲区
-		Sleep(speed); // 模拟输出延迟
-	}
-	cout << endl;
-	pause(timeout);
-
-}*/
-wstring gbk_to_wstring(const string& str)
-{
-	int len = MultiByteToWideChar(936, 0, str.c_str(), -1, NULL, 0); // 936=GBK
-	wstring wstr(len, L'\0');
-	MultiByteToWideChar(936, 0, str.c_str(), -1, &wstr[0], len);
-	// 去掉末尾的\0
-	if (!wstr.empty() && wstr.back() == L'\0')
-		wstr.pop_back();
-	return wstr;
-}
-
-void streamOutput(const string text, int speed, int timeout)
+// 模拟流式输出
+void streamOutput(const string text, int speed, int timeout, int color = BLACK)
 {
 	LOGFONT f;
 	gettextstyle(&f);
 	f.lfHeight = 20;
 	f.lfOutPrecision = OUT_TT_PRECIS;
-	_tcscpy_s(f.lfFaceName, _T("微软雅黑Bold"));
 	f.lfPitchAndFamily = FF_ROMAN;
+	_tcscpy_s(f.lfFaceName, _T("微软雅黑Bold"));
 	settextstyle(&f);
 	setbkmode(TRANSPARENT);
-	settextcolor(BLACK);
+	settextcolor(color);
 	setaspectratio(1, 1);
 
-	// 转换为宽字符串（GBK/GB2312编码）
+	// 转码
 	wstring wtext = gbk_to_wstring(text);
 	wstring out;
 
@@ -106,7 +83,6 @@ void streamOutput(const string text, int speed, int timeout)
 	for (wchar_t wc : wtext)
 	{
 		out += wc;
-		// cleardevice();
 		outtextxy(x, y, out.c_str());
 		FlushBatchDraw();
 		Sleep(speed);
@@ -116,24 +92,22 @@ void streamOutput(const string text, int speed, int timeout)
 	pause(timeout);
 }
 
-// 根据参数字符串直接输出
-void directOutput(const string text, int timeout)
+// 整行输出
+void directOutput(const string text, int timeout, int color = BLACK)
 {
-	/*cout << output << endl;
-	pause(timeout);*/
 	LOGFONT f;
 	gettextstyle(&f);
 	f.lfHeight = 20;
 	f.lfOutPrecision = OUT_TT_PRECIS;
-	_tcscpy_s(f.lfFaceName, _T("微软雅黑Bold"));
 	f.lfPitchAndFamily = FF_ROMAN;
+	_tcscpy_s(f.lfFaceName, _T("微软雅黑Bold"));
 	settextstyle(&f);
 	setbkmode(TRANSPARENT);
-	settextcolor(BLACK);
+	settextcolor(color);
 	setaspectratio(1, 1);
 
-	// 正确转换为宽字符串（GBK/GB2312编码）
-	std::wstring wtext = gbk_to_wstring(text);
+	// 转码
+	wstring wtext = gbk_to_wstring(text);
 
 	if (y >= 450)
 	{
@@ -141,40 +115,40 @@ void directOutput(const string text, int timeout)
 		cleardevice();
 	}
 
-	// 直接输出整行
 	outtextxy(x, y, wtext.c_str());
 	FlushBatchDraw();
-	pause(timeout);
+
 	y += 20;
+	pause(timeout);
 }
 
 // 输出选择
-int choiceOutput(const string& output, const vector<string>& choices)
+int choiceOutput(
+	const string& output,
+	const vector<string>& choices,
+	int base_color = BLACK,
+	int select_color = RED
+)
 {
-	// 输出提示
 	int base_x = 5, base_y = y, line_h = 20;
 	int select = 1;
 	int n = (int)choices.size();
+	streamOutput(output, 10, 0, base_color);
 
-	// 清屏并输出主提示
-	//cleardevice();
-	streamOutput(output, 10, 0);
-
-	// 主循环
 	while (true)
 	{
 		for (int i = 1; i <= n; ++i)
 		{
-			std::wstring wstr = gbk_to_wstring(std::to_string(i) + " -> " + choices[i - 1]);
+			wstring wstr = gbk_to_wstring(to_string(i) + " -> " + choices[i - 1]);
 			int y_chioce = base_y + i * line_h;
 			if (i == select)
 			{
-				settextcolor(RED);
+				settextcolor(select_color);
 				outtextxy(base_x, y_chioce, wstr.c_str());
 			}
 			else
 			{
-				settextcolor(BLACK);
+				settextcolor(base_color);
 				outtextxy(base_x, y_chioce, wstr.c_str());
 			}
 		}
@@ -187,18 +161,28 @@ int choiceOutput(const string& output, const vector<string>& choices)
 			{
 				if (msg.wheel > 0)
 					select = (select - 1 + n) % (n + 1);
-				else
-				{
+				if (msg.wheel < 0)
 					select = (select + 1) % (n + 1);
-				}
-				//cleardevice();
 			}
-			else if (msg.message == WM_KEYDOWN)
+
+			if (msg.message == WM_LBUTTONDOWN)
 			{
-				if (msg.vkcode == 'F')
-				{
+				int x = msg.lParam & 0xffff;
+				int y = (msg.lParam >> 16) & 0xffff;
+				int line_h = 20;
+				int select = (y - base_y) / line_h + 1;
+				if (select > 0 && select <= n)
 					return select;
-				}
+			}
+
+			if (msg.message == WM_KEYDOWN)
+			{
+				if (msg.vkcode == VK_UP || msg.vkcode == 'W')
+					select = (select - 1 + n) % (n + 1);
+				if (msg.vkcode == VK_DOWN || msg.vkcode == 'S')
+					select = (select + 1) % (n + 1);
+				if (msg.vkcode == VK_RETURN || msg.vkcode == 'F')
+					return select;
 			}
 		}
 		Sleep(10);
@@ -231,11 +215,10 @@ BEGINING:
 	vector<string> choices;
 	int choice = 0;
 	engine->initGame();
-	setbkcolor(WHITE); // 设置背景色
 	cleardevice();
+
 	// 序章报幕
 	initGameCli(count++);
-	//engine->runGamePacman();//test
 	streamOutput("你是再临, 正在无聊地玩2048...", 50, 1);
 	directOutput("(以游玩2048为目标继续行动)", -1);
 
@@ -255,7 +238,6 @@ BEGINING:
 	streamOutput("墙壁非常光滑, 看不出一丝出口的痕迹.", 10, 1);
 	streamOutput("看来只能尝试完成这古老的游戏了...!", 10, 1);
 	directOutput("\n(以完成推箱子为目标继续行动)\n", -1);
-	//system("cls");
 	clean();
 
 	// 第一关
@@ -294,7 +276,6 @@ BEGINING:
 			break;
 		}
 	} while (choice != 3);
-	//system("cls");
 	clean();
 
 	// 第二关报幕
@@ -319,7 +300,6 @@ BEGINING:
 		streamOutput("你上蹿下跳,", 10, 1);
 		streamOutput("你磕到了甲沟炎...", 100, 1);
 		streamOutput("再临 卒.", 150, -1);
-		//system("cls");
 		clean();
 		delete engine;
 		goto BEGINING;
@@ -333,7 +313,6 @@ BEGINING:
 			streamOutput("不愧是你.", 100, 1);
 			streamOutput("你由于走路平视前方掉入了深坑.", 60, 1);
 			streamOutput("再临 卒.", 150, -1);
-			//system("cls");
 			clean();
 			delete engine;
 			goto BEGINING;
@@ -342,7 +321,6 @@ BEGINING:
 			streamOutput("鹅鹅鹅...", 10, 1);
 			streamOutput("你显然不太能直接往坑里跳...(会磕到甲沟炎)", 10, 1);
 			streamOutput("蒜了, 回去摸幸运方块吧...", 10, 1);
-			//system("cls");
 			clean();
 			break;
 		default:
@@ -361,7 +339,6 @@ BEGINING:
 		streamOutput("这一刻还是来了...", 10, 1);
 		streamOutput("你深吸一口气, 伸出手, 敲了敲方块:", 60, 1);
 		streamOutput("地上掉落了一个遥控器一样的方盒子.", 10, 1);
-		//system("cls");
 		clean();
 		break;
 	default:
@@ -382,12 +359,10 @@ BEGINING:
 	streamOutput("\"唯有精准契合天地法则之人, 方可聆听方块在凝固瞬间的----「真理共鸣」!\"", 10, 1);
 	streamOutput("\"智慧的勇士!按下命运的按钮!!走上通往城堡的阶梯吧!!!\"", 10, 1);
 	directOutput("\n(以探索\"方块的秘仪\"为目标继续行动)\n", -1);
-	//system("cls");
 	clean();
 
 	streamOutput("WASD移动和旋转方块, Q跳过本关, R重新开始.", 10, 1);
 	engine->runGameTetris();
-	//system("cls");
 	clean();
 
 	// 第二关分支
@@ -396,14 +371,12 @@ BEGINING:
 	streamOutput("码神赞赏你的智慧, 治好了你的甲沟炎!(可以跳在台阶上了)", 10, 1);
 
 	choice = choiceOutput("你决定:", { "跳到台阶顶", "跳到半台阶腰", "跳到台阶脚" });
-	clean();
 	switch (choice)
 	{
 	case 1:
 		streamOutput("row~~~~~~bomb!", 60, 1);
 		streamOutput("你似乎高估了自己的弹跳力, 倒在最后半个台阶上...", 10, 1);
 		streamOutput("再临 卒.", 150, -1);
-		//system("cls");
 		clean();
 		delete engine;
 		goto BEGINING;
@@ -416,7 +389,6 @@ BEGINING:
 		streamOutput("......", 100, 1);
 		streamOutput("你的小脚趾磕在了第一节台阶上.", 100, 1);
 		streamOutput("再临 卒.", 150, 0);
-		//system("cls");
 		clean();
 		delete engine;
 		goto BEGINING;
@@ -428,7 +400,6 @@ BEGINING:
 	do
 	{
 		choice = choiceOutput("你决定:", { "钻进通道", "前往城堡", "尝试跳回去" });
-		clean();
 		switch (choice)
 		{
 		case 1:
@@ -498,6 +469,7 @@ BEGINING:
 		}
 	} while (choice != 1);
 	clean();
+
 	// 第三关报幕
 	streamOutput("穿过通道, 你置身于漆黑的井底...", 10, 1);
 	streamOutput("直觉告诉你, 这里和你初来时遇见的深渊多少沾点亲戚.", 10, 1);
@@ -509,13 +481,11 @@ BEGINING:
 	streamOutput("耳边却再度响起码神的低语...", 10, 1);
 	streamOutput("(这里是码神的低语,但是我还没想好怎么设置游戏规则.. 至于程序要不要修改,有待商榷)", 10, 1);
 	directOutput("\n(以拿到钥匙去往城堡为目标继续行动)\n", -1);
-	//system("cls");
 	clean();
 
 	// 第三关
 	streamOutput("WASD控制石蛇的运动, Q跳过本关, R重新开始.", 10, 1);
 	engine->runGameSnake();
-	//system("cls");
 	clean();
 
 	// 第四关报幕
@@ -524,13 +494,11 @@ BEGINING:
 	streamOutput("但是...似乎和最初的布局不太一样..?", 10, 1);
 	streamOutput("你管不了这么多了! (这个时候要装傻.JPG)", 10, 1);
 	directOutput("\n(以再次开启右侧石门为目标继续行动)\n", -1);
-	//system("cls");
 	clean();
 
 	// 第四关
 	streamOutput("WASD移动箱子, Q跳过本关, R重新开始.", 10, 1);
 	engine->runGameSokoban(); // 等待cv
-	//system("cls");
 	clean();
 
 	// 第四关结幕
@@ -574,7 +542,6 @@ BEGINING:
 		Sleep(2000);
 		clean();
 	} while (choice != 5);
-	//system("cls");
 	clean();
 
 	// 第五关报幕
@@ -606,9 +573,7 @@ BEGINING:
 			break;
 		}
 		Sleep(2000);
-		clean();
 	} while (choice != 5);
-	//system("cls");
 	clean();
 
 	// BOSS 关卡
@@ -620,19 +585,16 @@ BOSS:
 	streamOutput("\"完成试炼, 你就可以带着码神的祝福回到现实!\"", 10, 1);
 	streamOutput("做好准备, 即将前往最后的试炼...", 10, 1);
 	directOutput("\n(按任意键开始试炼)\n", -1);
-	//system("cls");
 	clean();
 
 	streamOutput("WASD移动躲避, Q跳过本关, R重新开始.", 10, 1);
 	engine->runGamePacman();
-	//system("cls");
 	clean();
 
 	// 游戏结束
 	streamOutput("就在拿下最后一颗豆子的刹那!", 10, 1);
 	streamOutput("你晃了神.", 10, 1);
 	streamOutput("你坐在方盒子面前, 看着尚未合成的2048...", 10, 1);
-	//system("cls");
 	clean();
 
 	// 最后结局
