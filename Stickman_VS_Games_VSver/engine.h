@@ -78,9 +78,10 @@ public:
 	void runGameSokoban();
 	void runGameTetris();
 	void runGamePacman();
-	void fadeout_clear_screen(int wide, int height, int step, int delay);
-	void FadeInWHITE(int wide, int height, int step, int delay);
-	void FadeInBLACK(int wide, int height, int step, int delay);
+	void FadeOutWHITE(int width, int height, int speed, int timeout);
+	void FadeOutBLACK(int width, int height, int speed, int timeout);
+	void FadeInWHITE(int width, int height, int speed, int timeout);
+	void FadeInBLACK(int width, int height, int speed, int timeout);
 };
 #endif
 // ENGINE_H

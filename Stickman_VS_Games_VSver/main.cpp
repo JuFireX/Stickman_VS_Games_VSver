@@ -45,6 +45,7 @@ void pause(int timeout)
 			cleardevice();
 		}
 		outtextxy(10, y, _T(">>>"));
+		y += 20;
 
 		FlushBatchDraw();
 		ExMessage getmessage(BYTE filter = EX_KEY);
@@ -121,7 +122,7 @@ void directOutput(const string text, int timeout, int color = 0xffffff)
 }
 
 // 输出选择
-int choiceOutput(const string& output, const vector<string>& choices, int basec = BLACK, int selectc = RED)
+int choiceOutput(const string& output, const vector<string>& choices, int basec = WHITE, int selectc = RED)
 {
 	int base_x = 5, base_y = y, line_h = 20;
 	int select = 1;
@@ -148,34 +149,35 @@ int choiceOutput(const string& output, const vector<string>& choices, int basec 
 		FlushBatchDraw();
 
 		ExMessage msg;
-		while (peekmessage(&msg, EX_MOUSE | EX_KEY))
+		while (peekmessage(&msg)) // ?????????
 		{
-			if (msg.message == WM_MOUSEWHEEL)
-			{
-				if (msg.wheel > 0)
-					select = ((select - 1 + n) % n) + 1;
-				if (msg.wheel < 0)
-					select = ((select + 1) % n) + 1;
-			}
-
-			if (msg.message == WM_LBUTTONDOWN)
-			{
-				int x = msg.lParam & 0xffff;
-				int y = (msg.lParam >> 16) & 0xffff;
-				int line_h = 20;
-				int select = (y - base_y) / line_h + 1;
-				if (select > 0 && select <= n)
-					return select;
-			}
-
 			if (msg.message == WM_KEYDOWN)
 			{
-				if (msg.vkcode == VK_UP || msg.vkcode == 'W')
-					select = (select - 1 + n) % (n + 1);
 				if (msg.vkcode == VK_DOWN || msg.vkcode == 'S')
-					select = (select + 1) % (n + 1);
-				if (msg.vkcode == VK_RETURN || msg.vkcode == 'F')
+				{
+					select = ((select + n - 1) % n) + 1;
+					continue;
+				}
+				else if (msg.vkcode == VK_UP || msg.vkcode == 'W')
+				{
+					select = ((select + 1) % n) + 1;
+					continue;
+				}
+				else if (msg.vkcode == VK_RETURN || msg.vkcode == 'F')
+				{
+					y += 20 * n;
 					return select;
+				}
+				else if ((msg.vkcode - '0') >= 1 && (msg.vkcode - '0') <= n)
+				{
+					select = (msg.vkcode - '0');
+					y += 20 * n;
+					return select;
+				}
+				else
+				{
+					continue;
+				}
 			}
 		}
 		Sleep(10);
@@ -223,16 +225,15 @@ BEGINING:
 	clean();
 
 	// 第一关报幕
-	directOutput("\n突然!\n", 1);
+	directOutput("突然!", 1);
 	streamOutput("你的屏幕开始闪烁!!! (你要相信它闪了)", 10, 1);
 	streamOutput("天崩..地裂...坠落......", 50, 2);
-	directOutput("\n啪唧!!!\n", 1);
+	directOutput("啪唧!!!", 1);
 	streamOutput("你掉在了一处深不见底的平台...(没磕到甲沟炎)", 10, 1);
 	streamOutput("环顾四周, 你发现自己来到了推箱子一般的场地.", 10, 1);
 	streamOutput("墙壁非常光滑, 看不出一丝出口的痕迹.", 10, 1);
 	streamOutput("看来只能尝试完成这古老的游戏了...!", 10, 1);
-	directOutput("\n(以完成推箱子为目标继续行动)\n", -1);
-	clean();
+	directOutput("(以完成推箱子为目标继续行动)", -1);
 
 	// 第一关
 	streamOutput("WASD移动, Q跳过本关, R重新开始.", 10, 1);
@@ -488,7 +489,6 @@ BEGINING:
 	streamOutput("但是...似乎和最初的布局不太一样..?", 10, 1);
 	streamOutput("你管不了这么多了! (这个时候要装傻.JPG)", 10, 1);
 	directOutput("\n(以再次开启右侧石门为目标继续行动)\n", -1);
-	clean();
 
 	// 第四关
 	streamOutput("WASD移动箱子, Q跳过本关, R重新开始.", 10, 1);
@@ -501,7 +501,6 @@ BEGINING:
 	streamOutput("......", 60, 1);
 	streamOutput("你再次来到马里奥的世界.", 10, 1);
 	choices = { "观察石门", "观察天空", "观察幸运方块", "观察深坑周围", "前往登神长阶" };
-	clean();
 	do
 	{
 		choice = choiceOutput("你决定:", choices);
@@ -533,8 +532,6 @@ BEGINING:
 		default:
 			break;
 		}
-		Sleep(2000);
-		clean();
 	} while (choice != 5);
 	clean();
 
@@ -544,7 +541,6 @@ BEGINING:
 	do
 	{
 		choice = choiceOutput("你决定:", choices);
-		y += 100;
 		switch (choice)
 		{
 		case 1:
@@ -566,7 +562,6 @@ BEGINING:
 		default:
 			break;
 		}
-		Sleep(2000);
 	} while (choice != 5);
 	clean();
 
@@ -579,7 +574,6 @@ BOSS:
 	streamOutput("\"完成试炼, 你就可以带着码神的祝福回到现实!\"", 10, 1);
 	streamOutput("做好准备, 即将前往最后的试炼...", 10, 1);
 	directOutput("\n(按任意键开始试炼)\n", -1);
-	clean();
 
 	streamOutput("WASD移动躲避, Q跳过本关, R重新开始.", 10, 1);
 	engine->runGamePacman();

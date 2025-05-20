@@ -33,27 +33,43 @@ inline void Engine::putimage_alpha(int x, int y, IMAGE* img, int alpha)
 	AlphaBlend(GetImageHDC(NULL), x, y, w, h, GetImageHDC(img), 0, 0, w, h, blendFunction);
 }
 
-void Engine::fadeout_clear_screen(int width, int height, int steps, int delay)
+void Engine::FadeOutWHITE(int width, int height, int speed, int timeout)
 {
 	IMAGE mask;
 	loadimage(&mask, _T("./PictureResource/white.png"), width, height, true);
 	int cnt = 0;
-	for (int i = 1; i <= steps; ++i)
+	for (int i = 1; i <= (255 / speed); ++i)
 	{
-		int alpha = i * 255 / steps;
+		int alpha = i * speed;
 		putimage_alpha(0, 0, &mask, alpha);
 		FlushBatchDraw();
-		Sleep(delay);
+		Sleep(255 / speed);
 		cnt += alpha;
 		if (cnt > 8000)
-		{
 			break;
-		}
 	}
-	Sleep(2000);
+	Sleep(timeout);
 }
 
-void Engine::FadeInWHITE(int width, int height, int steps, int delay)
+void Engine::FadeOutBLACK(int width, int height, int speed, int timeout)
+{
+	IMAGE mask;
+	loadimage(&mask, _T("./PictureResource/black.png"), width, height, true);
+	int cnt = 0;
+	for (int i = 1; i <= (255 / speed); ++i)
+	{
+		int alpha = i * speed;
+		putimage_alpha(0, 0, &mask, alpha);
+		FlushBatchDraw();
+		Sleep(255 / speed);
+		cnt += alpha;
+		if (cnt > 8000)
+			break;
+	}
+	Sleep(timeout);
+}
+
+void Engine::FadeInWHITE(int width, int height, int speed, int timeout)
 {
 	IMAGE screen;
 	getimage(&screen, 0, 0, width, height);
@@ -61,36 +77,40 @@ void Engine::FadeInWHITE(int width, int height, int steps, int delay)
 	IMAGE mask;
 	loadimage(&mask, _T("./PictureResource/white.png"), width, height, true);
 
-	for (int i = steps; i >= 0; --i)
+	for (int i = (255 / speed); i >= 0; --i)
 	{
 		putimage(0, 0, &screen);
 
-		int alpha = i * 255 / steps;
+		int alpha = i * speed;
 		putimage_alpha(0, 0, &mask, alpha);
 
 		FlushBatchDraw();
-		Sleep(delay);
+		Sleep(255 / speed);
 	}
+
+	Sleep(timeout);
 }
 
-void Engine::FadeInBLACK(int width, int height, int steps, int delay)
+void Engine::FadeInBLACK(int width, int height, int speed, int timeout)
 {
 	IMAGE screen;
 	getimage(&screen, 0, 0, width, height);
 
 	IMAGE mask;
-	loadimage(&mask, _T("./PictureResource/white.png"), width, height, true);
+	loadimage(&mask, _T("./PictureResource/black.png"), width, height, true);
 
-	for (int i = steps; i >= 0; --i)
+	for (int i = (255 / speed); i >= 0; --i)
 	{
 		putimage(0, 0, &screen);
 
-		int alpha = i * 255 / steps;
+		int alpha = i * speed;
 		putimage_alpha(0, 0, &mask, alpha);
 
 		FlushBatchDraw();
-		Sleep(delay);
+		Sleep(255 / speed);
 	}
+
+	Sleep(timeout);
 }
 
 void Engine::initGame()
@@ -124,7 +144,6 @@ void Engine::runGame2048()
 			putimage(u.x, u.y, &game->MapImg[u.val]);
 		}
 	}
-	FadeInWHITE(720, 480, 255, 10); //
 	FlushBatchDraw();
 
 	while (!game->gameOver)
@@ -140,7 +159,7 @@ void Engine::runGame2048()
 			{
 				if (msg.vkcode == VK_ESCAPE || msg.vkcode == 'Q')
 				{
-					running = false;
+					game->gameOver = true;
 					break;
 				}
 				else if (msg.vkcode == VK_UP || msg.vkcode == 'W')
@@ -197,7 +216,6 @@ void Engine::runGame2048()
 		Sleep(1000 / game->GameFrame);
 	}
 
-	fadeout_clear_screen(width, height, 255, 10); //
 	EndBatchDraw();
 	delete game;
 }
@@ -220,7 +238,6 @@ void Engine::runGameSnake()
 			putimage_alpha(u.x, u.y, &game->MapImg[u.val], 255);
 		}
 	}
-	FadeInWHITE(720, 480, 255, 10); //
 	FlushBatchDraw();
 
 	while (!game->gameOver)
@@ -233,7 +250,7 @@ void Engine::runGameSnake()
 			{
 				if (msg.vkcode == VK_ESCAPE || msg.vkcode == 'Q')
 				{
-					running = false;
+					game->gameOver = true;
 					break;
 				}
 				else if (msg.vkcode == VK_UP || msg.vkcode == 'W')
@@ -270,7 +287,6 @@ void Engine::runGameSnake()
 		Sleep(1000 / game->GameFrame);
 	}
 
-	fadeout_clear_screen(width, height, 255, 10); //
 	EndBatchDraw();
 	cleardevice();
 	delete game;
@@ -294,7 +310,6 @@ void Engine::runGameSokoban()
 			putimage_alpha(u.x, u.y, &game->MapImg[u.val], 255);
 		}
 	}
-	FadeInWHITE(720, 480, 255, 10); //
 	FlushBatchDraw();
 
 	while (!game->gameOver)
@@ -348,7 +363,6 @@ void Engine::runGameSokoban()
 		Sleep(1000 / game->GameFrame);
 	}
 
-	fadeout_clear_screen(width, height, 255, 10); //
 	EndBatchDraw();
 	cleardevice();
 	delete game;
@@ -380,7 +394,6 @@ void Engine::runGameTetris()
 		}
 	}
 	putimage_alpha(0, 400, &game->img_Tetris[7], 255);
-	FadeInWHITE(720, 480, 255, 10); //
 	FlushBatchDraw();
 
 	while (!game->gameOver)
@@ -437,7 +450,6 @@ void Engine::runGameTetris()
 		Sleep(1000 / game->GameFrame);
 	}
 
-	fadeout_clear_screen(width, height, 255, 10); //
 	EndBatchDraw();
 	cleardevice();
 	delete game;
@@ -483,7 +495,6 @@ void Engine::runGamePacman()
 		}
 	}
 
-	FadeInWHITE(720, 480, 255, 10); //
 	FlushBatchDraw();
 
 	while (!game->gameOver)
@@ -574,7 +585,6 @@ void Engine::runGamePacman()
 		Sleep(1000 / game->GameFrame);
 	}
 
-	fadeout_clear_screen(width, height, 255, 10);
 	EndBatchDraw();
 	delete game;
 }
