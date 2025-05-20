@@ -2,7 +2,7 @@
 #include <iostream>
 #include <windows.h>
 
-Game2048::Game2048() : rng(time(nullptr)) {}
+Game2048::Game2048() : rng((int)time(nullptr)) {}
 
 // Private methods
 

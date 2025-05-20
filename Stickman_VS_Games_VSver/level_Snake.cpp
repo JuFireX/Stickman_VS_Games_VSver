@@ -2,7 +2,7 @@
 #include <iostream>
 #include <windows.h>
 
-GameSnake::GameSnake() : rng(time(nullptr)) {}
+GameSnake::GameSnake() : rng((int)time(nullptr)) {}
 
 // Private methods
 

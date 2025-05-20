@@ -2,7 +2,7 @@
 #include <iostream>
 #include <windows.h>
 
-GamePacman::GamePacman() : rng(time(nullptr)) {}
+GamePacman::GamePacman() : rng((int)time(nullptr)) {}
 
 int GamePacman::ghostDirection(int ghostX, int ghostY, int playerX, int playerY, int* track_x, int* track_y)
 {
@@ -68,7 +68,6 @@ int GamePacman::ghostDirection(int ghostX, int ghostY, int playerX, int playerY,
 
 void GamePacman::initGrid()
 {
-	// ?��?
 	int map[GRID_SIZE][GRID_SIZE] = { {WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL,WALL},
 					{WALL,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,WALL,WALL,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,FOOD,WALL},
 					{WALL,FOOD,WALL,WALL,FOOD,WALL,WALL,WALL,FOOD,WALL,WALL,FOOD,WALL,WALL,WALL,FOOD,WALL,WALL,FOOD,WALL},
@@ -191,7 +190,6 @@ bool GamePacman::processInput(char input)
 		return false;
 	}
 
-	// ����·����Ƿ���ǽ�ڣ������ǽ���򲻸ı䷽��
 	bool canChangeDirection = true;
 	switch (newDir)
 	{
@@ -247,10 +245,8 @@ void GamePacman::movePlayer()
 
 void GamePacman::moveGhosts()
 {
-	// ���Ӿ�̬�����������ڿ��������ƶ�Ƶ�ʣ������ٶȣ�
 	static int moveCounter = 0;
 
-	// ��������ľ�λ��
 	ghost[0].old_x = ghost[0].x;
 	ghost[0].old_y = ghost[0].y;
 	ghost[1].old_x = ghost[1].x;
@@ -258,84 +254,78 @@ void GamePacman::moveGhosts()
 	ghost[2].old_x = ghost[2].x;
 	ghost[2].old_y = ghost[2].y;
 
-	// ʹ�� ghostDirection �������������ƶ�
 	int track_x, track_y;
 
-	// ֻ�ڼ�����Ϊ0ʱ�ƶ����飨ÿ���ε����ƶ�һ�Σ�
 	if (moveCounter == 0)
 	{
-		// ghostDirection�ƶ��߼�
 		int dir1 = ghostDirection(ghost[0].x, ghost[0].y, player.x, player.y, &track_x, &track_y);
 
-		// ���ݷ��صķ����ƶ�����1
 		switch (dir1)
 		{
-		case 0: // ��
+		case 0:
 			if (run_grid[ghost[0].y][ghost[0].x + 1] != WALL)
 				ghost[0].x += ghost[0].speed;
 			break;
-		case 1: // ��
+		case 1:
 			if (run_grid[ghost[0].y - 1][ghost[0].x] != WALL)
 				ghost[0].y -= ghost[0].speed;
 			break;
-		case 2: // ��
+		case 2:
 			if (run_grid[ghost[0].y][ghost[0].x - 1] != WALL)
 				ghost[0].x -= ghost[0].speed;
 			break;
-		case 3: // ��
+		case 3:
 			if (run_grid[ghost[0].y + 1][ghost[0].x] != WALL)
 				ghost[0].y += ghost[0].speed;
 			break;
 		}
 
-		// ghost2Ҳʹ�� ghostDirection ������������׷��
+
 		int dir2 = ghostDirection(ghost[1].x, ghost[1].y, player.old_x, player.old_y, &track_x, &track_y);
 
-		// ���ݷ��صķ����ƶ�����2
+
 		switch (dir2)
 		{
-		case 0: // ��
+		case 0:
 			if (run_grid[ghost[1].y][ghost[1].x + 1] != WALL)
 				ghost[1].x += ghost[1].speed;
 			break;
-		case 1: // ��
+		case 1:
 			if (run_grid[ghost[1].y - 1][ghost[1].x] != WALL)
 				ghost[1].y -= ghost[1].speed;
 			break;
-		case 2: // ��
+		case 2:
 			if (run_grid[ghost[1].y][ghost[1].x - 1] != WALL)
 				ghost[1].x -= ghost[1].speed;
 			break;
-		case 3: // ��
+		case 3:
 			if (run_grid[ghost[1].y + 1][ghost[1].x] != WALL)
 				ghost[1].y += ghost[1].speed;
 			break;
 		}
 		int dir3 = ghostDirection(ghost[2].x, ghost[2].y, player.old_x, player.old_y, &track_x, &track_y);
 
-		// ���ݷ��صķ����ƶ�����3
 		switch (dir3)
 		{
-		case 0: // ��
+		case 0:
 			if (run_grid[ghost[2].y][ghost[2].x + 1] != WALL)
 				ghost[2].x += ghost[2].speed;
 			break;
-		case 1: // ��
+		case 1:
 			if (run_grid[ghost[2].y - 1][ghost[2].x] != WALL)
 				ghost[2].y -= ghost[2].speed;
 			break;
-		case 2: // ��
+		case 2:
 			if (run_grid[ghost[2].y][ghost[2].x - 1] != WALL)
 				ghost[2].x -= ghost[2].speed;
 			break;
-		case 3: // ��
+		case 3:
 			if (run_grid[ghost[2].y + 1][ghost[2].x] != WALL)
 				ghost[2].y += ghost[2].speed;
 			break;
 		}
 	}
 
-	// ���¼���������0��1֮���л�
 	moveCounter = (moveCounter + 1) % 2;
 }
 
@@ -344,10 +334,8 @@ void GamePacman::update(char key)
 	if (processInput(key))
 		movePlayer();
 
-	// �ƶ�����
 	moveGhosts();
 
-	// ���� grid ���飬ȷ��������ʾ
 	for (int i = 0; i < GRID_SIZE; ++i)
 	{
 		for (int j = 0; j < GRID_SIZE; ++j)
@@ -360,7 +348,6 @@ void GamePacman::update(char key)
 		}
 	}
 	judgeScore();
-	// �������Ƿ���������ײ
 	for (int i = 0; i < 3; i++)
 	{
 		if (player.x == ghost[i].x && player.y == ghost[i].y)
@@ -390,10 +377,10 @@ vector<vector<int>> GamePacman::getGrid() const
 	}
 	return gridCopy;
 }
-// ���޸�
+
 void GamePacman::judgeScore()
 {
-	// ����Ƿ�ﵽĿ���������������Ϸ�׶�
+
 	if (score >= target)
 		gameOver = true;
 }
@@ -418,7 +405,7 @@ void GamePacman::display(const vector<vector<int>>& grid, int size) const
 		for (int j = 0; j < size; ++j)
 		{
 			if (grid[i][j] == WALL)
-				cout << "# "; // ǽ��
+				cout << "# ";
 			else if (grid[i][j] == FOOD)
 				cout << "* ";
 			else if (grid[i][j] == PLAYER)
@@ -430,7 +417,7 @@ void GamePacman::display(const vector<vector<int>>& grid, int size) const
 			else if (grid[i][j] == GHOST3)
 				cout << "3 ";
 			else if (grid[i][j] == EMPTY)
-				cout << "  "; // �հ�����
+				cout << "  ";
 			else
 				cout << "  ";
 		}
@@ -453,7 +440,7 @@ void GamePacman::startGame()
 			update(input);
 			display(getGrid(), 20);
 		}
-		// �Ը���
+
 		else
 		{
 			update(' ');
@@ -482,7 +469,7 @@ void GamePacman::load()
 	MapImg[GHOST3] = ghost_img[2];
 }
 
-vector<vector<position>> GamePacman::getMap() const // ?????
+vector<vector<position>> GamePacman::getMap() const
 {
 	vector<vector<int>> state = getGrid();
 	vector<vector<position>> GameMap;

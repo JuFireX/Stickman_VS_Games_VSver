@@ -12,7 +12,7 @@
 
 using namespace std;
 
-static int x = 100, y = 5;
+static int x = 10, y = 5;
 
 // ×ª»»GBK±àÂëÎª¿í×Ö·û´®
 wstring gbk_to_wstring(const string& str)
@@ -215,6 +215,7 @@ BEGINING:
 	vector<string> choices;
 	int choice = 0;
 	engine->initGame();
+	setbkcolor(0xffffff);
 	cleardevice();
 
 	// ÐòÕÂ±¨Ä»

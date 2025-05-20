@@ -2,7 +2,7 @@
 #include <iostream>
 #include <windows.h>
 
-GameTetris::GameTetris() : rng(time(nullptr)) {}
+GameTetris::GameTetris() : rng((int)time(nullptr)) {}
 
 // Private methods
 
