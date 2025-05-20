@@ -78,7 +78,7 @@ std::wstring gbk_to_wstring(const std::string &str)
 	return wstr;
 }
 
-void streamOutput(const string text, int speed, COLORREF color)
+void streamOutput(const string text, int speed, int timeout)
 {
 	LOGFONT f;
 	gettextstyle(&f);
@@ -88,7 +88,7 @@ void streamOutput(const string text, int speed, COLORREF color)
 	f.lfPitchAndFamily = FF_ROMAN;
 	settextstyle(&f);
 	setbkmode(TRANSPARENT);
-	settextcolor(color);
+	settextcolor(BLACK);
 	setaspectratio(1, 1);
 
 	// 正确转换为宽字符串（GBK/GB2312编码）
@@ -109,9 +109,10 @@ void streamOutput(const string text, int speed, COLORREF color)
 		Sleep(speed);
 	}
 	y += 20;
+	pause(timeout);
 }
 // 根据参数字符串直接输出
-void directOutput(const string text, int choice)
+void directOutput(const string text, int timeout)
 {
 	/*cout << output << endl;
 	pause(timeout);*/
@@ -138,24 +139,13 @@ void directOutput(const string text, int choice)
 	// 直接输出整行
 	outtextxy(x, y, wtext.c_str());
 	FlushBatchDraw();
-
-	if (choice == -1)
-	{
-		pause(-1); // 等待用户按任意键
-	}
-	// choice == 1 时直接输出，不等待
-
+	pause(timeout);
 	y += 20;
 }
 
 // 输出选择
 int choiceOutput(const string &output, const vector<string> &choices)
 {
-	/*streamOutput(output, 10, 0);
-	for (int i = 0; i < choices.size(); i++)
-		cout << i + 1 << " -> " << choices[i] << endl;
-	char choice = _getch();
-	return choice - '0';*/
 	// 输出提示
 	int base_x = 5, base_y = y, line_h = 20;
 	int select = 1;
