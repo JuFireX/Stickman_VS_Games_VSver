@@ -1,92 +1,244 @@
 #include "level_Pacman.h"
 #include <iostream>
 #include <windows.h>
+#include <climits> // 添加头文件以使用INT_MAX
 
 GamePacman::GamePacman() : rng((int)time(nullptr)) {}
 
 int GamePacman::ghostDirection(int ghostX, int ghostY, int playerX, int playerY, int* track_x, int* track_y)
 {
-	int map1[20][20] = { {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-						{0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-						{0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0},
-						{0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-						{0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0},
-						{0, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0},
-						{0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0},
-						{0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0},
-						{1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1},
-						{1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1},
-						{0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0},
-						{0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 0, 0},
-						{0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0},
-						{0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0},
-						{0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0},
-						{0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0},
-						{0, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0},
-						{0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0},
-						{0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0},
-						{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0} };
-	int trace[400][3];
-	int k = 0, l = 0, direction = 2;
-	trace[k][0] = ghostX;
-	trace[k][1] = ghostY;
-	trace[k][2] = 0;
-	int dx[4] = { 1, -1, 0, 0 }, dy[4] = { 0, 0, 1, -1 };
-	int pc = 0, pre = -1;
-	map1[ghostY][ghostX] = 2;
-	while (trace[k][0] != playerX || trace[k][1] != playerY)
-	{
-		if (pc == 0)
-			pre++;
-		if (trace[pre][1] + dy[pc] <= 20 && trace[pre][0] + dx[pc] <= 20 && map1[trace[pre][1] + dy[pc]][trace[pre][0] + dx[pc]] == 1)
-		{
-			k++;
-			trace[k][0] = trace[pre][0] + dx[pc];
-			trace[k][1] = trace[pre][1] + dy[pc];
-			trace[k][2] = pre;
-			map1[trace[pre][1] + dy[pc]][trace[pre][0] + dx[pc]] = 2;
+	// 地图定义 - 使用类成员变量中的地图，避免重复定义
+	// 方向数组：右、左、上、下
+	const int dx[4] = { 1, -1, 0, 0 };
+	const int dy[4] = { 0, 0, -1, 1 };
+	
+	// 使用简化的寻路算法，限制搜索深度和内存使用
+	const int MAX_DEPTH = 400; // 增加搜索深度以确保能找到完整路径
+	const int MAP_SIZE = 19;
+	
+	// 使用固定大小的数组代替vector，避免动态内存分配
+	struct Node {
+		int x, y;
+		int g;
+		int f;
+		int parentX, parentY; // 直接存储父节点坐标，而不是索引
+	};
+	
+	// 使用二维数组记录已访问的节点和它们的信息
+	bool visited[MAP_SIZE][MAP_SIZE] = { false };
+	bool inOpen[MAP_SIZE][MAP_SIZE] = { false };
+	Node nodeInfo[MAP_SIZE][MAP_SIZE] = { 0 };
+	
+	// 使用简单数组实现优先队列，限制大小
+	const int MAX_QUEUE_SIZE = 400; // 足够大的队列大小
+	int openX[MAX_QUEUE_SIZE], openY[MAX_QUEUE_SIZE];
+	int openCount = 0;
+	
+	// 初始化起点
+	openX[openCount] = ghostX;
+	openY[openCount] = ghostY;
+	openCount++;
+	
+	inOpen[ghostY][ghostX] = true;
+	nodeInfo[ghostY][ghostX].x = ghostX;
+	nodeInfo[ghostY][ghostX].y = ghostY;
+	nodeInfo[ghostY][ghostX].g = 0;
+	nodeInfo[ghostY][ghostX].f = abs(playerX - ghostX) + abs(playerY - ghostY);
+	nodeInfo[ghostY][ghostX].parentX = -1;
+	nodeInfo[ghostY][ghostX].parentY = -1;
+	
+	bool foundPath = false;
+	int currentDepth = 0;
+	
+	// A*主循环 - 不再受深度限制，而是由开放列表是否为空决定
+	while (openCount > 0) {
+		// 找到f值最小的节点
+		int minIdx = 0;
+		for (int i = 1; i < openCount; i++) {
+			if (nodeInfo[openY[i]][openX[i]].f < nodeInfo[openY[minIdx]][openX[minIdx]].f) {
+				minIdx = i;
+			}
 		}
-		pc = (pc + 1) % 4;
+		
+		// 获取当前节点
+		int currentX = openX[minIdx];
+		int currentY = openY[minIdx];
+		
+		// 从开放列表中移除
+		openX[minIdx] = openX[openCount - 1];
+		openY[minIdx] = openY[openCount - 1];
+		openCount--;
+		inOpen[currentY][currentX] = false;
+		
+		// 标记为已访问
+		visited[currentY][currentX] = true;
+		
+		// 如果到达目标，结束搜索
+		if (currentX == playerX && currentY == playerY) {
+			foundPath = true;
+			break;
+		}
+		
+		// 检查四个方向的相邻节点
+		for (int i = 0; i < 4; i++) {
+			int newX = currentX + dx[i];
+			int newY = currentY + dy[i];
+			
+			// 检查边界
+			if (newX < 0 || newX >= MAP_SIZE || newY < 0 || newY >= MAP_SIZE) {
+				continue;
+			}
+			
+			// 检查是否是墙或已访问
+			if (run_grid[newY][newX] == WALL || visited[newY][newX]) {
+				continue;
+			}
+			
+			// 计算新的g值
+			int newG = nodeInfo[currentY][currentX].g + 1;
+			
+			// 如果节点不在开放列表中或找到了更好的路径
+			if (!inOpen[newY][newX] || newG < nodeInfo[newY][newX].g) {
+				// 更新节点信息
+				nodeInfo[newY][newX].g = newG;
+				nodeInfo[newY][newX].f = newG + abs(playerX - newX) + abs(playerY - newY);
+				nodeInfo[newY][newX].parentX = currentX;
+				nodeInfo[newY][newX].parentY = currentY;
+				
+				// 如果节点不在开放列表中，添加它
+				if (!inOpen[newY][newX]) {
+					// 检查队列是否已满
+					if (openCount < MAX_QUEUE_SIZE) {
+						openX[openCount] = newX;
+						openY[openCount] = newY;
+						openCount++;
+						inOpen[newY][newX] = true;
+					}
+				}
+			}
+		}
+		
+		currentDepth++;
 	}
-	*track_x = trace[pre][0];
-	*track_y = trace[pre][1];
-	while (trace[k][2] != 0)
-	{
-		k = trace[k][2];
+	
+	// 确定下一步方向
+	int direction = 2; // 默认向左
+	
+	if (foundPath) {
+		// 回溯找到第一步
+		int nextX = playerX;
+		int nextY = playerY;
+		int firstStepX = -1;
+		int firstStepY = -1;
+		
+		// 回溯路径找到第一步
+		while (true) {
+			int parentX = nodeInfo[nextY][nextX].parentX;
+			int parentY = nodeInfo[nextY][nextX].parentY;
+			
+			if (parentX == -1 || parentY == -1) {
+				break; // 到达起点
+			}
+			
+			if (parentX == ghostX && parentY == ghostY) {
+				// 找到了第一步
+				firstStepX = nextX;
+				firstStepY = nextY;
+				break;
+			}
+			
+			nextX = parentX;
+			nextY = parentY;
+		}
+		
+		if (firstStepX != -1 && firstStepY != -1) {
+			// 设置跟踪点
+			*track_x = firstStepX;
+			*track_y = firstStepY;
+			
+			// 确定方向
+			if (ghostX < firstStepX) direction = 0;      // 右
+			else if (ghostX > firstStepX) direction = 2; // 左
+			else if (ghostY > firstStepY) direction = 1; // 上
+			else if (ghostY < firstStepY) direction = 3; // 下
+		} else {
+			// 如果无法确定第一步，使用简单的方向判断
+			if (ghostX < playerX) direction = 0;      // 右
+			else if (ghostX > playerX) direction = 2; // 左
+			else if (ghostY > playerY) direction = 1; // 上
+			else if (ghostY < playerY) direction = 3; // 下
+			
+			// 设置跟踪点为幽灵当前位置
+			*track_x = ghostX;
+			*track_y = ghostY;
+		}
+	} else {
+		// 如果没找到路径，尝试使用更智能的方向判断
+		// 检查四个方向，选择不是墙且离玩家最近的方向
+		int bestDir = -1;
+		int minDist = INT_MAX;
+		const int dx[4] = { 1, -1, 0, 0 };
+		const int dy[4] = { 0, 0, -1, 1 };
+		
+		for (int i = 0; i < 4; i++) {
+			int newX = ghostX + dx[i];
+			int newY = ghostY + dy[i];
+			
+			// 检查边界和墙
+			if (newX < 0 || newX >= MAP_SIZE || newY < 0 || newY >= MAP_SIZE || run_grid[newY][newX] == WALL) {
+				continue;
+			}
+			
+			// 计算到玩家的曼哈顿距离
+			int dist = abs(playerX - newX) + abs(playerY - newY);
+			if (dist < minDist) {
+				minDist = dist;
+				bestDir = i;
+				*track_x = newX;
+				*track_y = newY;
+			}
+		}
+		
+		// 如果找到了有效方向，使用它
+		if (bestDir != -1) {
+			direction = bestDir;
+		} else {
+			// 如果所有方向都是墙，使用简单的方向判断
+			if (ghostX < playerX) direction = 0;      // 右
+			else if (ghostX > playerX) direction = 2; // 左
+			else if (ghostY > playerY) direction = 1; // 上
+			else if (ghostY < playerY) direction = 3; // 下
+			
+			// 设置跟踪点为幽灵当前位置
+			*track_x = ghostX;
+			*track_y = ghostY;
+		}
 	}
-	if ((ghostX) < trace[k][0])
-		direction = 0;
-	if ((ghostX) > trace[k][0])
-		direction = 2;
-	if ((ghostY) > trace[k][1])
-		direction = 1;
-	if ((ghostY) < trace[k][1])
-		direction = 3;
+	
 	return direction;
 }
 
 void GamePacman::initGrid()
 {
-	int map[GRID_SIZE][GRID_SIZE] = { {WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL},
-									 {WALL, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, WALL, WALL, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, WALL},
-									 {WALL, FOOD, WALL, WALL, FOOD, WALL, WALL, WALL, FOOD, WALL, WALL, FOOD, WALL, WALL, WALL, FOOD, WALL, WALL, FOOD, WALL},
-									 {WALL, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, WALL},
-									 {WALL, FOOD, WALL, WALL, FOOD, WALL, FOOD, WALL, WALL, WALL, WALL, WALL, WALL, FOOD, WALL, FOOD, WALL, WALL, FOOD, WALL},
-									 {WALL, FOOD, FOOD, WALL, FOOD, WALL, FOOD, FOOD, FOOD, WALL, WALL, FOOD, FOOD, FOOD, WALL, FOOD, WALL, FOOD, FOOD, WALL},
-									 {WALL, WALL, WALL, WALL, FOOD, WALL, WALL, WALL, FOOD, WALL, WALL, FOOD, WALL, WALL, WALL, FOOD, WALL, WALL, WALL, WALL},
-									 {WALL, WALL, WALL, WALL, FOOD, WALL, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, WALL, FOOD, WALL, WALL, WALL, WALL},
-									 {FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, WALL, WALL, WALL, WALL, WALL, WALL, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD},
-									 {FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, WALL, WALL, WALL, WALL, WALL, WALL, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD},
-									 {WALL, WALL, WALL, WALL, FOOD, WALL, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, WALL, FOOD, WALL, WALL, WALL, WALL},
-									 {WALL, WALL, WALL, WALL, FOOD, WALL, FOOD, WALL, WALL, WALL, WALL, WALL, WALL, FOOD, WALL, FOOD, WALL, WALL, WALL, WALL},
-									 {WALL, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, WALL, WALL, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, WALL},
-									 {WALL, FOOD, WALL, WALL, FOOD, WALL, WALL, WALL, FOOD, WALL, WALL, FOOD, WALL, WALL, WALL, FOOD, WALL, WALL, FOOD, WALL},
-									 {WALL, FOOD, FOOD, WALL, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, WALL, FOOD, FOOD, WALL},
-									 {WALL, WALL, FOOD, WALL, FOOD, WALL, FOOD, WALL, WALL, WALL, WALL, WALL, WALL, FOOD, WALL, FOOD, WALL, FOOD, WALL, WALL},
-									 {WALL, FOOD, FOOD, FOOD, FOOD, WALL, FOOD, FOOD, FOOD, WALL, WALL, FOOD, FOOD, FOOD, WALL, FOOD, FOOD, FOOD, FOOD, WALL},
-									 {WALL, FOOD, WALL, WALL, WALL, WALL, WALL, WALL, FOOD, WALL, WALL, FOOD, WALL, WALL, WALL, WALL, WALL, WALL, FOOD, WALL},
-									 {WALL, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, WALL, FOOD, FOOD, FOOD, FOOD, WALL, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, WALL},
-									 {WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL} };
+	int map[GRID_SIZE][GRID_SIZE] = { {WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL},
+									 {WALL, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, WALL, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, WALL},
+									 {WALL, FOOD, WALL, WALL, FOOD, WALL, WALL, WALL, FOOD, WALL, FOOD, WALL, WALL, WALL, FOOD, WALL, WALL, FOOD, WALL},
+									 {WALL, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, WALL},
+									 {WALL, FOOD, WALL, WALL, FOOD, WALL, FOOD, WALL, WALL, WALL, WALL, WALL, FOOD, WALL, FOOD, WALL, WALL, FOOD, WALL},
+									 {WALL, FOOD, FOOD, WALL, FOOD, WALL, FOOD, FOOD, FOOD, WALL, FOOD, FOOD, FOOD, WALL, FOOD, WALL, FOOD, FOOD, WALL},
+									 {WALL, WALL, WALL, WALL, FOOD, WALL, WALL, WALL, FOOD, WALL, FOOD, WALL, WALL, WALL, FOOD, WALL, WALL, WALL, WALL},
+									 {WALL, WALL, WALL, WALL, FOOD, WALL, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, WALL, FOOD, WALL, WALL, WALL, WALL},
+									 {FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, WALL, WALL, WALL, WALL, WALL, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD},
+									 {WALL, WALL, WALL, WALL, FOOD, WALL, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, WALL, FOOD, WALL, WALL, WALL, WALL},
+									 {WALL, WALL, WALL, WALL, FOOD, WALL, FOOD, WALL, WALL, WALL, WALL, WALL, FOOD, WALL, FOOD, WALL, WALL, WALL, WALL},
+									 {WALL, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, WALL, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, WALL},
+									 {WALL, FOOD, WALL, WALL, FOOD, WALL, WALL, WALL, FOOD, WALL, FOOD, WALL, WALL, WALL, FOOD, WALL, WALL, FOOD, WALL},
+									 {WALL, FOOD, FOOD, WALL, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, WALL, FOOD, FOOD, WALL},
+									 {WALL, WALL, FOOD, WALL, FOOD, WALL, FOOD, WALL, WALL, WALL, WALL, WALL, FOOD, WALL, FOOD, WALL, FOOD, WALL, WALL},
+									 {WALL, FOOD, FOOD, FOOD, FOOD, WALL, FOOD, FOOD, FOOD, WALL, FOOD, FOOD, FOOD, WALL, FOOD, FOOD, FOOD, FOOD, WALL},
+									 {WALL, FOOD, WALL, WALL, WALL, WALL, WALL, WALL, FOOD, WALL, FOOD, WALL, WALL, WALL, WALL, WALL, WALL, FOOD, WALL},
+									 {WALL, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, WALL, FOOD, FOOD, FOOD, WALL, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, WALL},
+									 {WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL} };
 	for (int i = 0; i < GRID_SIZE; ++i)
 	{
 		for (int j = 0; j < GRID_SIZE; ++j)
@@ -106,30 +258,30 @@ void GamePacman::initGrid()
 void GamePacman::initMovers()
 {
 	player.x = 6;
-	player.y = 18;
+	player.y = 17;
 	player.old_x = 6;
-	player.old_y = 18;
-	player.direction = Direction::RIGHT;
+	player.old_y = 17;
+	player.direction = Direction::LEFT;
 	player.speed = 1;
-	ghost[0].x = 13;
-	ghost[0].y = 18;
-	ghost[0].old_x = 13;
-	ghost[0].old_y = 18;
-	ghost[0].direction = Direction::LEFT;
+	ghost[0].x = 12;
+	ghost[0].y = 17;
+	ghost[0].old_x = 12;
+	ghost[0].old_y = 17;
+	ghost[0].direction = Direction::RIGHT;//���½�
 	ghost[0].speed = 1;
 	ghost[0].live = 1;
 	ghost[1].x = 2;
 	ghost[1].y = 5;
 	ghost[1].old_x = 2;
 	ghost[1].old_y = 5;
-	ghost[1].direction = Direction::LEFT;
+	ghost[1].direction = Direction::LEFT;//���Ͻ�
 	ghost[1].speed = 1;
 	ghost[1].live = 1;
-	ghost[2].x = 17;
+	ghost[2].x = 16;
 	ghost[2].y = 5;
-	ghost[2].old_x = 17;
+	ghost[2].old_x = 16;
 	ghost[2].old_y = 5;
-	ghost[2].direction = Direction::RIGHT;
+	ghost[2].direction = Direction::RIGHT;//���Ͻ�
 	ghost[2].speed = 1;
 	ghost[2].form = 0;
 	ghost[2].live = 1;
@@ -223,16 +375,30 @@ void GamePacman::movePlayer()
 	switch (player.direction)
 	{
 	case Direction::RIGHT:
-		if (run_grid[player.y][player.x + 1] != WALL)
-			player.x += player.speed;
+		if(player.x+1<=18)	
+		{
+			if (run_grid[player.y][player.x + 1] != WALL)
+				player.x += player.speed;
+		}
+		else
+		{
+			player.x = 0;
+		}
 		break;
 	case Direction::UP:
 		if (run_grid[player.y - 1][player.x] != WALL)
 			player.y -= player.speed;
 		break;
 	case Direction::LEFT:
-		if (run_grid[player.y][player.x - 1] != WALL)
-			player.x -= player.speed;
+		if (player.x-1>=0)
+		{
+			if (run_grid[player.y][player.x - 1] != WALL)
+				player.x -= player.speed;
+		}
+		else
+		{
+			player.x = 18;
+		}
 		break;
 	case Direction::DOWN:
 		if (run_grid[player.y + 1][player.x] != WALL)
@@ -255,10 +421,15 @@ void GamePacman::moveGhosts()
 
 	int track_x, track_y;
 
+	// 始终计算寻路方向，但根据moveCounter控制移动速度
+	// 计算所有幽灵的寻路方向
+	int dir1 = ghostDirection(ghost[0].x, ghost[0].y, player.x, player.y, &track_x, &track_y);
+	int dir2 = ghostDirection(ghost[1].x, ghost[1].y, player.x, player.y, &track_x, &track_y);
+	int dir3 = ghostDirection(ghost[2].x, ghost[2].y, player.x, player.y, &track_x, &track_y);
+
+	// 根据moveCounter控制移动速度
 	if (moveCounter == 0)
 	{
-		int dir1 = ghostDirection(ghost[0].x, ghost[0].y, player.x, player.y, &track_x, &track_y);
-
 		switch (dir1)
 		{
 		case 0:
@@ -279,8 +450,6 @@ void GamePacman::moveGhosts()
 			break;
 		}
 
-		int dir2 = ghostDirection(ghost[1].x, ghost[1].y, player.old_x, player.old_y, &track_x, &track_y);
-
 		switch (dir2)
 		{
 		case 0:
@@ -300,8 +469,6 @@ void GamePacman::moveGhosts()
 				ghost[1].y += ghost[1].speed;
 			break;
 		}
-		int dir3 = ghostDirection(ghost[2].x, ghost[2].y, player.old_x, player.old_y, &track_x, &track_y);
-
 		switch (dir3)
 		{
 		case 0:
@@ -323,6 +490,7 @@ void GamePacman::moveGhosts()
 		}
 	}
 
+	// 保留moveCounter用于控制幽灵移动速度
 	moveCounter = (moveCounter + 1) % 2;
 }
 
@@ -424,7 +592,7 @@ void GamePacman::display(const vector<vector<int>>& grid, int size) const
 void GamePacman::startGame()
 {
 	initGame();
-	display(getGrid(), 20);
+	display(getGrid(), 19);
 
 	while (!gameOver)
 	{
@@ -434,13 +602,13 @@ void GamePacman::startGame()
 			if (input == 'q')
 				break;
 			update(input);
-			display(getGrid(), 20);
+			display(getGrid(), 19);
 		}
 
 		else
 		{
 			update(' ');
-			display(getGrid(), 20);
+			display(getGrid(), 19);
 		}
 		Sleep(1000 / 6);
 	}
@@ -457,7 +625,7 @@ void GamePacman::load()
 	loadimage(&ghost_img[1], _T("./PictureResource/GamePacman/4.png"), img_size, img_size, true);
 	loadimage(&ghost_img[2], _T("./PictureResource/GamePacman/5.png"), img_size, img_size, true);
 	loadimage(&Wall, _T("./PictureResource/GamePacman/wall.png"), img_size, img_size, true);
-	loadimage(&Food, _T("./PictureResource/GamePacman/food.png"), 20, 20, true);
+	loadimage(&Food, _T("./PictureResource/GamePacman/food.png"), 19, 19, true);
 	MapImg[WALL] = Wall;
 	MapImg[FOOD] = Food;
 	MapImg[GHOST1] = ghost_img[0];
