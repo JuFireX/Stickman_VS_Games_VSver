@@ -24,16 +24,13 @@ inline void Engine::putimage_alpha(int x, int y, IMAGE* img, int alpha)
 	int w = img->getwidth();
 	int h = img->getheight();
 
-	// ���� BLENDFUNCTION �ṹ
 	BLENDFUNCTION blendFunction;
-	blendFunction.BlendOp = AC_SRC_OVER;      // ָ��Դͼ�񸲸�Ŀ��ͼ��
-	blendFunction.BlendFlags = 0;             // ����Ϊ 0
-	blendFunction.SourceConstantAlpha = alpha;// ȫ��͸�� (0-255)
-	blendFunction.AlphaFormat = AC_SRC_ALPHA; // ʹ��Դͼ��� alpha ͨ��
+	blendFunction.BlendOp = AC_SRC_OVER;
+	blendFunction.BlendFlags = 0;
+	blendFunction.SourceConstantAlpha = alpha;
+	blendFunction.AlphaFormat = AC_SRC_ALPHA;
 
-	// ���� AlphaBlend ����
-	AlphaBlend(GetImageHDC(NULL), x, y, w, h,
-		GetImageHDC(img), 0, 0, w, h, blendFunction);
+	AlphaBlend(GetImageHDC(NULL), x, y, w, h, GetImageHDC(img), 0, 0, w, h, blendFunction);
 }
 
 void Engine::fadeout_clear_screen(int width, int height, int steps, int delay)
@@ -58,20 +55,16 @@ void Engine::fadeout_clear_screen(int width, int height, int steps, int delay)
 
 void Engine::FadeInWHITE(int width, int height, int steps, int delay)
 {
-	// �Ƚ�ȡ��ǰ��Ļ����
 	IMAGE screen;
 	getimage(&screen, 0, 0, width, height);
 
-	// ����һ�Ű�ɫ����
 	IMAGE mask;
 	loadimage(&mask, _T("./PictureResource/white.png"), width, height, true);
 
 	for (int i = steps; i >= 0; --i)
 	{
-		// �Ȼ���Ϸ����
 		putimage(0, 0, &screen);
 
-		// ���Ӱ�ɫ���֣�alpha��255->0
 		int alpha = i * 255 / steps;
 		putimage_alpha(0, 0, &mask, alpha);
 
@@ -82,20 +75,16 @@ void Engine::FadeInWHITE(int width, int height, int steps, int delay)
 
 void Engine::FadeInBLACK(int width, int height, int steps, int delay)
 {
-	// �Ƚ�ȡ��ǰ��Ļ����
 	IMAGE screen;
 	getimage(&screen, 0, 0, width, height);
 
-	// ����һ�Ű�ɫ����
 	IMAGE mask;
 	loadimage(&mask, _T("./PictureResource/white.png"), width, height, true);
 
 	for (int i = steps; i >= 0; --i)
 	{
-		// �Ȼ���Ϸ����
 		putimage(0, 0, &screen);
 
-		// ���Ӱ�ɫ���֣�alpha��255->0
 		int alpha = i * 255 / steps;
 		putimage_alpha(0, 0, &mask, alpha);
 
@@ -112,21 +101,21 @@ void Engine::initGame()
 	SetActiveWindow(hwnd);
 	SetFocus(hwnd);
 
-	// �л�����ʽӢ�����뷨
-	//HKL hkl = LoadKeyboardLayout(L"00000409", KLF_ACTIVATE);
-	//ActivateKeyboardLayout(hkl, KLF_SETFORPROCESS);
+	// ��ʽ����
+	// HKL hkl = LoadKeyboardLayout(L"00000409", KLF_ACTIVATE);
+	// ActivateKeyboardLayout(hkl, KLF_SETFORPROCESS);
 }
 
 void Engine::runGame2048()
 {
 	bool fuck = true;
 	Game2048* game = new Game2048();
-
-	setbkcolor(WHITE);   // ���ñ���ɫ
 	cleardevice();
+
 	game->load();
 	game->initGame();
 	BeginBatchDraw();
+
 	GameMap = game->getMap();
 	for (int i = 0; i < game->GameHigh; i++)
 	{
@@ -135,15 +124,15 @@ void Engine::runGame2048()
 			putimage(u.x, u.y, &game->MapImg[u.val]);
 		}
 	}
-	FadeInWHITE(720, 480, 255, 10);
+	FadeInWHITE(720, 480, 255, 10); //
 	FlushBatchDraw();
+
 	while (!game->gameOver)
 	{
 		bool moveRight = false;
 		bool moveLeft = false;
 		bool moveUp = false;
 		bool moveDown = false;
-		bool if_quit = false;
 
 		while (peekmessage(&msg))
 		{
@@ -208,7 +197,7 @@ void Engine::runGame2048()
 		Sleep(1000 / game->GameFrame);
 	}
 
-	fadeout_clear_screen(width, height, 255, 10);
+	fadeout_clear_screen(width, height, 255, 10); //
 	EndBatchDraw();
 	delete game;
 }
@@ -217,8 +206,8 @@ void Engine::runGameSnake()
 {
 	bool fuck = true;
 	GameSnake* game = new GameSnake();
-	setbkcolor(BLACK);
 	cleardevice();
+
 	game->load();
 	game->initGame();
 	BeginBatchDraw();
@@ -231,14 +220,13 @@ void Engine::runGameSnake()
 			putimage_alpha(u.x, u.y, &game->MapImg[u.val], 255);
 		}
 	}
-	FadeInWHITE(720, 480, 255, 10);
+	FadeInWHITE(720, 480, 255, 10); //
 	FlushBatchDraw();
 
 	while (!game->gameOver)
 	{
 		char inputKey = ' ';
 
-		// ֻ�������һ���������Ϣ
 		while (peekmessage(&msg))
 		{
 			if (msg.message == WM_KEYDOWN)
@@ -282,10 +270,8 @@ void Engine::runGameSnake()
 		Sleep(1000 / game->GameFrame);
 	}
 
-	fadeout_clear_screen(width, height, 255, 10);
+	fadeout_clear_screen(width, height, 255, 10); //
 	EndBatchDraw();
-	//closegraph();
-	setbkcolor(WHITE);
 	cleardevice();
 	delete game;
 }
@@ -294,9 +280,8 @@ void Engine::runGameSokoban()
 {
 	bool fuck = true;
 	GameSokoban* game = new GameSokoban();
-
-	setbkcolor(BLACK);
 	cleardevice();
+
 	game->load();
 	game->initGame();
 	BeginBatchDraw();
@@ -309,14 +294,13 @@ void Engine::runGameSokoban()
 			putimage_alpha(u.x, u.y, &game->MapImg[u.val], 255);
 		}
 	}
-	FadeInWHITE(720, 480, 255, 10);
+	FadeInWHITE(720, 480, 255, 10); //
 	FlushBatchDraw();
 
 	while (!game->gameOver)
 	{
 		char inputKey = ' ';
 
-		// ֻ�������һ���������Ϣ
 		while (peekmessage(&msg))
 		{
 			if (msg.message == WM_KEYDOWN)
@@ -349,7 +333,6 @@ void Engine::runGameSokoban()
 			}
 		}
 
-		// ÿֻ֡�������һ����������
 		game->update(inputKey);
 		cleardevice();
 
@@ -365,10 +348,8 @@ void Engine::runGameSokoban()
 		Sleep(1000 / game->GameFrame);
 	}
 
-	fadeout_clear_screen(width, height, 255, 10);
+	fadeout_clear_screen(width, height, 255, 10); //
 	EndBatchDraw();
-	//closegraph();
-	setbkcolor(WHITE);
 	cleardevice();
 	delete game;
 }
@@ -377,35 +358,35 @@ void Engine::runGameTetris()
 {
 	bool fuck = true;
 	GameTetris* game = new GameTetris();
-
 	cleardevice();
+
 	game->load();
 	game->initGame();
 	BeginBatchDraw();
+
 	putimage_alpha(0, 0, &game->img_Tetris[6], 255);
 	putimage_alpha(560, 160, &game->img_Tetris[3], 255);
 	putimage_alpha(42, 42, &game->img_Tetris[4], 255);
 	putimage_alpha(370, 60, &game->img_Tetris[5], 255);
 	putimage_alpha(80, 200, &game->img_Tetris[8], 255);
-	// ������Ϸ��ͼ
+
 	GameMap = game->getMap();
 	for (int i = 0; i < game->GameHigh; i++)
 	{
 		for (position u : GameMap[i])
 		{
-			if(u.val!=2)
+			if (u.val != 2)
 				putimage_alpha(u.x, u.y, &game->MapImg[u.val], 255);
 		}
 	}
 	putimage_alpha(0, 400, &game->img_Tetris[7], 255);
-	FadeInWHITE(720, 480, 255, 10);
+	FadeInWHITE(720, 480, 255, 10); //
 	FlushBatchDraw();
+
 	while (!game->gameOver)
 	{
-
 		char inputKey = ' ';
 
-		// ֻ�������һ���������Ϣ
 		while (peekmessage(&msg))
 		{
 			if (msg.message == WM_KEYDOWN)
@@ -434,7 +415,6 @@ void Engine::runGameTetris()
 			}
 		}
 
-		// ÿֻ֡�������һ����������
 		game->update(inputKey);
 		cleardevice();
 
@@ -444,7 +424,6 @@ void Engine::runGameTetris()
 		putimage_alpha(370, 60, &game->img_Tetris[5], 255);
 		putimage_alpha(80, 200, &game->img_Tetris[8], 255);
 
-		// ������Ϸ��ͼ
 		GameMap = game->getMap();
 		for (int i = 0; i < game->GameHigh; i++)
 		{
@@ -458,11 +437,9 @@ void Engine::runGameTetris()
 		Sleep(1000 / game->GameFrame);
 	}
 
-	fadeout_clear_screen(width, height, 255, 10);
+	fadeout_clear_screen(width, height, 255, 10); //
 	EndBatchDraw();
-	setbkcolor(WHITE);
 	cleardevice();
-	//closegraph();
 	delete game;
 }
 
@@ -470,9 +447,8 @@ void Engine::runGamePacman()
 {
 	bool fuck = true;
 	GamePacman* game = new GamePacman();
-
-	setbkcolor(BLACK);        // ���ñ���ɫ
 	cleardevice();
+
 	game->load();
 	game->initGame();
 	BeginBatchDraw();
@@ -481,6 +457,7 @@ void Engine::runGamePacman()
 	int cnt_ad = 0;
 	IMAGE* img = &game->player_img[0];
 	game->update(' ');
+
 	GameMap = game->getMap();
 	for (int i = 0; i < game->GameHigh; i++)
 	{
@@ -506,13 +483,13 @@ void Engine::runGamePacman()
 		}
 	}
 
-	FadeInWHITE(720, 480, 255, 10);
+	FadeInWHITE(720, 480, 255, 10); //
 	FlushBatchDraw();
+
 	while (!game->gameOver)
 	{
 		char inputKey = ' ';
 
-		// ֻ�������һ���������Ϣ
 		while (peekmessage(&msg))
 		{
 			if (msg.message == WM_KEYDOWN)
@@ -545,26 +522,26 @@ void Engine::runGamePacman()
 			}
 		}
 
-		// ÿֻ֡�������һ����������
 		game->update(inputKey);
 
 		cleardevice();
+
 		GameMap = game->getMap();
-		if(game->canChangeDirection)
+		if (game->canChangeDirection)
 			switch (inputKey)
 			{
 			case 'w':
 				img = &game->player_img[2];
-				break; // ��
+				break;
 			case 's':
 				img = &game->player_img[3];
-				break; // ��
+				break;
 			case 'a':
 				img = &game->player_img[1];
-				break; // ��
+				break;
 			case 'd':
 				img = &game->player_img[0];
-				break; // ��
+				break;
 			default:
 				break;
 			}

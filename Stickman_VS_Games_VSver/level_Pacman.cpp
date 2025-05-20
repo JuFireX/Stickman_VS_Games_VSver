@@ -4,14 +4,14 @@
 
 GamePacman::GamePacman() : rng((int)time(nullptr)) {}
 
-int GamePacman::ghostDirection(int ghostX, int ghostY, int playerX, int playerY, int *track_x, int *track_y)
+int GamePacman::ghostDirection(int ghostX, int ghostY, int playerX, int playerY, int* track_x, int* track_y)
 {
-	int map1[20][20] = {{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+	int map1[20][20] = { {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 						{0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0},
 						{0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0},
 						{0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0},
 						{0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0},
-						{0, 1, 1, 0, 1, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 1, 0, 1, 1, 0},
+						{0, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0},
 						{0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0},
 						{0, 0, 0, 0, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 0, 0, 0, 0},
 						{1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1},
@@ -23,15 +23,15 @@ int GamePacman::ghostDirection(int ghostX, int ghostY, int playerX, int playerY,
 						{0, 1, 1, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 1, 1, 0},
 						{0, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 1, 0, 1, 0, 0},
 						{0, 1, 1, 1, 1, 0, 1, 1, 1, 0, 0, 1, 1, 1, 0, 1, 1, 1, 1, 0},
-						{0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0},
+						{0, 1, 0, 0, 0, 0, 1, 0, 1, 0, 0, 1, 0, 1, 0, 0, 0, 0, 1, 0},
 						{0, 1, 1, 1, 1, 1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 1, 1, 1, 1, 0},
-						{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}};
+						{0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0} };
 	int trace[400][3];
 	int k = 0, l = 0, direction = 2;
 	trace[k][0] = ghostX;
 	trace[k][1] = ghostY;
 	trace[k][2] = 0;
-	int dx[4] = {1, -1, 0, 0}, dy[4] = {0, 0, 1, -1};
+	int dx[4] = { 1, -1, 0, 0 }, dy[4] = { 0, 0, 1, -1 };
 	int pc = 0, pre = -1;
 	map1[ghostY][ghostX] = 2;
 	while (trace[k][0] != playerX || trace[k][1] != playerY)
@@ -67,7 +67,7 @@ int GamePacman::ghostDirection(int ghostX, int ghostY, int playerX, int playerY,
 
 void GamePacman::initGrid()
 {
-	int map[GRID_SIZE][GRID_SIZE] = {{WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL},
+	int map[GRID_SIZE][GRID_SIZE] = { {WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL},
 									 {WALL, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, WALL, WALL, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, WALL},
 									 {WALL, FOOD, WALL, WALL, FOOD, WALL, WALL, WALL, FOOD, WALL, WALL, FOOD, WALL, WALL, WALL, FOOD, WALL, WALL, FOOD, WALL},
 									 {WALL, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, WALL},
@@ -86,7 +86,7 @@ void GamePacman::initGrid()
 									 {WALL, FOOD, FOOD, FOOD, FOOD, WALL, FOOD, FOOD, FOOD, WALL, WALL, FOOD, FOOD, FOOD, WALL, FOOD, FOOD, FOOD, FOOD, WALL},
 									 {WALL, FOOD, WALL, WALL, WALL, WALL, WALL, WALL, FOOD, WALL, WALL, FOOD, WALL, WALL, WALL, WALL, WALL, WALL, FOOD, WALL},
 									 {WALL, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, WALL, FOOD, FOOD, FOOD, FOOD, WALL, FOOD, FOOD, FOOD, FOOD, FOOD, FOOD, WALL},
-									 {WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL}};
+									 {WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL, WALL} };
 	for (int i = 0; i < GRID_SIZE; ++i)
 	{
 		for (int j = 0; j < GRID_SIZE; ++j)
@@ -393,7 +393,7 @@ GameState GamePacman::state() const
 }
 
 // Test methods
-void GamePacman::display(const vector<vector<int>> &grid, int size) const
+void GamePacman::display(const vector<vector<int>>& grid, int size) const
 {
 	system("cls");
 	for (int i = 0; i < size; ++i)
@@ -476,7 +476,7 @@ vector<vector<position>> GamePacman::getMap() const
 		vector<position> row;
 		for (int j = 0; j < 36; j++)
 		{
-			row.push_back({0, j * sizeX, i * sizeY});
+			row.push_back({ 0, j * sizeX, i * sizeY });
 		}
 		GameMap.push_back(row);
 	}

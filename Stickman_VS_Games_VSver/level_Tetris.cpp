@@ -361,7 +361,7 @@ vector<vector<position>> GameTetris::getMap() const // 重绘地图
 	{
 		for (int j = 16; j < 24; j++)
 		{
-				GameMap[j][i].val = WALL;
+			GameMap[j][i].val = WALL;
 		}
 	}
 
@@ -369,7 +369,7 @@ vector<vector<position>> GameTetris::getMap() const // 重绘地图
 	{
 		for (int j = 16; j < 24; j++)
 		{
-				GameMap[j][i].val = WALL;
+			GameMap[j][i].val = WALL;
 		}
 	}
 	return GameMap;

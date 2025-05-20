@@ -71,7 +71,6 @@ private:
 
 public:
 	Engine();
-	// ��Ϸ������Ĺ��ܽӿ�
 	vector<vector<position>> GameMap;
 	void initGame();
 	void runGame2048();
@@ -82,7 +81,6 @@ public:
 	void fadeout_clear_screen(int wide, int height, int step, int delay);
 	void FadeInWHITE(int wide, int height, int step, int delay);
 	void FadeInBLACK(int wide, int height, int step, int delay);
-	//void _streamOutPut(const string str, int speed, COLORREF color);
 };
 #endif
 // ENGINE_H

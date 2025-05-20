@@ -300,7 +300,7 @@ BEGINING:
 	case 1:
 		streamOutput("你上蹿下跳,", 10, 1);
 		streamOutput("你磕到了甲沟炎...", 100, 1);
-		streamOutput("再临 卒.", 150, -1);
+		streamOutput("再临 卒.", 200, -1);
 		clean();
 		delete engine;
 		goto BEGINING;
@@ -313,7 +313,7 @@ BEGINING:
 		case 1:
 			streamOutput("不愧是你.", 100, 1);
 			streamOutput("你由于走路平视前方掉入了深坑.", 60, 1);
-			streamOutput("再临 卒.", 150, -1);
+			streamOutput("再临 卒.", 200, -1);
 			clean();
 			delete engine;
 			goto BEGINING;
@@ -377,7 +377,7 @@ BEGINING:
 	case 1:
 		streamOutput("row~~~~~~bomb!", 60, 1);
 		streamOutput("你似乎高估了自己的弹跳力, 倒在最后半个台阶上...", 10, 1);
-		streamOutput("再临 卒.", 150, -1);
+		streamOutput("再临 卒.", 200, -1);
 		clean();
 		delete engine;
 		goto BEGINING;
@@ -389,7 +389,7 @@ BEGINING:
 		streamOutput("失重感很强烈...", 10, 1);
 		streamOutput("......", 100, 1);
 		streamOutput("你的小脚趾磕在了第一节台阶上.", 100, 1);
-		streamOutput("再临 卒.", 150, 0);
+		streamOutput("再临 卒.", 200, 0);
 		clean();
 		delete engine;
 		goto BEGINING;
