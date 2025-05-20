@@ -2,6 +2,7 @@
 #include <conio.h>
 #include <cstdlib>
 #include <ctime>
+#include <gdiplus.h>
 #include <iostream>
 #include <memory>
 #include <sstream>
@@ -9,6 +10,7 @@
 #include <string>
 #include <vector>
 #include <Windows.h>
+#pragma comment(lib, "gdiplus.lib")
 
 using namespace std;
 
@@ -57,18 +59,17 @@ void pause(int timeout)
 }
 
 // 模拟流式输出
-void streamOutput(const string text, int speed, int timeout, int color = BLACK)
+void streamOutput(const string text, int speed, int timeout, int color = 0xffffff)
 {
 	LOGFONT f;
 	gettextstyle(&f);
 	f.lfHeight = 20;
+	f.lfWeight = FW_BOLD;
 	f.lfOutPrecision = OUT_TT_PRECIS;
-	f.lfPitchAndFamily = FF_ROMAN;
-	_tcscpy_s(f.lfFaceName, _T("微软雅黑Bold"));
+	wcscpy_s(f.lfFaceName, _T("Arial"));
 	settextstyle(&f);
 	setbkmode(TRANSPARENT);
 	settextcolor(color);
-	setaspectratio(1, 1);
 
 	// 转码
 	wstring wtext = gbk_to_wstring(text);
@@ -93,18 +94,17 @@ void streamOutput(const string text, int speed, int timeout, int color = BLACK)
 }
 
 // 整行输出
-void directOutput(const string text, int timeout, int color = BLACK)
+void directOutput(const string text, int timeout, int color = 0xffffff)
 {
 	LOGFONT f;
 	gettextstyle(&f);
 	f.lfHeight = 20;
+	f.lfWeight = FW_BOLD;
 	f.lfOutPrecision = OUT_TT_PRECIS;
-	f.lfPitchAndFamily = FF_ROMAN;
-	_tcscpy_s(f.lfFaceName, _T("微软雅黑Bold"));
+	wcscpy_s(f.lfFaceName, _T("Arial"));
 	settextstyle(&f);
 	setbkmode(TRANSPARENT);
 	settextcolor(color);
-	setaspectratio(1, 1);
 
 	// 转码
 	wstring wtext = gbk_to_wstring(text);
@@ -123,17 +123,12 @@ void directOutput(const string text, int timeout, int color = BLACK)
 }
 
 // 输出选择
-int choiceOutput(
-	const string& output,
-	const vector<string>& choices,
-	int base_color = BLACK,
-	int select_color = RED
-)
+int choiceOutput(const string& output, const vector<string>& choices, int basec = BLACK, int selectc = RED)
 {
 	int base_x = 5, base_y = y, line_h = 20;
 	int select = 1;
 	int n = (int)choices.size();
-	streamOutput(output, 10, 0, base_color);
+	streamOutput(output, 10, 0, basec);
 
 	while (true)
 	{
@@ -143,12 +138,12 @@ int choiceOutput(
 			int y_chioce = base_y + i * line_h;
 			if (i == select)
 			{
-				settextcolor(select_color);
+				settextcolor(selectc);
 				outtextxy(base_x, y_chioce, wstr.c_str());
 			}
 			else
 			{
-				settextcolor(base_color);
+				settextcolor(basec);
 				outtextxy(base_x, y_chioce, wstr.c_str());
 			}
 		}
@@ -160,9 +155,9 @@ int choiceOutput(
 			if (msg.message == WM_MOUSEWHEEL)
 			{
 				if (msg.wheel > 0)
-					select = (select - 1 + n) % (n + 1);
+					select = ((select - 1 + n) % n) + 1;
 				if (msg.wheel < 0)
-					select = (select + 1) % (n + 1);
+					select = ((select + 1) % n) + 1;
 			}
 
 			if (msg.message == WM_LBUTTONDOWN)
@@ -215,7 +210,7 @@ BEGINING:
 	vector<string> choices;
 	int choice = 0;
 	engine->initGame();
-	setbkcolor(0xffffff);
+	setbkcolor(0x000000);
 	cleardevice();
 
 	// 序章报幕

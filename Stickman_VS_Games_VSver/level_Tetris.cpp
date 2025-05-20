@@ -133,7 +133,6 @@ void GameTetris::mergeTetromino()
 
 void GameTetris::clearLines()
 {
-
 	for (int i = GRID_HEIGHT - 1; i >= 0; --i)
 	{
 		if (i <= GRID_HEIGHT - GRID_WIDTH + 1)
@@ -149,16 +148,25 @@ void GameTetris::clearLines()
 			{
 				if (i + j > GRID_HEIGHT - 1)
 				{
-					if (i + j == GRID_HEIGHT)
-					{
-						score++;
-					}
 					continue;
 				}
 				else
 				{
 					grid[i][j] = EMPTY;
 				}
+			}
+		}
+	}
+
+	// 更新分数
+	score = 0;
+	for (int i = GRID_HEIGHT - GRID_WIDTH + 1; i < GRID_HEIGHT; ++i)
+	{
+		for (int j = 0; j < GRID_WIDTH; ++j)
+		{
+			if (i + j == GRID_HEIGHT && grid[i][j] == BRICK)
+			{
+				score += 10;
 			}
 		}
 	}
@@ -180,13 +188,6 @@ void GameTetris::display(const vector<vector<int>>& grid, int size) const
 				cout << "  ";
 		}
 		cout << "\n";
-	}
-
-	cout << "WASD to move, Q to quit." << endl;
-	if (gameOver)
-	{
-		cout << "\nGame Over!\n"
-			<< endl;
 	}
 }
 
@@ -273,7 +274,7 @@ void GameTetris::update(char key)
 			generateNewTetromino();
 		}
 	}
-	if (score >= 8) {
+	if (score >= 80) {
 		gameOver = true;
 	}
 }
