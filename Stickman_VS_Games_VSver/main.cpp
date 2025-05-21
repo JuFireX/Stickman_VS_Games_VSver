@@ -125,7 +125,7 @@ void directOutput(const string text, int timeout, int color = 0xffffff)
 int choiceOutput(const string& output, const vector<string>& choices, int basec = WHITE, int selectc = RED)
 {
 	int base_x = 5, base_y = y, line_h = 20;
-	int select = 1;
+	int select = 0;
 	int n = (int)choices.size();
 	streamOutput(output, 10, 0, basec);
 
@@ -135,7 +135,7 @@ int choiceOutput(const string& output, const vector<string>& choices, int basec 
 		{
 			wstring wstr = gbk_to_wstring(to_string(i) + " -> " + choices[i - 1]);
 			int y_chioce = base_y + i * line_h;
-			if (i == select)
+			if (i == select+1)
 			{
 				settextcolor(selectc);
 				outtextxy(base_x, y_chioce, wstr.c_str());
@@ -155,12 +155,12 @@ int choiceOutput(const string& output, const vector<string>& choices, int basec 
 			{
 				if (msg.vkcode == VK_DOWN || msg.vkcode == 'S')
 				{
-					select = ((select + n - 1) % n) + 1;
+					select = ((select + 1) % n);
 					continue;
 				}
 				else if (msg.vkcode == VK_UP || msg.vkcode == 'W')
 				{
-					select = ((select + 1) % n) + 1;
+					select = ((select + n - 1) % n) ;
 					continue;
 				}
 				else if (msg.vkcode == VK_RETURN || msg.vkcode == 'F')
@@ -215,7 +215,7 @@ BEGINING:
 
 	// 序章报幕
 	initGameCli(count++);
-	engine->runGamePacman();//test
+	//engine->runGamePacman();//test
 	streamOutput("你是再临, 正在无聊地玩2048...", 50, 1);
 	directOutput("(以游玩2048为目标继续行动)", -1);
 
@@ -271,6 +271,7 @@ BEGINING:
 		default:
 			break;
 		}
+		clean();
 	} while (choice != 3);
 	clean();
 
