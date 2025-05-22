@@ -33,10 +33,10 @@ inline void Engine::putimage_alpha(int x, int y, IMAGE* img, int alpha)
 	AlphaBlend(GetImageHDC(NULL), x, y, w, h, GetImageHDC(img), 0, 0, w, h, blendFunction);
 }
 
-void Engine::FadeOutWHITE(int width, int height, int speed, int timeout)
+void Engine::FadeOut(int width, int height, string path, int speed, int timeout)
 {
 	IMAGE mask;
-	loadimage(&mask, _T("./PictureResource/white.png"), width, height, true);
+	loadimage(&mask, _T(path.c_str()), width, height, true);
 	int cnt = 0;
 	for (int i = 1; i <= (255 / speed); ++i)
 	{
@@ -51,53 +51,13 @@ void Engine::FadeOutWHITE(int width, int height, int speed, int timeout)
 	Sleep(timeout);
 }
 
-void Engine::FadeOutBLACK(int width, int height, int speed, int timeout)
-{
-	IMAGE mask;
-	loadimage(&mask, _T("./PictureResource/black.png"), width, height, true);
-	int cnt = 0;
-	for (int i = 1; i <= (255 / speed); ++i)
-	{
-		int alpha = i * speed;
-		putimage_alpha(0, 0, &mask, alpha);
-		FlushBatchDraw();
-		Sleep(255 / speed);
-		cnt += alpha;
-		if (cnt > 8000)
-			break;
-	}
-	Sleep(timeout);
-}
-
-void Engine::FadeInWHITE(int width, int height, int speed, int timeout)
+void Engine::FadeIn(int width, int height, string path, int speed, int timeout)
 {
 	IMAGE screen;
 	getimage(&screen, 0, 0, width, height);
 
 	IMAGE mask;
-	loadimage(&mask, _T("./PictureResource/white.png"), width, height, true);
-
-	for (int i = (255 / speed); i >= 0; --i)
-	{
-		putimage(0, 0, &screen);
-
-		int alpha = i * speed;
-		putimage_alpha(0, 0, &mask, alpha);
-
-		FlushBatchDraw();
-		Sleep(255 / speed);
-	}
-
-	Sleep(timeout);
-}
-
-void Engine::FadeInBLACK(int width, int height, int speed, int timeout)
-{
-	IMAGE screen;
-	getimage(&screen, 0, 0, width, height);
-
-	IMAGE mask;
-	loadimage(&mask, _T("./PictureResource/black.png"), width, height, true);
+	loadimage(&mask, _T(path.), width, height, true);
 
 	for (int i = (255 / speed); i >= 0; --i)
 	{
