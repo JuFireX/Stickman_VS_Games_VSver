@@ -135,7 +135,7 @@ int choiceOutput(const string& output, const vector<string>& choices, int basec 
 		{
 			wstring wstr = gbk_to_wstring(to_string(i) + " -> " + choices[i - 1]);
 			int y_chioce = base_y + i * line_h;
-			if (i == select+1)
+			if (i == select + 1)
 			{
 				settextcolor(selectc);
 				outtextxy(base_x, y_chioce, wstr.c_str());
@@ -149,7 +149,7 @@ int choiceOutput(const string& output, const vector<string>& choices, int basec 
 		FlushBatchDraw();
 
 		ExMessage msg;
-		while (peekmessage(&msg)) // ?????????
+		while (peekmessage(&msg))
 		{
 			if (msg.message == WM_KEYDOWN)
 			{
@@ -160,19 +160,19 @@ int choiceOutput(const string& output, const vector<string>& choices, int basec 
 				}
 				else if (msg.vkcode == VK_UP || msg.vkcode == 'W')
 				{
-					select = ((select + n - 1) % n) ;
+					select = ((select + n - 1) % n);
 					continue;
 				}
 				else if (msg.vkcode == VK_RETURN || msg.vkcode == 'F')
 				{
 					y += 20 * n;
-					return select;
+					return select + 1;
 				}
 				else if ((msg.vkcode - '0') >= 1 && (msg.vkcode - '0') <= n)
 				{
 					select = (msg.vkcode - '0');
 					y += 20 * n;
-					return select;
+					return select + 1;
 				}
 				else
 				{
@@ -197,7 +197,7 @@ void initGameCli(int count)
 		directOutput("蛤? 你在干嘛?? ", 1);
 	else
 		directOutput("啧啧啧~~", 1);
-	pause(1);
+	pause(0);
 }
 
 // 主流程
@@ -211,7 +211,7 @@ BEGINING:
 	int choice = 0;
 	engine->initGame();
 	setbkcolor(0x000000);
-	cleardevice();
+	clean();
 
 	// 序章报幕
 	initGameCli(count++);
@@ -221,7 +221,6 @@ BEGINING:
 
 	// 序章
 	streamOutput("WASD移动, Q跳过本关.", 10, 1);
-	Sleep(1000);
 	engine->runGame2048();
 	clean();
 
@@ -283,14 +282,14 @@ BEGINING:
 	streamOutput("......", 60, 1);
 	streamOutput("\n轰隆~~~~~~~~~~\n", 100, 2);
 	streamOutput("石门在巨响中关闭.", 10, 1);
-	cleardevice();
-	y = 10;
+	clean();
 
+	// 第二关分支
 	streamOutput("你来到了马里奥的世界...", 10, 1);
 	streamOutput("视线尽头是一座城堡. emmm设定上一般城堡都是需要钥匙才能进的...", 10, 1);
 	streamOutput("向前走去,不远处的半空漂浮着一个\"幸运方块\"...", 10, 1);
-	choice = choiceOutput("你决定:", { "上蹿下跳", "视而不见", "观察方块", "触碰方块" });
 	clean();
+	choice = choiceOutput("你决定:", { "上蹿下跳", "视而不见", "观察方块", "触碰方块" });
 	switch (choice)
 	{
 	case 1:
@@ -506,7 +505,6 @@ BEGINING:
 	do
 	{
 		choice = choiceOutput("你决定:", choices);
-		y += 100;
 		switch (choice)
 		{
 		case 1:
