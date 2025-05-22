@@ -36,6 +36,7 @@ void clean()
 // 等待用户输入 pause
 void pause(int timeout)
 {
+	flushmessage(-1);
 	if (timeout == -1)
 	{
 		y += 20;
@@ -215,7 +216,6 @@ BEGINING:
 
 	// 序章报幕
 	initGameCli(count++);
-	//engine->runGamePacman();//test
 	streamOutput("你是再临, 正在无聊地玩2048...", 50, 1);
 	directOutput("(以游玩2048为目标继续行动)", -1);
 
@@ -237,7 +237,6 @@ BEGINING:
 
 	// 第一关
 	streamOutput("WASD移动, Q跳过本关, R重新开始.", 10, 1);
-	Sleep(1000);
 	engine->runGameSokoban();
 	clean();
 
