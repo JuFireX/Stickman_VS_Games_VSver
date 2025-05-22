@@ -12,8 +12,8 @@
 
 using namespace std;
 
-static int x = 10, y = 5;
-
+static int x = 10, y = 10;
+int tempy;
 // 转换GBK编码为宽字符串
 wstring gbk_to_wstring(const string &str)
 {
@@ -29,6 +29,7 @@ wstring gbk_to_wstring(const string &str)
 // 清屏 cls
 void clean()
 {
+	//Sleep(2000);
 	cleardevice();
 	y = 10;
 }
@@ -80,13 +81,26 @@ void streamOutput(const string text, int speed, int timeout, int color = 0xfffff
 		y = 0;
 		cleardevice();
 	}
-
+	ExMessage msg;
 	for (wchar_t wc : wtext)
 	{
+		int a = speed;
 		out += wc;
 		outtextxy(x, y, out.c_str());
 		FlushBatchDraw();
-		Sleep(speed);
+		while (peekmessage(&msg))
+		{
+			if (msg.message == WM_KEYDOWN)
+			{
+				if (msg.vkcode == 'Y')
+				{
+					a = 0;
+					break;
+				}
+			}
+		}
+		flushmessage();
+		Sleep(a);
 	}
 
 	y += 20;
@@ -122,6 +136,13 @@ void directOutput(const string text, int timeout, int color = 0xffffff)
 	pause(timeout);
 }
 
+void clearRect(int top, COLORREF color)
+{
+	Sleep(2000);
+	setfillcolor(color);
+	solidrectangle(720, top, 0, 480);
+	y = 10;
+}
 // 输出选择
 int choiceOutput(const string &output, const vector<string> &choices, int basec = WHITE, int selectc = RED)
 {
@@ -181,6 +202,7 @@ int choiceOutput(const string &output, const vector<string> &choices, int basec 
 				}
 			}
 		}
+		y = 300;
 		Sleep(10);
 	}
 }
@@ -216,7 +238,7 @@ BEGINING:
 
 	// 序章报幕
 	initGameCli(count++);
-	streamOutput("你是再临, 正在无聊地玩2048...", 50, 1);
+	streamOutput("你是再临, 正在无聊地玩2048...", 50, 0);
 	directOutput("(以游玩2048为目标继续行动)", -1);
 
 	// 序章
@@ -239,14 +261,15 @@ BEGINING:
 	streamOutput("WASD移动, Q跳过本关, R重新开始.", 10, 0);
 	engine->runGameSokoban();
 	clean();
-
-	// 第一关分支
 	streamOutput("轰隆~~~~~~~~~~", 100, 2);
 	streamOutput("当三个箱子放置到正确的位置后,", 10, 0);
 	streamOutput("两侧的墙壁都缓缓移开了厚重的石门...", 10, 0);
 	temp = 0;
+	tempy = y;
+	// 第一关分支
 	do
 	{
+		y = tempy;
 		choice = choiceOutput("你决定:", {"观察左侧石门", "观察右侧石门", "结束观察"});
 		switch (choice)
 		{
@@ -269,7 +292,7 @@ BEGINING:
 		default:
 			break;
 		}
-		clean();
+		clearRect(300,0x00000);
 	} while (choice != 3);
 	clean();
 
@@ -299,6 +322,7 @@ BEGINING:
 		delete engine;
 		goto BEGINING;
 	case 2:
+		clean();
 		streamOutput("鹅, 不愧是你, 毕竟自古CT不抬头.", 10, 0);
 		streamOutput("继续前进, 你发现了一个深坑.", 10, 0);
 		choice = choiceOutput("你决定:", {"视而不见继续前进", "观察坑的周围"});
@@ -326,6 +350,7 @@ BEGINING:
 		streamOutput("你盯着方块儿看了许久, 但这还是平平无奇的方块儿.", 10, 0);
 		streamOutput("你克制住打开它的冲动.", 10, 0);
 		streamOutput(".......", 100, 3);
+		clean();
 	case 4:
 		streamOutput("你盯着方块儿看了许久, 它们好像变了...", 10, 0);
 		streamOutput("方块边儿不再刻迹斑斑，身上的凹陷也平整了许多.", 10, 0);
@@ -376,6 +401,7 @@ BEGINING:
 		delete engine;
 		goto BEGINING;
 	case 2:
+		clean();
 		streamOutput("你跳到了半道儿. 深坑内部确实有根不知所至的通道.", 10, 0);
 		break;
 	case 3:
@@ -390,10 +416,11 @@ BEGINING:
 	default:
 		break;
 	}
-
+	tempy = y;
 	temp = 0;
 	do
 	{
+		y = tempy;
 		choice = choiceOutput("你决定:", {"钻进通道", "前往城堡", "尝试跳回去"});
 		switch (choice)
 		{
@@ -462,6 +489,7 @@ BEGINING:
 		default:
 			break;
 		}
+		clearRect(300,0x00000);
 	} while (choice != 1);
 	clean();
 
@@ -500,9 +528,11 @@ BEGINING:
 	streamOutput("费了一些脑细胞, 石门终于开始挪动.", 10, 0);
 	streamOutput("......", 60, 1);
 	streamOutput("你再次来到马里奥的世界.", 10, 0);
-	choices = {"观察石门", "观察天空", "观察幸运方块", "观察深坑周围", "前往登神长阶"};
+	tempy = y;
 	do
 	{
+		y = tempy;
+		choices = { "观察石门", "观察天空", "观察幸运方块", "观察深坑周围", "前往登神长阶" };
 		choice = choiceOutput("你决定:", choices);
 		switch (choice)
 		{
@@ -515,6 +545,7 @@ BEGINING:
 			streamOutput("天空是蔚蓝色, 窗外有千纸鹤...(bushi)", 10, 0);
 			break;
 		case 3:
+			y -= 100;
 			streamOutput("平平无奇的方块儿...", 10, 0);
 			streamOutput("你曾经注视过良久.可是它依然是平平无奇的方块儿...", 10, 0);
 			streamOutput("......", 60, 1);
@@ -531,14 +562,17 @@ BEGINING:
 		default:
 			break;
 		}
+		clearRect(300,0x00000);
 	} while (choice != 5);
 	clean();
 
 	// 第五关报幕
 	streamOutput("是熟悉的阶梯...", 10, 0);
-	choices = {"观察通道入口", "观察台阶", "观察手中的方盒", "观察城堡的门", "进入城堡"};
+	tempy = y;
 	do
 	{
+		y = tempy;
+		choices = { "观察通道入口", "观察台阶", "观察手中的方盒", "观察城堡的门", "进入城堡" };
 		choice = choiceOutput("你决定:", choices);
 		switch (choice)
 		{
@@ -561,6 +595,7 @@ BEGINING:
 		default:
 			break;
 		}
+		clearRect(300,0x00000);
 	} while (choice != 5);
 	clean();
 

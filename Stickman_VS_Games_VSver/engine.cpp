@@ -36,7 +36,8 @@ inline void Engine::putimage_alpha(int x, int y, IMAGE* img, int alpha)
 void Engine::FadeOut(int width, int height, string path, int speed, int timeout)
 {
 	IMAGE mask;
-	loadimage(&mask, _T(path.c_str()), width, height, true);
+	std::wstring wpath = std::wstring(path.begin(), path.end());
+	loadimage(&mask, wpath.c_str(), width, height, true);
 	int cnt = 0;
 	for (int i = 1; i <= (255 / speed); ++i)
 	{
@@ -57,7 +58,8 @@ void Engine::FadeIn(int width, int height, string path, int speed, int timeout)
 	getimage(&screen, 0, 0, width, height);
 
 	IMAGE mask;
-	loadimage(&mask, _T(path.), width, height, true);
+	std::wstring wpath = std::wstring(path.begin(), path.end());
+	loadimage(&mask, wpath.c_str(), width, height, true);
 
 	for (int i = (255 / speed); i >= 0; --i)
 	{
