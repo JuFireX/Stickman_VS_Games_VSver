@@ -285,7 +285,10 @@ void GamePacman::initMovers()
 	ghost[2].speed = 1;
 	ghost[2].form = 0;
 	ghost[2].live = 1;
+	initimg = &player_img[1];
+	canChangeDirection = false; // 初始化时允许改变方向
 }
+
 void GamePacman::initGame()
 {
 	phase = 1;
@@ -294,6 +297,7 @@ void GamePacman::initGame()
 	initMovers();
 	updateGrid();
 }
+
 void GamePacman::updateGrid()
 {
 	if (food_grid[player.old_y][player.old_x] == FOOD)
@@ -341,7 +345,7 @@ bool GamePacman::processInput(char input)
 		return false;
 	}
 
-	bool canChangeDirection = true;
+	canChangeDirection = true;
 	switch (newDir)
 	{
 	case Direction::RIGHT:
@@ -525,6 +529,7 @@ void GamePacman::update(char key)
 				}
 			}
 			initMovers();
+			initimg = &player_img[1];
 			break;
 		}
 	}

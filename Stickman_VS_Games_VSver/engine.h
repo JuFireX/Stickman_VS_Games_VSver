@@ -39,6 +39,7 @@ typedef struct position
 	int y;
 } position;
 
+
 class Game
 {
 public:

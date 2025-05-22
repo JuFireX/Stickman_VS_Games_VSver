@@ -232,7 +232,6 @@ BEGINING:
 	Engine *engine = new Engine();
 	vector<string> choices;
 	int choice = 0;
-	engine->initGame();
 	setbkcolor(0x000000);
 	clean();
 
@@ -240,7 +239,7 @@ BEGINING:
 	initGameCli(count++);
 	streamOutput("你是再临, 正在无聊地玩2048...", 50, 0);
 	directOutput("(以游玩2048为目标继续行动)", -1);
-
+	engine->runGamePacman();
 	// 序章
 	streamOutput("WASD移动, Q跳过本关.", 10, 0);
 	engine->runGame2048();

@@ -429,7 +429,6 @@ void Engine::runGamePacman()
 
 	int cntframe = 0;
 	int cnt_ad = 0;
-	IMAGE* img = &game->player_img[0];
 	game->update(' ');
 
 	GameMap = game->getMap();
@@ -447,7 +446,7 @@ void Engine::runGamePacman()
 				}
 				else
 				{
-					putimage_alpha(u.x, u.y, img, 255);
+					putimage_alpha(u.x, u.y, game->initimg, 255);
 				}
 			}
 			else
@@ -504,16 +503,16 @@ void Engine::runGamePacman()
 			switch (inputKey)
 			{
 			case 'w':
-				img = &game->player_img[2];
+				game->initimg = &game->player_img[2];
 				break;
 			case 's':
-				img = &game->player_img[3];
+				game->initimg = &game->player_img[3];
 				break;
 			case 'a':
-				img = &game->player_img[1];
+				game->initimg = &game->player_img[1];
 				break;
 			case 'd':
-				img = &game->player_img[0];
+				game->initimg = &game->player_img[0];
 				break;
 			default:
 				break;
@@ -533,7 +532,7 @@ void Engine::runGamePacman()
 					}
 					else
 					{
-						putimage_alpha(u.x, u.y, img, 255);
+						putimage_alpha(u.x, u.y, game->initimg, 255);
 					}
 				}
 				else
