@@ -33,10 +33,11 @@ inline void Engine::putimage_alpha(int x, int y, IMAGE* img, int alpha)
 	AlphaBlend(GetImageHDC(NULL), x, y, w, h, GetImageHDC(img), 0, 0, w, h, blendFunction);
 }
 
-void Engine::FadeOutWHITE(int width, int height, int speed, int timeout)
+void Engine::FadeOut(int width, int height, string path, int speed, int timeout)
 {
 	IMAGE mask;
-	loadimage(&mask, _T("./PictureResource/white.png"), width, height, true);
+	std::wstring wpath = std::wstring(path.begin(), path.end());
+	loadimage(&mask, wpath.c_str(), width, height, true);
 	int cnt = 0;
 	for (int i = 1; i <= (255 / speed); ++i)
 	{
@@ -51,53 +52,14 @@ void Engine::FadeOutWHITE(int width, int height, int speed, int timeout)
 	Sleep(timeout);
 }
 
-void Engine::FadeOutBLACK(int width, int height, int speed, int timeout)
-{
-	IMAGE mask;
-	loadimage(&mask, _T("./PictureResource/black.png"), width, height, true);
-	int cnt = 0;
-	for (int i = 1; i <= (255 / speed); ++i)
-	{
-		int alpha = i * speed;
-		putimage_alpha(0, 0, &mask, alpha);
-		FlushBatchDraw();
-		Sleep(255 / speed);
-		cnt += alpha;
-		if (cnt > 8000)
-			break;
-	}
-	Sleep(timeout);
-}
-
-void Engine::FadeInWHITE(int width, int height, int speed, int timeout)
+void Engine::FadeIn(int width, int height, string path, int speed, int timeout)
 {
 	IMAGE screen;
 	getimage(&screen, 0, 0, width, height);
 
 	IMAGE mask;
-	loadimage(&mask, _T("./PictureResource/white.png"), width, height, true);
-
-	for (int i = (255 / speed); i >= 0; --i)
-	{
-		putimage(0, 0, &screen);
-
-		int alpha = i * speed;
-		putimage_alpha(0, 0, &mask, alpha);
-
-		FlushBatchDraw();
-		Sleep(255 / speed);
-	}
-
-	Sleep(timeout);
-}
-
-void Engine::FadeInBLACK(int width, int height, int speed, int timeout)
-{
-	IMAGE screen;
-	getimage(&screen, 0, 0, width, height);
-
-	IMAGE mask;
-	loadimage(&mask, _T("./PictureResource/black.png"), width, height, true);
+	std::wstring wpath = std::wstring(path.begin(), path.end());
+	loadimage(&mask, wpath.c_str(), width, height, true);
 
 	for (int i = (255 / speed); i >= 0; --i)
 	{
@@ -467,7 +429,6 @@ void Engine::runGamePacman()
 
 	int cntframe = 0;
 	int cnt_ad = 0;
-	IMAGE* img = &game->player_img[0];
 	game->update(' ');
 
 	GameMap = game->getMap();
@@ -485,7 +446,7 @@ void Engine::runGamePacman()
 				}
 				else
 				{
-					putimage_alpha(u.x, u.y, img, 255);
+					putimage_alpha(u.x, u.y, game->initimg, 255);
 				}
 			}
 			else
@@ -542,16 +503,16 @@ void Engine::runGamePacman()
 			switch (inputKey)
 			{
 			case 'w':
-				img = &game->player_img[2];
+				game->initimg = &game->player_img[2];
 				break;
 			case 's':
-				img = &game->player_img[3];
+				game->initimg = &game->player_img[3];
 				break;
 			case 'a':
-				img = &game->player_img[1];
+				game->initimg = &game->player_img[1];
 				break;
 			case 'd':
-				img = &game->player_img[0];
+				game->initimg = &game->player_img[0];
 				break;
 			default:
 				break;
@@ -571,7 +532,7 @@ void Engine::runGamePacman()
 					}
 					else
 					{
-						putimage_alpha(u.x, u.y, img, 255);
+						putimage_alpha(u.x, u.y, game->initimg, 255);
 					}
 				}
 				else
