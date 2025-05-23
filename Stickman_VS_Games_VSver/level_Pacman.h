@@ -97,7 +97,6 @@ public:
 	IMAGE player_img[5];
 	int phase = 0;
 	bool canChangeDirection = true;
-	IMAGE* initimg = nullptr;
 };
 
 #endif

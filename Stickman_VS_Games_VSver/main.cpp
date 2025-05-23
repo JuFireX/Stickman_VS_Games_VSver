@@ -232,6 +232,7 @@ BEGINING:
 	Engine *engine = new Engine();
 	vector<string> choices;
 	int choice = 0;
+	engine->initGame();
 	setbkcolor(0x000000);
 	clean();
 
