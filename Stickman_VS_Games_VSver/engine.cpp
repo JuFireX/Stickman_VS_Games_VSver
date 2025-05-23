@@ -468,7 +468,7 @@ void Engine::runGamePacman()
 			{
 				if (msg.vkcode == VK_ESCAPE || msg.vkcode == 'Q')
 				{
-					game->phase = 0;
+					game->gameOver = true;
 					break;
 				}
 				else if (msg.vkcode == VK_UP || msg.vkcode == 'W')

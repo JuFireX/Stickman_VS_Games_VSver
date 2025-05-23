@@ -68,7 +68,7 @@ private:
 	int MapSizeX = 20, MapSizeY = 12;
 	bool running = true;
 	ExMessage msg = ExMessage();
-	inline void putimage_alpha(int x, int y, IMAGE* img, int alpha);
+	
 
 public:
 	Engine();
@@ -81,6 +81,7 @@ public:
 	void runGamePacman();
 	void FadeIn(int width, int height, string path, int speed, int timeout);
 	void FadeOut(int width, int height, string path, int speed, int timeout);
+	inline void putimage_alpha(int x, int y, IMAGE* img, int alpha);
 };
 #endif
 // ENGINE_H
