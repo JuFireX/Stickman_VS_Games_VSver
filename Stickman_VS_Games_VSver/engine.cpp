@@ -39,16 +39,13 @@ void Engine::FadeOut(int width, int height, string path, int speed, int timeout)
 	std::wstring wpath = std::wstring(path.begin(), path.end());
 	loadimage(&mask, wpath.c_str(), width, height, true);
 	int cnt = 0;
-	for (int i = 1; i <= (255 / speed); ++i)
+	for (int alpha = speed; alpha <= 255; alpha += speed)
 	{
-		int alpha = i * speed;
 		putimage_alpha(0, 0, &mask, alpha);
 		FlushBatchDraw();
-		Sleep(255 / speed);
-		cnt += alpha;
-		if (cnt > 8000)
-			break;
+		Sleep(10);
 	}
+
 	Sleep(timeout);
 }
 
@@ -106,6 +103,7 @@ void Engine::runGame2048()
 			putimage(u.x, u.y, &game->MapImg[u.val]);
 		}
 	}
+	FadeIn(720, 480, "./PictureResource/black.png", 10, 0);
 	FlushBatchDraw();
 
 	while (!game->gameOver)

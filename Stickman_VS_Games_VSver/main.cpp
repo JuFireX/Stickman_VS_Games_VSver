@@ -14,7 +14,7 @@ using namespace std;
 
 static int x = 10, y = 300;
 static int BASIC_X = 10, BASIC_Y = 360, BASIC_H=20;
-Engine* engine = new Engine();
+
 // 转换GBK编码为宽字符串
 wstring gbk_to_wstring(const string &str)
 {
@@ -207,11 +207,13 @@ int choiceOutput(const string &output, const vector<string> &choices, int basec 
 void putImg(int x, int y,int width,int height,string path,int timeout)
 {
 	IMAGE temp;
+	Engine* engine1 = new Engine();
 	std::wstring wpath = std::wstring(path.begin(), path.end());
 	loadimage(&temp, wpath.c_str(),width , height);
-	engine->putimage_alpha(x, y, &temp, 255);
+	engine1->putimage_alpha(x, y, &temp, 255);
 	FlushBatchDraw();
 	pause(timeout);
+	delete engine1;
 }
 
 void initGameCli(int count)
@@ -236,38 +238,53 @@ int main()
 	int count = 1;
 	int temp = 0;
 BEGINING:
-	
+	Engine* engine = new Engine();
 	vector<string> choices;
 	int choice = 0;
 	engine->initGame();
-	setbkcolor(WHITE);
+	setbkcolor(BLACK);
 	// 序章报幕
 	initGameCli(count++);
+	putImg(0, 0, 600, 300, "./PictureResource/CG/StickmanSay.png", 0);
 	streamOutput("你是再临, 正在无聊地玩2048...", 50, 0);
 	directOutput("(以游玩2048为目标继续行动)", -1);
 
 	// 序章
 	streamOutput("WASD移动, Q跳过本关.", 10, 0);
+	setbkcolor(WHITE);
 	engine->runGame2048();
+	engine->FadeOut(720, 480, "./PictureResource/black.png", 10, 0);
+	setbkcolor(BLACK);
 	clean();
-
 	// 第一关报幕
 	directOutput("突然!", 1);
 	for (int i = 0; i < 3; ++i) {
-		putImg(0, 0, 720, 360, "./PictureResource/white.png", 0);
-		putImg(0, 0, 720, 360, "./PictureResource/black.png", 0);
+		putImg(0, 0, 720, 480, "./PictureResource/white.png", 0);
+		putImg(0, 0, 720, 480, "./PictureResource/black.png", 0);
 		Sleep(100);
 	}
+	setbkcolor(BLACK);
+	clean();
 	streamOutput("你的屏幕开始闪烁!!! (你要相信它闪了)", 10, 0,WHITE);
 	streamOutput("天崩..地裂...坠落......", 50, 2,WHITE);
-	setbkcolor(BLACK);
+	for (int i = 0; i < 3; ++i)
+	{
+		putImg(0, 0, 600, 300, "./PictureResource/CG/StickmanSay.png", 0);
+		Sleep(80);
+		putImg(0, 0, 600, 300, "./PictureResource/black.png", 0);
+		putImg(30, 30, 600, 300, "./PictureResource/CG/StickmanSay.png", 0);
+		Sleep(80);
+		putImg(0, 0, 600, 300, "./PictureResource/black.png", 0);
+		
+	}
+	putImg(0, 0, 600, 300, "./PictureResource/black.png", 0);
+	putImg(0, 0, 600, 300, "./PictureResource/CG/StickmanSay.png", 0);//想要一张坐地上的图片
 	directOutput("啪唧!!!", 1);
 	streamOutput("你掉在了一处深不见底的平台...(没磕到甲沟炎)", 10, 0);
 	streamOutput("环顾四周, 你发现自己来到了推箱子一般的场地.", 10, 0);
 	streamOutput("墙壁非常光滑, 看不出一丝出口的痕迹.", 10, 0);
 	streamOutput("看来只能尝试完成这古老的游戏了...!", 10, 0);
 	directOutput("(以完成推箱子为目标继续行动)", -1);
-
 	// 第一关
 	streamOutput("WASD移动, Q跳过本关, R重新开始.", 10, 0);
 	engine->runGameSokoban();
@@ -279,6 +296,7 @@ BEGINING:
 	// 第一关分支
 	do
 	{
+		putImg(0, 0, 600, 300, "./PictureResource/CG/StickmanChoice.png", 0);
 		choice = choiceOutput("你决定:", {"观察左侧石门", "观察右侧石门", "结束观察"});
 		switch (choice)
 		{
@@ -288,12 +306,16 @@ BEGINING:
 				streamOutput("左边是坑.", 10, 0);
 				break;
 			}
+			clean();
+			putImg(0, 0, 600, 300, "./PictureResource/CG/key.png", 0);
 			streamOutput("左侧石门的墙壁开始缓缓移开, 门外是深不见底的深坑.", 10, 0);
 			streamOutput("在不远处的半空, 漂浮着金色的钥匙...", 10, 0);
 			temp = 1;
 			break;
 
 		case 2:
+			clean();
+			putImg(0, 0, 600, 300, "./PictureResource/CG/door.png", 0);
 			streamOutput("右侧石门的墙壁开始缓缓移开, 微光从门缝中照进来...", 10, 0);
 			streamOutput("门外是马里奥一样的平台.", 10, 0);
 			break;
@@ -301,10 +323,11 @@ BEGINING:
 		default:
 			break;
 		}
-		clearRect(300,0x00000);
+		Sleep(2000);
+		clean();
 	} while (choice != 3);
 	clean();
-
+	putImg(0, 0, 600, 300, "./PictureResource/CG/mario.png", 0);
 	// 第二关报幕
 	streamOutput("看起来只能前往马里奥平台了..?", 10, 0);
 	streamOutput("如果你不打算往坑里跳的话.(你不打算)", 10, 0);
@@ -317,14 +340,22 @@ BEGINING:
 
 	// 第二关分支
 	streamOutput("你来到了马里奥的世界...", 10, 0);
+	putImg(0, 0, 600, 300, "./PictureResource/CG/castle.png", 0);
 	streamOutput("视线尽头是一座城堡. emmm设定上一般城堡都是需要钥匙才能进的...", 10, 0);
 	streamOutput("向前走去,不远处的半空漂浮着一个\"幸运方块\"...", 10, 0);
 	clean();
+	putImg(0, 0, 600, 300, "./PictureResource/CG/lucky.png", 0);
 	choice = choiceOutput("你决定:", {"上蹿下跳", "视而不见", "观察方块", "触碰方块"});
+	clean();
 	switch (choice)
 	{
 	case 1:
 		streamOutput("你上蹿下跳,", 10, 0);
+		for (int i = 0; i < 3; ++i) {
+			putImg(0, 0, 720, 480, "./PictureResource/white.png", 0);
+			putImg(0, 0, 720, 480, "./PictureResource/black.png", 0);
+			Sleep(100);
+		}
 		streamOutput("你磕到了甲沟炎...", 100, 1);
 		streamOutput("再临 卒.", 200, -1);
 		clean();
@@ -335,10 +366,16 @@ BEGINING:
 		streamOutput("鹅, 不愧是你, 毕竟自古CT不抬头.", 10, 0);
 		streamOutput("继续前进, 你发现了一个深坑.", 10, 0);
 		choice = choiceOutput("你决定:", {"视而不见继续前进", "观察坑的周围"});
+		clean();
 		switch (choice)
 		{
 		case 1:
 			streamOutput("不愧是你.", 100, 1);
+			for (int i = 0; i < 3; ++i) {
+				putImg(0, 0, 720, 480, "./PictureResource/white.png", 0);
+				putImg(0, 0, 720, 480, "./PictureResource/black.png", 0);
+				Sleep(100);
+			}
 			streamOutput("你由于走路平视前方掉入了深坑.", 60, 1);
 			streamOutput("再临 卒.", 200, -1);
 			clean();
@@ -346,6 +383,7 @@ BEGINING:
 			goto BEGINING;
 		case 2:
 			streamOutput("坑底好像有一个通道?", 10, 0);
+			putImg(0, 0, 720, 480, "./PictureResource/CG/tennal.png", 0);
 			streamOutput("鹅鹅鹅...", 10, 0);
 			streamOutput("你显然不太能直接往坑里跳...(会磕到甲沟炎)", 10, 0);
 			streamOutput("蒜了, 回去摸幸运方块吧...", 10, 0);
@@ -355,12 +393,14 @@ BEGINING:
 			break;
 		}
 	case 3:
+		putImg(0, 0, 600, 300, "./PictureResource/CG/lucky.png", 0);
 		streamOutput("平平无奇的方块儿.", 10, 0);
 		streamOutput("你盯着方块儿看了许久, 但这还是平平无奇的方块儿.", 10, 0);
 		streamOutput("你克制住打开它的冲动.", 10, 0);
 		streamOutput(".......", 100, 3);
 		clean();
 	case 4:
+		putImg(0, 0, 600, 300, "./PictureResource/CG/lucky.png", 0);
 		streamOutput("你盯着方块儿看了许久, 它们好像变了...", 10, 0);
 		streamOutput("方块边儿不再刻迹斑斑，身上的凹陷也平整了许多.", 10, 0);
 		streamOutput("从盖儿下微微透出金色的光芒----甜蜜而诱人.", 10, 0);
@@ -377,16 +417,27 @@ BEGINING:
 	// 第二关
 	streamOutput("当你接触到方盒子的一瞬间!", 10, 0);
 	streamOutput("你的脑海里响起了空灵而神圣的声音...", 10, 0);
+	putImg(0, 0, 600, 300, "./PictureResource/CG/God.png", 0);
 	streamOutput("码神告诉你:", 10, 0);
+	putImg(0, 0, 600, 300, "./PictureResource/CG/God.png", 0);
 	streamOutput("\"方盒子掌管着方块的秘仪!\"", 10, 0);
+	putImg(0, 0, 600, 300, "./PictureResource/CG/God.png", 0);
 	streamOutput("\"当那被虚空之力雕琢的「法则方块」自天穹坠下时,\"", 10, 0);
+	putImg(0, 0, 600, 300, "./PictureResource/CG/God.png", 0);
 	streamOutput("\"唯有踏上「神铸之阶」,方能获得「永恒固结」的权能!\"", 10, 0);
+	putImg(0, 0, 600, 300, "./PictureResource/CG/God.png", 0);
 	streamOutput("\"若愚者令其偏离圣痕，误触禁忌的虚位...\"", 10, 0);
+	putImg(0, 0, 600, 300, "./PictureResource/CG/God.png", 0);
 	streamOutput("\"「湮灭之瞳」便会骤然睁开! \"", 10, 0);
+	putImg(0, 0, 600, 300, "./PictureResource/CG/God.png", 0);
 	streamOutput("\"方块将在刹那崩解为星尘，被时空的裂缝吞噬，连悲鸣都无法残留!\"", 10, 0);
+	putImg(0, 0, 600, 300, "./PictureResource/CG/God.png", 0);
 	streamOutput("\"----此乃「阶梯魔神」的试炼! \"", 10, 0);
+	putImg(0, 0, 600, 300, "./PictureResource/CG/God.png", 0);
 	streamOutput("\"唯有精准契合天地法则之人, 方可聆听方块在凝固瞬间的----「真理共鸣」!\"", 10, 0);
+	putImg(0, 0, 600, 300, "./PictureResource/CG/God.png", 0);
 	streamOutput("\"智慧的勇士!按下命运的按钮!!走上通往城堡的阶梯吧!!!\"", 10, 0);
+	putImg(0, 0, 600, 300, "./PictureResource/CG/God.png", 0);
 	directOutput("\n(以探索\"方块的秘仪\"为目标继续行动)\n", -1);
 	clean();
 
