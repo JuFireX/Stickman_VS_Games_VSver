@@ -240,14 +240,12 @@ BEGINING:
 	vector<string> choices;
 	int choice = 0;
 	engine->initGame();
-	setbkcolor(BLACK);
+	setbkcolor(WHITE);
 	// 序章报幕
 	initGameCli(count++);
-	cleardevice();
-	putImg(0, 0, 540,360,"./PictureResource/test.png",-1);
-	engine->FadeIn(720, 480, "./PictureResource/test.png", 10, 0);
 	streamOutput("你是再临, 正在无聊地玩2048...", 50, 0);
 	directOutput("(以游玩2048为目标继续行动)", -1);
+
 	// 序章
 	streamOutput("WASD移动, Q跳过本关.", 10, 0);
 	engine->runGame2048();
@@ -255,8 +253,14 @@ BEGINING:
 
 	// 第一关报幕
 	directOutput("突然!", 1);
-	streamOutput("你的屏幕开始闪烁!!! (你要相信它闪了)", 10, 0);
-	streamOutput("天崩..地裂...坠落......", 50, 2);
+	for (int i = 0; i < 3; ++i) {
+		putImg(0, 0, 720, 360, "./PictureResource/white.png", 0);
+		putImg(0, 0, 720, 360, "./PictureResource/black.png", 0);
+		Sleep(100);
+	}
+	streamOutput("你的屏幕开始闪烁!!! (你要相信它闪了)", 10, 0,WHITE);
+	streamOutput("天崩..地裂...坠落......", 50, 2,WHITE);
+	setbkcolor(BLACK);
 	directOutput("啪唧!!!", 1);
 	streamOutput("你掉在了一处深不见底的平台...(没磕到甲沟炎)", 10, 0);
 	streamOutput("环顾四周, 你发现自己来到了推箱子一般的场地.", 10, 0);
