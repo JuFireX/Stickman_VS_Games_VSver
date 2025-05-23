@@ -428,8 +428,8 @@ void GamePacman::moveGhosts()
 	// 始终计算寻路方向，但根据moveCounter控制移动速度
 	// 计算所有幽灵的寻路方向
 	int dir1 = ghostDirection(ghost[0].x, ghost[0].y, player.x, player.y, &track_x, &track_y);
-	int dir2 = ghostDirection(ghost[1].x, ghost[1].y, player.x, player.y, &track_x, &track_y);
-	int dir3 = ghostDirection(ghost[2].x, ghost[2].y, player.x, player.y, &track_x, &track_y);
+	int dir2 = ghostDirection(ghost[1].x, ghost[1].y, player.old_x, player.old_y, &track_x, &track_y);
+	int dir3 = ghostDirection(ghost[2].x, ghost[2].y, 2*player.x-player.old_x, 2 * player.y - player.old_y, &track_x, &track_y);
 
 	// 根据moveCounter控制移动速度
 	if (moveCounter == 0)
