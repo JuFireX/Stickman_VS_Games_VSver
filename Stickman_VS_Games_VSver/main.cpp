@@ -12,8 +12,9 @@
 
 using namespace std;
 
-static int x = 10, y = 10;
-int tempy;
+static int x = 10, y = 300;
+static int BASIC_X = 10, BASIC_Y = 360, BASIC_H=20;
+Engine* engine = new Engine();
 // 转换GBK编码为宽字符串
 wstring gbk_to_wstring(const string &str)
 {
@@ -31,7 +32,7 @@ void clean()
 {
 	//Sleep(2000);
 	cleardevice();
-	y = 10;
+	y = BASIC_Y;
 }
 
 // 等待用户输入 pause
@@ -40,14 +41,14 @@ void pause(int timeout)
 	flushmessage(-1);
 	if (timeout == -1)
 	{
-		y += 20;
-		if (y >= 450)
+		y += BASIC_H;
+		if (y >= 460)
 		{
-			y = 10;
+			y = BASIC_Y;
 			cleardevice();
 		}
 		outtextxy(10, y, _T(">>>"));
-		y += 20;
+		y += BASIC_H;
 
 		FlushBatchDraw();
 		ExMessage getmessage(BYTE filter = EX_KEY);
@@ -76,9 +77,9 @@ void streamOutput(const string text, int speed, int timeout, int color = 0xfffff
 	wstring wtext = gbk_to_wstring(text);
 	wstring out;
 
-	if (y >= 450)
+	if (y >= 460)
 	{
-		y = 0;
+		y = BASIC_Y;
 		cleardevice();
 	}
 	ExMessage msg;
@@ -103,7 +104,7 @@ void streamOutput(const string text, int speed, int timeout, int color = 0xfffff
 		Sleep(a);
 	}
 
-	y += 20;
+	y += BASIC_H;
 	pause(timeout);
 }
 
@@ -123,16 +124,16 @@ void directOutput(const string text, int timeout, int color = 0xffffff)
 	// 转码
 	wstring wtext = gbk_to_wstring(text);
 
-	if (y >= 450)
+	if (y >= 460)
 	{
-		y = 10;
+		y = BASIC_Y;
 		cleardevice();
 	}
 
 	outtextxy(x, y, wtext.c_str());
 	FlushBatchDraw();
 
-	y += 20;
+	y += BASIC_H;
 	pause(timeout);
 }
 
@@ -141,14 +142,14 @@ void clearRect(int top, COLORREF color)
 	Sleep(2000);
 	setfillcolor(color);
 	solidrectangle(720, top, 0, 480);
-	y = 10;
+	y = BASIC_Y;
 }
 // 输出选择
 int choiceOutput(const string &output, const vector<string> &choices, int basec = WHITE, int selectc = RED)
 {
-	int base_x = 5, base_y = y, line_h = 20;
 	int select = 0;
 	int n = (int)choices.size();
+	int base_x = 480, base_y = BASIC_Y - (n+1)*BASIC_H, line_h = BASIC_H;
 	streamOutput(output, 10, 0, basec);
 
 	while (true)
@@ -187,13 +188,11 @@ int choiceOutput(const string &output, const vector<string> &choices, int basec 
 				}
 				else if (msg.vkcode == VK_RETURN || msg.vkcode == 'F')
 				{
-					y += 20 * n;
 					return select + 1;
 				}
 				else if ((msg.vkcode - '0') >= 1 && (msg.vkcode - '0') <= n)
 				{
 					select = (msg.vkcode - '0');
-					y += 20 * n;
 					return select + 1;
 				}
 				else
@@ -202,9 +201,17 @@ int choiceOutput(const string &output, const vector<string> &choices, int basec 
 				}
 			}
 		}
-		y = 300;
 		Sleep(10);
 	}
+}
+void putImg(int x, int y,int width,int height,string path,int timeout)
+{
+	IMAGE temp;
+	std::wstring wpath = std::wstring(path.begin(), path.end());
+	loadimage(&temp, wpath.c_str(),width , height);
+	engine->putimage_alpha(x, y, &temp, 255);
+	FlushBatchDraw();
+	pause(timeout);
 }
 
 void initGameCli(int count)
@@ -229,17 +236,18 @@ int main()
 	int count = 1;
 	int temp = 0;
 BEGINING:
-	Engine *engine = new Engine();
+	
 	vector<string> choices;
 	int choice = 0;
-	setbkcolor(0x000000);
-	clean();
-
+	engine->initGame();
+	setbkcolor(BLACK);
 	// 序章报幕
 	initGameCli(count++);
+	cleardevice();
+	putImg(0, 0, 540,360,"./PictureResource/test.png",-1);
+	engine->FadeIn(720, 480, "./PictureResource/test.png", 10, 0);
 	streamOutput("你是再临, 正在无聊地玩2048...", 50, 0);
 	directOutput("(以游玩2048为目标继续行动)", -1);
-	engine->runGamePacman();
 	// 序章
 	streamOutput("WASD移动, Q跳过本关.", 10, 0);
 	engine->runGame2048();
@@ -264,11 +272,9 @@ BEGINING:
 	streamOutput("当三个箱子放置到正确的位置后,", 10, 0);
 	streamOutput("两侧的墙壁都缓缓移开了厚重的石门...", 10, 0);
 	temp = 0;
-	tempy = y;
 	// 第一关分支
 	do
 	{
-		y = tempy;
 		choice = choiceOutput("你决定:", {"观察左侧石门", "观察右侧石门", "结束观察"});
 		switch (choice)
 		{
@@ -415,11 +421,9 @@ BEGINING:
 	default:
 		break;
 	}
-	tempy = y;
 	temp = 0;
 	do
 	{
-		y = tempy;
 		choice = choiceOutput("你决定:", {"钻进通道", "前往城堡", "尝试跳回去"});
 		switch (choice)
 		{
@@ -527,10 +531,8 @@ BEGINING:
 	streamOutput("费了一些脑细胞, 石门终于开始挪动.", 10, 0);
 	streamOutput("......", 60, 1);
 	streamOutput("你再次来到马里奥的世界.", 10, 0);
-	tempy = y;
 	do
 	{
-		y = tempy;
 		choices = { "观察石门", "观察天空", "观察幸运方块", "观察深坑周围", "前往登神长阶" };
 		choice = choiceOutput("你决定:", choices);
 		switch (choice)
@@ -544,7 +546,6 @@ BEGINING:
 			streamOutput("天空是蔚蓝色, 窗外有千纸鹤...(bushi)", 10, 0);
 			break;
 		case 3:
-			y -= 100;
 			streamOutput("平平无奇的方块儿...", 10, 0);
 			streamOutput("你曾经注视过良久.可是它依然是平平无奇的方块儿...", 10, 0);
 			streamOutput("......", 60, 1);
@@ -567,10 +568,8 @@ BEGINING:
 
 	// 第五关报幕
 	streamOutput("是熟悉的阶梯...", 10, 0);
-	tempy = y;
 	do
 	{
-		y = tempy;
 		choices = { "观察通道入口", "观察台阶", "观察手中的方盒", "观察城堡的门", "进入城堡" };
 		choice = choiceOutput("你决定:", choices);
 		switch (choice)
@@ -594,9 +593,8 @@ BEGINING:
 		default:
 			break;
 		}
-		clearRect(300,0x00000);
+		clean();
 	} while (choice != 5);
-	clean();
 
 	// BOSS 关卡
 	streamOutput("你来到了最后一扇门前...", 10, 0);
