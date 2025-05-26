@@ -68,7 +68,7 @@ private:
 	int MapSizeX = 20, MapSizeY = 12;
 	bool running = true;
 	ExMessage msg = ExMessage();
-	
+
 
 public:
 	Engine();
