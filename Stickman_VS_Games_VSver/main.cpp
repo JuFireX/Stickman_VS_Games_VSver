@@ -135,7 +135,7 @@ int choiceOutput(const string& output, const vector<string>& choices, int basec 
 {
 	int select = 0;
 	int n = (int)choices.size();
-	int base_x = 480, base_y = BASIC_Y + 10 - (n + 1) * BASIC_H, line_h = BASIC_H;
+	int base_x = 480, base_y = BASIC_Y - 10 - (n + 1) * BASIC_H, line_h = BASIC_H;
 	streamOutput(output, 10, 1, basec);
 
 	while (true)
@@ -343,6 +343,8 @@ BEGINING:
 	case 2:
 		streamOutput("鹅, 不愧是你, 毕竟自古CT不抬头.", 10, 1);
 		streamOutput("继续前进, 你发现了一个深坑.", 10, 1);
+		clean();
+
 		choice = choiceOutput("你决定:", { "视而不见继续前进", "观察坑的周围" });
 		switch (choice)
 		{
