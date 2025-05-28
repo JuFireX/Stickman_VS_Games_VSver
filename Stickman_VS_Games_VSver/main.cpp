@@ -209,13 +209,13 @@ void initGameCli(int count)
 {
 	FreeConsole();
 	if (count == 1)
-		directOutput("是新鲜的一周目玩家 :P", 0);
+		directOutput("是新鲜的一周目玩家 :P", 1);
 	else if (count == 2)
-		directOutput("哦吼? hello, again? ", 0);
+		directOutput("哦吼? hello, again? ", 1);
 	else if (count == 5)
-		directOutput("蛤? 你在干嘛?? ", 0);
+		directOutput("蛤? 你在干嘛?? ", 1);
 	else
-		directOutput("啧啧啧~~", 0);
+		directOutput("啧啧啧~~", 1);
 }
 
 // 主流程
@@ -231,6 +231,7 @@ BEGINING:
 	setbkcolor(BLACK);
 	// 序章报幕
 	initGameCli(count++);
+	clean();
 	putImg(0, 0, 720, 360, "./PictureResource/CG/1.png", 0);
 	streamOutput("你是再临, 正在无聊地玩2048...", 50, 1);
 	directOutput("(以游玩2048为目标继续行动)", -1);
@@ -254,8 +255,8 @@ BEGINING:
 	setbkcolor(BLACK);
 	clean();
 
-	streamOutput("你的屏幕开始闪烁!!! (硬核闪烁)", 10, 2);
 	putImg(0, 0, 720, 360, "./PictureResource/CG/2.png", 0);
+	streamOutput("你的屏幕开始闪烁!!! (硬核闪烁)", 10, 2);
 	streamOutput("天崩......地裂......坠落......", 50, 2);
 	directOutput("啪唧!!!", 1);
 	streamOutput("你掉在了一处深不见底的平台...(没磕到甲沟炎)", 10, 2);
@@ -281,6 +282,7 @@ BEGINING:
 	temp = 0;
 	do
 	{
+		clean();
 		putImg(0, 0, 720, 360, "./PictureResource/CG/20.png", 0);
 		choice = choiceOutput("你决定:", { "观察左侧石门", "观察右侧石门", "结束观察" });
 		switch (choice)
@@ -331,7 +333,7 @@ BEGINING:
 	switch (choice)
 	{
 	case 1:
-		streamOutput("你上蹿下跳,", 10, 1);
+		streamOutput("你上蹿下跳,", 10, 2);
 		putImg(0, 0, 720, 480, "./PictureResource/white.png", 0);
 		Sleep(60);
 		putImg(0, 0, 720, 480, "./PictureResource/black.png", 0);
@@ -349,7 +351,7 @@ BEGINING:
 		switch (choice)
 		{
 		case 1:
-			streamOutput("不愧是你.", 100, 1);
+			streamOutput("不愧是你.", 100, 2);
 			putImg(0, 0, 720, 480, "./PictureResource/white.png", 0);
 			Sleep(60);
 			putImg(0, 0, 720, 480, "./PictureResource/black.png", 0);
@@ -370,6 +372,7 @@ BEGINING:
 			break;
 		}
 	case 3:
+		clean();
 		putImg(0, 0, 720, 360, "./PictureResource/CG/7.png", 0);
 		streamOutput("平平无奇的方块儿.", 10, 1);
 		streamOutput("你盯着方块儿看了许久, 但这还是平平无奇的方块儿.", 10, 1);
@@ -377,6 +380,7 @@ BEGINING:
 		clean();
 		streamOutput(".................", 80, 3);
 	case 4:
+		clean();
 		putImg(0, 0, 720, 360, "./PictureResource/CG/7.png", 0);
 		streamOutput("你盯着方块儿看了许久, 它们好像变了...", 10, 1);
 		streamOutput("方块边儿不再刻迹斑斑，身上的凹陷也平整了许多.", 10, 1);
@@ -390,6 +394,7 @@ BEGINING:
 	default:
 		break;
 	}
+	clean();
 
 	// 第二关
 	putImg(0, 0, 720, 360, "./PictureResource/CG/8.png", 0);
@@ -424,6 +429,7 @@ BEGINING:
 		putImg(0, 0, 720, 480, "./PictureResource/white.png", 0);
 		Sleep(60);
 		putImg(0, 0, 720, 480, "./PictureResource/black.png", 0);
+		clean();
 		streamOutput("row~~~~~~bomb!", 60, 1);
 		streamOutput("你似乎高估了自己的弹跳力, 倒在最后半个台阶上...", 10, 1);
 		streamOutput("再临 卒.", 200, -1);
@@ -451,6 +457,7 @@ BEGINING:
 	temp = 0;
 	do
 	{
+		clean();
 		putImg(0, 0, 720, 360, "./PictureResource/CG/9.png", 0);
 		choice = choiceOutput("你决定:", { "钻进通道", "前往城堡", "尝试跳回去" });
 		switch (choice)
@@ -476,20 +483,24 @@ BEGINING:
 			temp++;
 			if (temp == 1)
 			{
+				clean();
 				putImg(0, 0, 720, 360, "./PictureResource/CG/21.png", 0);
 				streamOutput("你来到了城堡的入口...", 10, 1);
 				streamOutput("你发现城堡的入口处有一扇门.", 10, 1);
+				clean();
 				putImg(0, 0, 720, 360, "./PictureResource/CG/10.png", 0);
 				streamOutput("门上挂着金光闪闪的锁.", 10, 1);
 				streamOutput("锁的光辉与深渊中的钥匙如出一辙...", 10, 1);
 			}
 			else if (temp > 1 && temp < 6)
 			{
+				clean();
 				putImg(0, 0, 720, 360, "./PictureResource/CG/10.png", 0);
 				streamOutput("你该去通道看看.", 10, 1);
 			}
 			else if (temp == 6)
 			{
+				clean();
 				putImg(0, 0, 720, 360, "./PictureResource/CG/10.png", 0);
 				streamOutput("你怎么还来...", 10, 1);
 				streamOutput("你不会想砸门吧..?", 10, 1);
@@ -511,6 +522,7 @@ BEGINING:
 			}
 			else
 			{
+				clean();
 				putImg(0, 0, 720, 360, "./PictureResource/CG/21.png", 0);
 				streamOutput("放弃吧. 没用的.", 10, 1);
 				streamOutput("你该去通道看看.", 10, 1);
@@ -531,6 +543,7 @@ BEGINING:
 	// 第三关报幕
 	putImg(0, 0, 720, 360, "./PictureResource/CG/11.png", 0);
 	streamOutput("穿过通道, 你置身于漆黑的井底...", 10, 1);
+	clean();
 	putImg(0, 0, 720, 360, "./PictureResource/CG/22.png", 0);
 	streamOutput("直觉告诉你, 这里和你初来时遇见的深渊多少沾点亲戚.", 10, 1);
 	streamOutput("轰隆~~~~~~~~~~", 100, 2);
@@ -539,6 +552,7 @@ BEGINING:
 	streamOutput("......", 60, 1);
 	streamOutput("你正在犹豫.", 10, 1);
 	streamOutput("耳边却再度响起码神的低语...", 10, 1);
+	clean();
 	putImg(0, 0, 720, 360, "./PictureResource/CG/8.png", 0);
 	streamOutput("(这里是码神的低语)", 10, 1);
 	directOutput("\n(以拿到钥匙去往城堡为目标继续行动)\n", -1);
@@ -572,11 +586,13 @@ BEGINING:
 	choices = { "观察石门", "观察天空", "观察幸运方块", "观察深坑周围", "前往登神长阶" };
 	do
 	{
+		clean();
 		putImg(0, 0, 720, 360, "./PictureResource/CG/6b.png", 0);
 		choice = choiceOutput("你决定:", choices);
 		switch (choice)
 		{
 		case 1:
+			clean();
 			putImg(0, 0, 720, 360, "./PictureResource/CG/19.png", 0);
 			streamOutput("石门上模糊地刻着一行字:", 10, 1);
 			streamOutput("JuFireStudio", 10, 1);
@@ -586,17 +602,20 @@ BEGINING:
 			streamOutput("天空是蔚蓝色, 窗外有千纸鹤...(bushi)", 10, 1);
 			break;
 		case 3:
+			clean();
 			putImg(0, 0, 720, 360, "./PictureResource/CG/7.png", 0);
 			streamOutput("平平无奇的方块儿...", 10, 1);
 			streamOutput("你曾经注视过良久.可是它依然是平平无奇的方块儿...", 10, 1);
 			streamOutput("......", 60, 1);
 			streamOutput("它变了吗...", 10, 1);
+			clean();
 			putImg(0, 0, 720, 360, "./PictureResource/CG/18.png", 0);
 			streamOutput("像是历经几十年的风霜, 从任天堂时代走来的方块儿吗...", 10, 1);
 			streamOutput("它一直没变, 却好像变了很多.", 10, 1);
 			streamOutput("是时代变了吧. 从电子游戏刚刚诞生, 到如今的繁荣盛世.", 10, 1);
 			break;
 		case 4:
+			clean();
 			putImg(0, 0, 720, 360, "./PictureResource/CG/25.png", 0);
 			streamOutput("坑其实不深. 泥土有Minecraft的质感.", 10, 1);
 			streamOutput("你的脑海里似乎浮现出黄昏, 木船, 大海...", 10, 1);
@@ -615,10 +634,12 @@ BEGINING:
 	choices = { "观察通道入口", "观察台阶", "观察手中的方盒", "观察城堡的门", "进入城堡" };
 	do
 	{
+		clean();
 		choice = choiceOutput("你决定:", choices);
 		switch (choice)
 		{
 		case 1:
+			clean();
 			putImg(0, 0, 720, 360, "./PictureResource/CG/19.png", 0);
 			streamOutput("JuFireStudio...", 10, 1);
 			streamOutput("(爝火工作室)", 10, 1);
@@ -628,11 +649,13 @@ BEGINING:
 			streamOutput("就是他把电子游戏从生死的转折点救了回来.", 10, 1);
 			break;
 		case 3:
+			clean();
 			putImg(0, 0, 720, 360, "./PictureResource/CG/18.png", 0);
 			streamOutput("方盒子有点分量, 一部分像是坚硬的金属材质.", 10, 1);
 			streamOutput("上面有一些黑色的按键, 排列整齐.", 10, 1);
 			break;
 		case 4:
+			clean();
 			putImg(0, 0, 720, 360, "./PictureResource/CG/10.png", 0);
 			streamOutput("石制的大门.", 10, 1);
 			streamOutput("门上挂着金光闪闪的锁. 光芒与手中的钥匙如出一辙.", 10, 1);
@@ -647,11 +670,13 @@ BEGINING:
 	// BOSS 关卡
 	streamOutput("你来到了最后一扇门前...", 10, 1);
 BOSS:
+	clean();
 	putImg(0, 0, 720, 360, "./PictureResource/CG/23.png", 0);
 	streamOutput("码神对你说:", 10, 1);
 	streamOutput("\"智慧的勇士!码神恭候你的到来.\"", 10, 1);
 	streamOutput("\"城堡内是最后的试炼.\"", 10, 1);
 	streamOutput("\"完成试炼, 你就可以带着码神的祝福回到现实!\"", 10, 1);
+	clean();
 	putImg(0, 0, 720, 360, "./PictureResource/CG/28.png", 0);
 	streamOutput("做好准备, 即将前往最后的试炼...", 10, 1);
 	directOutput("\n(按任意键开始试炼)\n", -1);
