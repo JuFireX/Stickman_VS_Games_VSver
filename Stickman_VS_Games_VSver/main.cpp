@@ -33,6 +33,7 @@ static void clearRect(COLORREF color)
 	setfillcolor(color);
 	solidrectangle(720, BASIC_Y, 0, 480);
 	y = BASIC_Y;
+	FlushBatchDraw();
 }
 
 // 清屏 cls
@@ -51,7 +52,7 @@ static void pause(int timeout)
 		if (y >= 460)
 		{
 			y = BASIC_Y;
-			cleardevice();
+			clearRect(BLACK);
 		}
 		outtextxy(10, y, _T(">>>"));
 		y += BASIC_H;
@@ -95,7 +96,7 @@ static void streamOutput(const string text, int speed, int timeout, int color = 
 		flushmessage();
 		Sleep(speed);
 	}
-
+	FlushBatchDraw();
 	y += BASIC_H;
 	pause(timeout);
 }
@@ -196,10 +197,11 @@ static void putImg(int x, int y, int width, int height, string path, int timeout
 {
 	IMAGE temp;
 	Engine* engine1 = new Engine();
+	BeginBatchDraw();
 	std::wstring wpath = std::wstring(path.begin(), path.end());
 	loadimage(&temp, wpath.c_str(), width, height);
 	engine1->putimage_alpha(x, y, &temp, 255);
-	FlushBatchDraw();
+	EndBatchDraw();
 	pause(timeout);
 	delete engine1;
 }
@@ -228,6 +230,7 @@ BEGINING:
 	vector<string> choices;
 	int choice = 0;
 	engine->initGame();
+	BeginBatchDraw();
 	setbkcolor(BLACK);
 	// 序章报幕
 	initGameCli(count++);
@@ -635,6 +638,7 @@ BEGINING:
 	do
 	{
 		clean();
+		putImg(0, 0, 720, 360, "./PictureResource/CG/9.png", 0);
 		choice = choiceOutput("你决定:", choices);
 		switch (choice)
 		{
@@ -695,7 +699,7 @@ BOSS:
 
 	// 最后结局
 	streamOutput("(这里我的想法是, 清屏后生成一份最后一步合成2048的残局, 合成2048结束游戏)", 10, -1);
-
+	EndBatchDraw();
 	delete engine;
 	return 0;
 }

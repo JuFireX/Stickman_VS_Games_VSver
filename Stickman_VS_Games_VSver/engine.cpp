@@ -79,10 +79,6 @@ void Engine::initGame()
 	SetForegroundWindow(hwnd);
 	SetActiveWindow(hwnd);
 	SetFocus(hwnd);
-
-	// √¿ Ωº¸≈Ã
-	// HKL hkl = LoadKeyboardLayout(L"00000409", KLF_ACTIVATE);
-	// ActivateKeyboardLayout(hkl, KLF_SETFORPROCESS);
 }
 
 void Engine::runGame2048()
