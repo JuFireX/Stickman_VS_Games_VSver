@@ -1,22 +1,20 @@
 #include "level_Pacman.h"
 #include <iostream>
 #include <windows.h>
-#include <climits> // 添加头文件以使用INT_MAX
+#include <climits> //INT_MAX
 
 GamePacman::GamePacman() : rng((int)time(nullptr)) {}
 
 int GamePacman::ghostDirection(int ghostX, int ghostY, int playerX, int playerY, int* track_x, int* track_y)
 {
-	// 地图定义 - 使用类成员变量中的地图，避免重复定义
 	// 方向数组：右、左、上、下
 	const int dx[4] = { 1, -1, 0, 0 };
 	const int dy[4] = { 0, 0, -1, 1 };
 	
-	// 使用简化的寻路算法，限制搜索深度和内存使用
-	const int MAX_DEPTH = 400; // 增加搜索深度以确保能找到完整路径
+	const int MAX_DEPTH = 400; //防止爆内存
 	const int MAP_SIZE = 19;
 	
-	// 使用固定大小的数组代替vector，避免动态内存分配
+	// 使用固定大小的数组代替vector，避免动态内存分配（21G内存惨案）
 	struct Node {
 		int x, y;
 		int g;
