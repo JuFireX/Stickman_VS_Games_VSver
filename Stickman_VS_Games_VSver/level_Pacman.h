@@ -95,6 +95,7 @@ public:
 	int GameFrame = 6; // ��Ϸ֡��
 	int img_size = 20;
 	IMAGE player_img[5];
+	IMAGE* initimg;
 	int phase = 0;
 	bool canChangeDirection = true;
 };

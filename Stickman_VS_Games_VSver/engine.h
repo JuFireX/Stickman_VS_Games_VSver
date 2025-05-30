@@ -77,6 +77,7 @@ public:
 	void runGame2048();
 	void runGameSnake();
 	void runGameSokoban();
+	void runGameSokobanII();
 	void runGameTetris();
 	void runGamePacman();
 	void FadeIn(int width, int height, string path, int speed, int timeout);

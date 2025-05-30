@@ -4,6 +4,7 @@
 #include "level_pacman.h"
 #include "level_Snake.h"
 #include "level_Sokoban.h"
+#include "level_Sokoban_II.h"
 #include "level_Tetris.h"
 #include <cstring>
 #include <graphics.h>
@@ -329,7 +330,81 @@ void Engine::runGameSokoban()
 	cleardevice();
 	delete game;
 }
+void Engine::runGameSokobanII()
+{
+	bool fuck = true;
+	GameSokobanII* game = new GameSokobanII();
+	cleardevice();
 
+	game->load();
+	game->initGame();
+	BeginBatchDraw();
+
+	GameMap = game->getMap();
+	for (int i = 0; i < game->GameHigh; i++)
+	{
+		for (position u : GameMap[i])
+		{
+			putimage_alpha(u.x, u.y, &game->MapImg[u.val], 255);
+		}
+	}
+	FlushBatchDraw();
+
+	while (!game->gameOver)
+	{
+		char inputKey = ' ';
+
+		while (peekmessage(&msg))
+		{
+			if (msg.message == WM_KEYDOWN)
+			{
+				if (msg.vkcode == VK_ESCAPE || msg.vkcode == 'Q')
+				{
+					game->gameOver = true;
+					break;
+				}
+				else if (msg.vkcode == VK_UP || msg.vkcode == 'W')
+				{
+					inputKey = 'w';
+				}
+				else if (msg.vkcode == VK_DOWN || msg.vkcode == 'S')
+				{
+					inputKey = 's';
+				}
+				else if (msg.vkcode == VK_LEFT || msg.vkcode == 'A')
+				{
+					inputKey = 'a';
+				}
+				else if (msg.vkcode == VK_RIGHT || msg.vkcode == 'D')
+				{
+					inputKey = 'd';
+				}
+				else if (msg.vkcode == 'R')
+				{
+					inputKey = 'r';
+				}
+			}
+		}
+
+		game->update(inputKey);
+		cleardevice();
+
+		GameMap = game->getMap();
+		for (int i = 0; i < game->GameHigh; i++)
+		{
+			for (position u : GameMap[i])
+			{
+				putimage_alpha(u.x, u.y, &game->MapImg[u.val], 255);
+			}
+		}
+		FlushBatchDraw();
+		Sleep(1000 / game->GameFrame);
+	}
+
+	EndBatchDraw();
+	cleardevice();
+	delete game;
+}
 void Engine::runGameTetris()
 {
 	bool fuck = true;

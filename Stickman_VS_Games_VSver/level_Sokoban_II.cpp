@@ -8,46 +8,32 @@ GameSokobanII::GameSokobanII() {}
 
 void GameSokobanII::initLevel()
 {
-	// 初始化网格为空
-	for (int i = 0; i < GRID_SIZE; ++i)
-	{
-		for (int j = 0; j < GRID_SIZE; ++j)
-		{
-			grid[i][j] = EMPTY;
-		}
-	}
+	
 
-	// 创建边界墙
-	for (int i = 0; i < GRID_SIZE; ++i)
-	{
-		grid[0][i] = WALL;
-		grid[GRID_SIZE - 1][i] = WALL;
-		grid[i][0] = WALL;
-		grid[i][GRID_SIZE - 1] = WALL;
-	}
 
 	// 根据关卡设置内部墙、箱子和目标
 	if (level == 1)
 	{
-		// 设置一些内部墙
-		grid[2][2] = WALL;
-		grid[2][3] = WALL;
-		grid[3][5] = WALL;
-		grid[4][5] = WALL;
-		grid[5][2] = WALL;
-		grid[6][2] = WALL;
-		grid[7][5] = WALL;
-		grid[7][6] = WALL;
-
-		// 设置箱子
-		grid[3][3] = BOX;
-		grid[4][4] = BOX;
-		grid[5][6] = BOX;
-
-		// 设置目标
-		grid[8][1] = TARGET;
-		grid[8][4] = TARGET;
-		grid[8][7] = TARGET;
+		int map[10][10] = {
+			{EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,WALL,WALL,WALL,WALL,EMPTY},
+			{EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,WALL,EMPTY,EMPTY,WALL,EMPTY},
+			{EMPTY,EMPTY,WALL,WALL,WALL,WALL,EMPTY,EMPTY,WALL,EMPTY},
+			{EMPTY,EMPTY,WALL,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY,WALL,EMPTY},
+			{WALL,WALL,WALL,EMPTY,WALL,WALL,EMPTY,WALL,WALL,WALL},
+			{WALL,TARGET,EMPTY,TARGET,TARGET,BOX,BOX,EMPTY,EMPTY,WALL},
+			{WALL,TARGET,BOX,EMPTY,WALL,EMPTY,EMPTY,EMPTY,EMPTY,WALL},
+			{WALL,EMPTY,BOX,EMPTY,WALL,WALL,WALL,WALL,WALL,WALL},
+			{WALL,EMPTY,BOX,TARGET,WALL,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY},
+			{WALL,WALL,WALL,WALL,WALL,EMPTY,EMPTY,EMPTY,EMPTY,EMPTY}
+		};
+		// 初始化网格
+		for (int i = 0; i < GRID_SIZE; ++i)
+		{
+			for (int j = 0; j < GRID_SIZE; ++j)
+			{
+				grid[i][j] = map[i][j];
+			}
+		}
 
 		// 设置玩家初始位置
 		playerX = 1;
@@ -96,7 +82,7 @@ bool GameSokobanII::movePlayer(Direction dir)
 	if (grid[newY][newX] == WALL)
 		return false;
 
-	// 如果新位置是箱子，检查是否可以推动
+	// 如果新位置是箱子,检查是否可以推动
 	if (grid[newY][newX] == BOX || grid[newY][newX] == BOX_ON_TARGET)
 	{
 		int boxNewX = newX + (newX - playerX);
