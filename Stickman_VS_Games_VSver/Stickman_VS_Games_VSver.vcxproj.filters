@@ -42,9 +42,6 @@
     <ClCompile Include="level_Tetris.cpp">
       <Filter>源文件\Levels</Filter>
     </ClCompile>
-    <ClCompile Include="level_Sokoban_II.cpp">
-      <Filter>源文件\Levels</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="engine.h">
@@ -65,8 +62,8 @@
     <ClInclude Include="level_Tetris.h">
       <Filter>头文件\Levels</Filter>
     </ClInclude>
-    <ClInclude Include="level_Sokoban_II.h">
-      <Filter>头文件\Levels</Filter>
+    <ClInclude Include="resource.h">
+      <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

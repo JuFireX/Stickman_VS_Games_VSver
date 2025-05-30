@@ -132,7 +132,6 @@
     <ClCompile Include="level_Pacman.cpp" />
     <ClCompile Include="level_Snake.cpp" />
     <ClCompile Include="level_Sokoban.cpp" />
-    <ClCompile Include="level_Sokoban_II.cpp" />
     <ClCompile Include="level_Tetris.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
@@ -142,7 +141,6 @@
     <ClInclude Include="level_Pacman.h" />
     <ClInclude Include="level_Snake.h" />
     <ClInclude Include="level_Sokoban.h" />
-    <ClInclude Include="level_Sokoban_II.h" />
     <ClInclude Include="level_Tetris.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

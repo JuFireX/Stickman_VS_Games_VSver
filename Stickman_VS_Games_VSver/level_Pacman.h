@@ -71,33 +71,33 @@ private:
 	int ghostDirection(int ghostX, int ghostY, int playerX, int playerY, int* track_x, int* track_y);
 	bool processInput(char key);
 	void display(const vector<vector<int>>& grid, int size) const;
-	void updateGrid(); // ������Ϸ����
+	void updateGrid();
 
 	IMAGE ghost_img[3];
 	IMAGE Wall;
 	IMAGE Food;
 
 public:
-	GamePacman();                        // ���캯��
-	void initGame();                     // ��ʼ����Ϸ
-	void startGame();                    // ������Ϸ
-	void update(char key);               // �������������Ϸ״̬
-	GameState state() const;             // ��ȡ��Ϸ״̬
-	vector<vector<int>> getGrid() const; // ��ȡ��Ϸ����
-	int getScore() const;                // ��ȡ��Ϸ�÷�
+	GamePacman();
+	void initGame();
+	void startGame();
+	void update(char key);
+	GameState state() const;
+	vector<vector<int>> getGrid() const;
+	int getScore() const;
 
 	bool gameOver = false;
-	void load() override; // ������Ϸ�ز�
+	void load() override;
 	map<int, IMAGE> MapImg;
 	vector<vector<position>> getMap() const override;
 	int GameHigh = 24;
 	int GridSize = 4;
-	int GameFrame = 6; // ��Ϸ֡��
+	int GameFrame = 6;
 	int img_size = 20;
 	IMAGE player_img[5];
-	IMAGE* initimg;
 	int phase = 0;
 	bool canChangeDirection = true;
+	IMAGE* initimg = nullptr;
 };
 
 #endif
