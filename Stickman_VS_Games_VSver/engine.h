@@ -68,7 +68,7 @@ private:
 	int MapSizeX = 20, MapSizeY = 12;
 	bool running = true;
 	ExMessage msg = ExMessage();
-
+	
 
 public:
 	Engine();
@@ -77,6 +77,7 @@ public:
 	void runGame2048();
 	void runGameSnake();
 	void runGameSokoban();
+	void runGameSokobanII();
 	void runGameTetris();
 	void runGamePacman();
 	void FadeIn(int width, int height, string path, int speed, int timeout);

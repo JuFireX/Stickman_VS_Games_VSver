@@ -4,6 +4,7 @@
 #include "level_pacman.h"
 #include "level_Snake.h"
 #include "level_Sokoban.h"
+#include "level_Sokoban_II.h"
 #include "level_Tetris.h"
 #include <cstring>
 #include <graphics.h>
@@ -39,13 +40,16 @@ void Engine::FadeOut(int width, int height, string path, int speed, int timeout)
 	std::wstring wpath = std::wstring(path.begin(), path.end());
 	loadimage(&mask, wpath.c_str(), width, height, true);
 	int cnt = 0;
-	for (int alpha = speed; alpha <= 255; alpha += speed)
+	for (int i = 1; i <= (255 / speed); ++i)
 	{
+		int alpha = i * speed;
 		putimage_alpha(0, 0, &mask, alpha);
 		FlushBatchDraw();
-		Sleep(10);
+		Sleep(255 / speed);
+		cnt += alpha;
+		if (cnt > 8000)
+			break;
 	}
-
 	Sleep(timeout);
 }
 
@@ -79,6 +83,10 @@ void Engine::initGame()
 	SetForegroundWindow(hwnd);
 	SetActiveWindow(hwnd);
 	SetFocus(hwnd);
+
+	// ÃÀÊ½¼üÅÌ
+	// HKL hkl = LoadKeyboardLayout(L"00000409", KLF_ACTIVATE);
+	// ActivateKeyboardLayout(hkl, KLF_SETFORPROCESS);
 }
 
 void Engine::runGame2048()
@@ -99,7 +107,6 @@ void Engine::runGame2048()
 			putimage(u.x, u.y, &game->MapImg[u.val]);
 		}
 	}
-	FadeIn(720, 480, "./PictureResource/black.png", 10, 0);
 	FlushBatchDraw();
 
 	while (!game->gameOver)
@@ -323,7 +330,81 @@ void Engine::runGameSokoban()
 	cleardevice();
 	delete game;
 }
+void Engine::runGameSokobanII()
+{
+	bool fuck = true;
+	GameSokobanII* game = new GameSokobanII();
+	cleardevice();
 
+	game->load();
+	game->initGame();
+	BeginBatchDraw();
+
+	GameMap = game->getMap();
+	for (int i = 0; i < game->GameHigh; i++)
+	{
+		for (position u : GameMap[i])
+		{
+			putimage_alpha(u.x, u.y, &game->MapImg[u.val], 255);
+		}
+	}
+	FlushBatchDraw();
+
+	while (!game->gameOver)
+	{
+		char inputKey = ' ';
+
+		while (peekmessage(&msg))
+		{
+			if (msg.message == WM_KEYDOWN)
+			{
+				if (msg.vkcode == VK_ESCAPE || msg.vkcode == 'Q')
+				{
+					game->gameOver = true;
+					break;
+				}
+				else if (msg.vkcode == VK_UP || msg.vkcode == 'W')
+				{
+					inputKey = 'w';
+				}
+				else if (msg.vkcode == VK_DOWN || msg.vkcode == 'S')
+				{
+					inputKey = 's';
+				}
+				else if (msg.vkcode == VK_LEFT || msg.vkcode == 'A')
+				{
+					inputKey = 'a';
+				}
+				else if (msg.vkcode == VK_RIGHT || msg.vkcode == 'D')
+				{
+					inputKey = 'd';
+				}
+				else if (msg.vkcode == 'R')
+				{
+					inputKey = 'r';
+				}
+			}
+		}
+
+		game->update(inputKey);
+		cleardevice();
+
+		GameMap = game->getMap();
+		for (int i = 0; i < game->GameHigh; i++)
+		{
+			for (position u : GameMap[i])
+			{
+				putimage_alpha(u.x, u.y, &game->MapImg[u.val], 255);
+			}
+		}
+		FlushBatchDraw();
+		Sleep(1000 / game->GameFrame);
+	}
+
+	EndBatchDraw();
+	cleardevice();
+	delete game;
+}
 void Engine::runGameTetris()
 {
 	bool fuck = true;
