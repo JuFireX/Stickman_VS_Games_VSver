@@ -43,3 +43,5 @@ Zailin, a normal stickman, was just playing 2048 boredly... until his screen sud
 1. Clone this repo
 2. Compile and run with Visual Studio
 3. Prepare yourself for the trials of the "Code God"!
+
+### 这是最后一个可用版本的备份分支
