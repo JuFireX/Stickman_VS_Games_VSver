@@ -553,7 +553,6 @@ vector<vector<int>> GamePacman::getGrid() const
 
 void GamePacman::judgeScore()
 {
-
 	if (score >= target)
 		gameOver = true;
 }

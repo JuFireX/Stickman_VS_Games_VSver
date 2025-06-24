@@ -130,7 +130,6 @@ static void directOutput(const string text, int timeout, int color = WHITE)
 	pause(timeout);
 }
 
-
 // Êä³öÑ¡Ôñ
 int choiceOutput(const string& output, const vector<string>& choices, int basec = WHITE, int selectc = RED)
 {

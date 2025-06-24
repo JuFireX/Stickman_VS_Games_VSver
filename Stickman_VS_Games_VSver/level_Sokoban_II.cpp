@@ -8,9 +8,6 @@ GameSokobanII::GameSokobanII() {}
 
 void GameSokobanII::initLevel()
 {
-	
-
-
 	// 根据关卡设置内部墙、箱子和目标
 	if (level == 1)
 	{

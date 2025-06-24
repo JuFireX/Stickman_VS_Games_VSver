@@ -17,7 +17,6 @@ using namespace std;
 
 class GameSnake : public Game
 {
-
 private:
 	static const int GRID_SIZE = 20;
 	int grid[GRID_SIZE][GRID_SIZE] = { 0 };

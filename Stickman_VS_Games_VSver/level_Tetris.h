@@ -16,7 +16,6 @@ using namespace std;
 
 class GameTetris : public Game
 {
-
 private:
 	static const int GRID_WIDTH = 10;
 	static const int GRID_HEIGHT = 24;
@@ -86,7 +85,7 @@ private:
 		}
 	};
 
-	// 
+	//
 	int currentTetromino;
 
 	int currentShape[TETROMINO_SIZE][TETROMINO_SIZE];
